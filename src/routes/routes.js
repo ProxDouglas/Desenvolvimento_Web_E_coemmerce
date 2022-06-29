@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 
 
-
+// Criar Sessão/Login
+app.post("/login")
 //---------------USUÁRIO--------------------------------
 // Criar Usuário
 app.post("/usuario", (req,res) => {
@@ -13,7 +14,7 @@ app.put("/usuario", (req, res) => {
     res.statusCode(200)
 })
 // Atualizar saldo do usuário
-app.put("/usuario/:user_id/saldo", (req, res) => {
+app.put("/usuario/:usuario_id/saldo", (req, res) => {
     res.statusCode(200)
 })
 // Listar todos os usuários
@@ -21,7 +22,7 @@ app.get("/usuarios", (req, res) => {
     res.statusCode(200)
 })
 // Listar apenas um usuário pelo ID
-app.get("/usuario/:user_id", (req, res) => {
+app.get("/usuario/:usuario_id", (req, res) => {
     res.statusCode(200)
 })
 
@@ -80,6 +81,10 @@ app.get("/anuncio/:produto_id", (req, res) => {
 app.get("/anuncio/:anuncio_id", (req, res) => {
     res.statusCode(200)
 })
+//-------------------Carrinho-----------------
+app.post("/carrinho/:usuario_id")
+app.get("/carrinho/:usuario_id")
+app.get("/carrinho/:usuario_id/:carrinho_id")
 
 
 

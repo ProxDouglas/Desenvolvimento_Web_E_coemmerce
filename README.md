@@ -42,3 +42,9 @@ GET: /anuncio
 GET: /anuncio/:user_id
 GET: /anuncio/:produto_id
 GET: /anuncio/:anuncio_id 
+
+POST: /login
+
+POST: /carrinho/:usuario_id
+GET: /carrinho/:usuario_id
+GET: /carrinho/:usuario_id/:carrinho_id
