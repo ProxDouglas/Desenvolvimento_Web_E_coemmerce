@@ -66,18 +66,20 @@ app.delete("/anuncio/:usuario_id", (req, res) => {
 })
 // Listar todos os anúncios
 app.get("/anuncio", (req, res) => {
-
+    res.statusCode(200)
 })
 // Listar os anuncios de determinado usuário
 app.get("/anuncio/:usuario_id", (req, res) => {
-
+    res.statusCode(200)
 })
 // Listar anuncios de determinado produto
 app.get("/anuncio/:produto_id", (req, res) => {
-
+    res.statusCode(200)
 })
 // Exibir um único anúncio
-app.get("/anuncio/:anuncio_id")
+app.get("/anuncio/:anuncio_id", (req, res) => {
+    res.statusCode(200)
+})
 
 
 
