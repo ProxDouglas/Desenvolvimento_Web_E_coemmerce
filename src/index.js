@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const express = require('express');
 var app = express();
-// var session = require("express-session");
+var session = require("express-session");
 var flash = require("express-flash");
 var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");

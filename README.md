@@ -19,6 +19,7 @@ npm install express-session --save
 npm install express-flash --save
 npm install --save cookie-parser
 npm install mongodb@4.7
+npm install mongoose --save
 
 
 POST: /usuario
