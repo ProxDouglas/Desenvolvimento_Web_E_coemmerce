@@ -6,6 +6,6 @@ conection MongoDB: https://www.mongodb.com/docs/drivers/node/current/quick-start
 #### Links de coneção
 mongodb shell : mongosh "mongodb+srv://e-commerce.pjmhya7.mongodb.net/myFirstDatabase" --apiVersion 1 --username groupLobtec 
 
-nodejs: mongodb+srv://groupLobtec :groupLobtec @e-commerce.pjmhya7.mongodb.net/?retryWrites=true&w=majority
+nodejs: mongodb+srv://groupLobtec:groupLobtec @e-commerce.pjmhya7.mongodb.net/?retryWrites=true&w=majority
 
-Compass: mongodb+srv://groupLobtec :groupLobtec @e-commerce.pjmhya7.mongodb.net/test
+mongodb+srv://groupLobtec:groupLobtec@e-commerce.pjmhya7.mongodb.net/test
