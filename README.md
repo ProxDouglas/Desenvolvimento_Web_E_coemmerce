@@ -21,23 +21,24 @@ npm install --save cookie-parser
 npm install mongodb@4.7
 npm install mongoose --save
 
-
+## Rotas
 POST: /usuario
 PUT: /usuario
 PUT: /usuario/:user_id/saldo
-
 GET: /usuarios
 GET: /usuario/:user_id
 
 POST: /produto
 PUT: /produto
+DELETE: /produto/:produto_id
 GET: /produtos
 GET: /produto/:produto_id
 
-POST: /produto/:user_id
-PUT: /produto/:user_id
-GET: /produtos/:user_id
-GET: /produto/:user_id/:produto_id
-
-
-GET: 
+POST: /anuncio/:usuario_id
+PUT: /anuncio/:anuncio_id
+DELETE: /anuncio/:anuncio_id
+DELETE: /anuncio/:usuario_id
+GET: /anuncio
+GET: /anuncio/:user_id
+GET: /anuncio/:produto_id
+GET: /anuncio/:anuncio_id 
