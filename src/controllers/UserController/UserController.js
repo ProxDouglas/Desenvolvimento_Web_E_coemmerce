@@ -1,6 +1,5 @@
 const { restart } = require("nodemon")
-const UsuarioModel = require("../../models/User")
-const User = require("../../models/User")
+const Usuario = require("../../models/Usuario")
 const userModel = require("../../models/Usuario")
 const UserController = {
 
@@ -9,17 +8,18 @@ const UserController = {
         //const novoUsuario = mongoose.model("user", userModel);
         try{
 
-            const newUser = await User.create(bodyData)
+            const newUser = await Usuario.create(bodyData)
             return res.status(200).json(newUser)
             
         }catch(err){
+            console.log(req.body)
             return res.status(400).json(err)
         }
     },
 
     async getUser(req, res) {
         try {
-            const users = await User.find()
+            const users = await Usuario.find()
             return res.status(200).json(users)
         } catch(err){
             return res.status(400).json(err)

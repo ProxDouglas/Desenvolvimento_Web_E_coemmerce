@@ -37,24 +37,24 @@ const Schema = new mongoose.Schema({
     endereço:{
         rua:{
             type: String,
-            required: true
+            required: false
         },
         number:{
             type: String,
-            required: true
+            required: false
         },
         cep:{
             type: String,
-            required: true
+            required: false
         },
         cidade:{
             type: String,
-            required: true
+            required: false
         },
         estado:{
             type: String,
-            required: true
-        },
+            required: false
+        }
     },
 
     favoritos:{

@@ -15,7 +15,7 @@ const routes = require("./routes/routes")
 connection().catch(err => console.log(err));
 
 async function connection() {
-  await mongoose.connect('mongodb+srv://groupLobtec:groupLobtec@e-commerce.pjmhya7.mongodb.net/?retryWrites=true&w=majority');
+  await mongoose.connect('mongodb+srv://groupLobtec:groupLobtec@e-commerce.pjmhya7.mongodb.net/E-commerce');
 
   console.log("Database Connected")
 }
