@@ -12,7 +12,7 @@ routes.post("/login")
 // Criar Usuário OK
 routes.post("/usuario", UserController.createUser);
 // Atualizar Usuário
-routes.put("/usuario");
+routes.put("/usuario/:usuario_id", UserController.updateUserByID);
 // Atualizar saldo do usuário
 routes.put("/usuario/:usuario_id/saldo", (req, res) => {
     res.statusCode(200)
@@ -82,6 +82,8 @@ routes.get("/anuncio/:anuncio_id", (req, res) => {
 routes.post("/carrinho/:usuario_id")
 routes.get("/carrinho/:usuario_id")
 routes.get("/carrinho/:usuario_id/:carrinho_id")
+
+//----------------Entrega-----------------
 
 
 module.exports = routes
