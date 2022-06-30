@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const topico = require("./Topico");
+
 
 const AnuncioModel = new mongoose.Schema({
 
@@ -62,6 +62,5 @@ const AnuncioModel = new mongoose.Schema({
         required: false
     }
 })
-
 
 module.exports = AnuncioModel
