@@ -3,6 +3,10 @@ const Anuncio = require("Anuncio");
 
 const Schema = new mongoose.Schema({
 
+    _id: {
+        Type: Schema.Types.ObjectId,
+        require: false
+    },
     nome: {
         type:String,
         required: true
