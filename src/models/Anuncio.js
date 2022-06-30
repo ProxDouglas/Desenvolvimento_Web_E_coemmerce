@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const topico = require("Topico");
+const topico = require("./Topico");
 
-const Schema = new mongoose.Schema({
+const AnuncioModel = new mongoose.Schema({
 
     nome: {
         type:String,
@@ -40,10 +40,28 @@ const Schema = new mongoose.Schema({
         ref: 'Usuario'
     },
     topicos:{
-        type: [topico.Schema],
+        texto: {
+            type: String,
+            required: true
+        },
+        id_usuario:{
+            type: String,
+            required: true
+        },
+        comentarios: {
+            texto: {
+                type: String,
+                required: true
+            },
+            id_usuario:{
+                type: String,
+                required: true
+            },
+            required: false
+        },
         required: false
     }
 })
 
 
-module.exports = mongoose.model('Anuncio', Schema)
+module.exports = AnuncioModel
