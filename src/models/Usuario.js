@@ -1,18 +1,14 @@
 const mongoose = require("mongoose");
-const Anuncio = require("Anuncio");
+const Anuncio = require("./Anuncio");
 
 const Schema = new mongoose.Schema({
 
-    _id: {
-        Type: Schema.Types.ObjectId,
-        require: false
-    },
     nome: {
         type:String,
         required: true
     },
 
-    emial: {
+    email: {
         type:String,
         required: true
     },

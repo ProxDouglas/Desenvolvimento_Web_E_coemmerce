@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 
 const UsuarioModel = new mongoose.Schema({
@@ -73,3 +74,4 @@ const UsuarioModel = new mongoose.Schema({
 
 
 module.exports = UsuarioModel;
+
