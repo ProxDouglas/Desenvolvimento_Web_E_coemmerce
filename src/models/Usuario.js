@@ -34,26 +34,26 @@ const Schema = new mongoose.Schema({
     },
 
     media_avalização: String,
-    endereço:{
+    endereco:{
         rua:{
             type: String,
-            required: false
+            required: true
         },
         number:{
             type: String,
-            required: false
+            required: true
         },
         cep:{
             type: String,
-            required: false
+            required: true
         },
         cidade:{
             type: String,
-            required: false
+            required: true
         },
         estado:{
             type: String,
-            required: false
+            required: true
         }
     },
 

@@ -24,6 +24,17 @@ const UserController = {
         } catch(err){
             return res.status(400).json(err)
         }
+    },
+    
+    async getUserByID(req, res) {
+        var userID = req.params
+        console.log(userID)
+        try {
+            const user = await Usuario.findById(userID)
+            return res.status(200).json(user)
+        } catch(err){
+            return res.status(400).json(err)
+        }
     }
     
 }

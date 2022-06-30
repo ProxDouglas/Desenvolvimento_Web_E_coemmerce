@@ -9,7 +9,7 @@ const routes = Router()
 // Criar Sessão/Login
 routes.post("/login")
 //---------------USUÁRIO--------------------------------
-// Criar Usuário
+// Criar Usuário OK
 routes.post("/usuario", UserController.createUser);
 // Atualizar Usuário
 routes.put("/usuario");
@@ -17,12 +17,11 @@ routes.put("/usuario");
 routes.put("/usuario/:usuario_id/saldo", (req, res) => {
     res.statusCode(200)
 })
-// Listar todos os usuários
+// Listar todos os usuários OK
 routes.get("/usuarios", UserController.getUser)
 // Listar apenas um usuário pelo ID
-routes.get("/usuario/:usuario_id", (req, res) => {
-    res.statusCode(200)
-})
+routes.get("/usuario/:usuario_id", UserController.getUserByID)
+
 
 //---------------PRODUTO--------------------------------------------------------
 // Criar novo produto na base de dados
