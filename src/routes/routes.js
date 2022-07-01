@@ -29,7 +29,8 @@ routes.get("/categorias", CategoriaController.getCategoria);
 routes.get("/categoria/:id_categoria", CategoriaController.getCategoriaByID);
 routes.post("/categoria/:id_categoria/subcategoria", CategoriaController.pushSubCategoria);
 routes.get("/categoria/:id_categoria/subcategorias", CategoriaController.listSubCategoria);
-
+routes.put("/categoria/:id_categoria/subcategoria/:id_subcat", CategoriaController.updateByIDSubCategoria);
+routes.delete("/categoria/:id_categoria/subcategoria/:id_subcat", CategoriaController.deleteByIDSubCategoria);
 
 //---------------PRODUTO--------------------------------------------------------
 // Criar novo produto na base de dados
