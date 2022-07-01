@@ -2,7 +2,7 @@
 const { isObjectIdOrHexString } = require("mongoose");
 const Categoria = require("../models/Categoria");
 
-const CategoriaController = {
+class CategoriaController  {
 
     async createCategoria(req, res) {
         const bodyData = req.body;
@@ -14,7 +14,7 @@ const CategoriaController = {
             console.log(req.body);
             return res.status(400).json(err);
         }
-    },
+    }
 
     async getCategorias(req, res) {
         try {
@@ -23,51 +23,41 @@ const CategoriaController = {
         } catch(err){
             return res.status(400).json(err);
         }
-    },
+    }
 
     async getCategoria(req, res){
         let {identificador} = req.params;
 
         if(isObjectIdOrHexString(identificador)){
-            try {
-                const cat = await Categoria.findById(identificador);
-                return res.status(200).json(cat);
-            } catch(err){
-                return res.status(400).json(err);
-            }
+            this.getCategoriaByID(req, res);
         }else {
-            try {
-                const cat = await Categoria.findOne({"nome": identificador});
-                return res.status(200).json(cat);
-            } catch(err){
-                return res.status(400).json(err);
-            }
+            this.getCategoriaByName(req, res);
         }
-    },
+    }
     
-    // async getCategoriaByID(req, res) {
-    //     var {identificador} = req.params;
+    async getCategoriaByID(req, res) {
+        var {identificador} = req.params;
         
-    //     try {
-    //         const cat = await Categoria.findById(identificador);
-    //         return res.status(200).json(cat);
-    //     } catch(err){
-    //         return res.status(400).json(err);
-    //     }
-    // },
+        try {
+            const cat = await Categoria.findById(identificador);
+            return res.status(200).json(cat);
+        } catch(err){
+            return res.status(400).json(err);
+        }
+    }
 
-    // async getCategoriaByName(req, res) {
-    //     var {identificador} = req.params;
-    //     console.log(req.params);
+    async getCategoriaByName(req, res) {
+        var {identificador} = req.params;
+        console.log(req.params);
         
         
-    //     try {
-    //         const cat = await Categoria.findOne({"nome": identificador});
-    //         return res.status(200).json(cat);
-    //     } catch(err){
-    //         return res.status(400).json(err);
-    //     }
-    // },
+        try {
+            const cat = await Categoria.findOne({"nome": identificador});
+            return res.status(200).json(cat);
+        } catch(err){
+            return res.status(400).json(err);
+        }
+    }
 
     /**
      * 
@@ -89,7 +79,7 @@ const CategoriaController = {
         } catch(err) {
             return res.status(400).json(err)
         }
-    },
+    }
 
     /**
      * 
@@ -112,7 +102,7 @@ const CategoriaController = {
         } catch(err) {
             return res.status(400).json(err)
         }
-    },
+    }
 
     async listSubCategoria(req, res){
         let cat = req.body;
@@ -130,7 +120,7 @@ const CategoriaController = {
             return res.status(400).json(err)
         }
         
-    },
+    }
 
     /**
      * É necessário discutir o output dessa função
@@ -146,7 +136,7 @@ const CategoriaController = {
         } catch(err) {
             return res.status(400).json(err)
         }
-    },
+    }
 
     async updateByIDSubCategoria(req, res){
         let catBody = req.body;
@@ -170,7 +160,7 @@ const CategoriaController = {
         } catch(err) {
             return res.status(400).json(err)
         }
-    },
+    }
 
 
     async deleteByIDSubCategoria(req, res){ //evitar usar (incompleto)
@@ -194,4 +184,4 @@ const CategoriaController = {
     
 }
 
-module.exports = CategoriaController;
+module.exports = new CategoriaController();

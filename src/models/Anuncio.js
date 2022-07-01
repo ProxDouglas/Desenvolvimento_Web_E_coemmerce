@@ -33,22 +33,29 @@ const AnuncioModel = new mongoose.Schema({
         required: true
     },
 
-    media_avalização: String,
+    media_avalização: [{ //array
+        type: ({
+            avaliador: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Usuario',
+                required: true
+            },
+        
+            nota: {
+                type: Number,
+                required: true
+            }
+        }),
+        required: false
+    }],
 
     autor:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Usuario'
     },
-    topicos:{
-        texto: {
-            type: String,
-            required: true
-        },
-        id_usuario:{
-            type: String,
-            required: true
-        },
-        comentarios: {
+
+    topicos:[{ //array
+        type:({
             texto: {
                 type: String,
                 required: true
@@ -57,10 +64,23 @@ const AnuncioModel = new mongoose.Schema({
                 type: String,
                 required: true
             },
-            required: false
-        },
+
+            comentarios: [{ //array
+                type: ({
+                    texto: {
+                        type: String,
+                        required: true
+                    },
+                    id_usuario:{
+                        type: String,
+                        required: true
+                    },
+                }),
+                required: false
+            }],
+        }),
         required: false
-    }
+    }]
 },
 {
     versionKey: false

@@ -15,7 +15,9 @@ const routes = require("./routes/routes")
 connection().catch(err => console.log(err));
 
 async function connection() {
-  await mongoose.connect('mongodb+srv://groupLobtec:groupLobtec@e-commerce.pjmhya7.mongodb.net/E-commerce');
+  // await mongoose.connect('mongodb+srv://groupLobtec:groupLobtec@e-commerce.pjmhya7.mongodb.net/E-commerce');
+  await mongoose.connect('mongodb://localhost:27017/e-commerce');
+
 
   console.log("Database Connected")
 }
@@ -23,8 +25,6 @@ async function connection() {
 app.listen(3000, (req, res) => {
   console.log("Server Runner");
 })
-
-console.log("Connected to database")
 
 
 app.use(cors())

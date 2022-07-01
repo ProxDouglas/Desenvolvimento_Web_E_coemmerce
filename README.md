@@ -8,7 +8,7 @@ mongodb shell : mongosh "mongodb+srv://e-commerce.pjmhya7.mongodb.net/myFirstDat
 
 nodejs: mongodb+srv://groupLobtec:groupLobtec@e-commerce.pjmhya7.mongodb.net/?retryWrites=true&w=majority
 
-mongodb+srv://groupLobtec:groupLobtec@e-commerce.pjmhya7.mongodb.net/test
+mongodb+srv://groupLobtec:groupLobtec@e-commerce.pjmhya7.mongodb.net/E-commerce
 
 ## Dependencias
 npm init
@@ -51,3 +51,10 @@ GET: /carrinho/:usuario_id/:carrinho_id
 
 ##### git commands
 https://github.com/Kunena/Kunena-Forum/wiki/Create-a-new-branch-with-git-and-manage-branches
+
+
+problemas 
+avaliação
+produtos antigos no banco
+
+https://curatedgo.com/r/generate-swagger-documentation-mlabouardyswaggymnia/index.html

@@ -25,10 +25,15 @@ const ProdutoSchema = new mongoose.Schema({
         ref: 'categoria.sub_categoria'
     },
 
-    // avalizacao_geral: {
-    //     type: Number,
-    //     default: null
-    // }
+    cadastrador: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Usuario'
+    },
+
+    avalizacao_geral: {
+        type: Number,
+        default: -1
+    }
 },
 {
     versionKey: false

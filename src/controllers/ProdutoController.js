@@ -1,5 +1,5 @@
 const Produto = require("../models/Produto")
-const ProdutoController = {
+class ProdutoController {
 
     async createProduto(req, res) {
         const bodyData = req.body
@@ -10,7 +10,7 @@ const ProdutoController = {
         }catch(err){
             return res.status(400).json(err)
         }
-    },
+    }
 
     async getProdutos(req, res) {
         try {
@@ -19,7 +19,7 @@ const ProdutoController = {
         } catch(err){
             return res.status(400).json(err)
         }
-    },
+    }
     
     async getProdutoByID(req, res) {
         const  { id_produto }  = req.params
@@ -29,7 +29,7 @@ const ProdutoController = {
         } catch(err){
             return res.status(400).json(err)
         }
-    },
+    }
 
     async updateProdutoByID(req, res) {
         const bodyData = req.body
@@ -44,4 +44,4 @@ const ProdutoController = {
     }  
 }
 
-module.exports = ProdutoController;
+module.exports = new ProdutoController();
