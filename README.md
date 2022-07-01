@@ -48,3 +48,6 @@ POST: /login
 POST: /carrinho/:usuario_id
 GET: /carrinho/:usuario_id
 GET: /carrinho/:usuario_id/:carrinho_id
+
+##### git commands
+https://github.com/Kunena/Kunena-Forum/wiki/Create-a-new-branch-with-git-and-manage-branches

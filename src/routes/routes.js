@@ -1,8 +1,9 @@
 const { Router } = require("express");
 
-
 const UserController = require("../controllers/UserController/UserController");
-//const { createUser } = require("../controllers/UserController/UserController");
+const CategoriaController = require("../controllers/CategoriaController");
+const ProdutoController = require("../controllers/ProdutoController");
+
 const routes = Router()
 
 
@@ -22,6 +23,14 @@ routes.put("/usuario/:usuario_id/saldo", (req, res) => {
     res.statusCode(200)
 })
 
+routes.post("/categoria", CategoriaController.createCategoria);
+routes.put("/categoria/:id_categoria", CategoriaController.updateCategoria);
+routes.get("/categorias", CategoriaController.getCategoria);
+routes.get("/categoria/:id_categoria", CategoriaController.getCategoriaByID);
+routes.post("/categoria/:id_categoria/subcategoria", CategoriaController.pushSubCategoria);
+routes.get("/categoria/:id_categoria/subcategorias", CategoriaController.listSubCategoria);
+routes.put("/categoria/:id_categoria/subcategoria/:id_subcat", CategoriaController.updateByIDSubCategoria);
+routes.delete("/categoria/:id_categoria/subcategoria/:id_subcat", CategoriaController.deleteByIDSubCategoria);
 
 //---------------PRODUTO--------------------------------------------------------
 // Criar novo produto na base de dados
