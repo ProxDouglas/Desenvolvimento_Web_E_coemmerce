@@ -1,0 +1,52 @@
+const Categoria = require("../models/Categoria");
+
+const CategoriaController = {
+
+    async createCategoria(req, res) {
+        const bodyData = req.body;
+        try{
+
+            const newUser = await Categoria.create(bodyData);
+            return res.status(200).json(newUser);
+            
+        }catch(err){
+            console.log(req.body);
+            return res.status(400).json(err);
+        }
+    },
+
+    async getUser(req, res) {
+        try {
+            const users = await Categoria.find();
+            return res.status(200).json(users);
+        } catch(err){
+            return res.status(400).json(err);
+        }
+    },
+    
+    async getUserByID(req, res) {
+        var catID = req.params;
+        
+        try {
+            const cat = await Categoria.findById(catID);
+            return res.status(200).json(cat);
+        } catch(err){
+            return res.status(400).json(err);
+        }
+    }
+
+    // async updateCategoria(req, res){
+    //     let cat = req.body;
+    //     const {usuario_id} = req.body;
+
+    //     try{
+            
+    //     }catch(err){
+    //         console.log(err);
+    //     }
+        
+    // }
+    
+}
+
+module.exports = CategoriaController;
