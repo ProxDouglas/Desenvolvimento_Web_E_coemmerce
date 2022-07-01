@@ -1,4 +1,5 @@
-const { OrderedBulkOperation } = require("mongodb");
+
+const { isObjectIdOrHexString } = require("mongoose");
 const Categoria = require("../models/Categoria");
 
 const CategoriaController = {
@@ -6,8 +7,8 @@ const CategoriaController = {
     async createCategoria(req, res) {
         const bodyData = req.body;
         try{
-            const newUser = await Categoria.create(bodyData);
-            return res.status(200).json(newUser);
+            const newcategoria = await Categoria.create(bodyData);
+            return res.status(200).json(newcategoria);
             
         }catch(err){
             console.log(req.body);
@@ -15,25 +16,58 @@ const CategoriaController = {
         }
     },
 
-    async getCategoria(req, res) {
+    async getCategorias(req, res) {
         try {
-            const users = await Categoria.find();
-            return res.status(200).json(users);
+            const categoria = await Categoria.find();
+            return res.status(200).json(categoria);
         } catch(err){
             return res.status(400).json(err);
+        }
+    },
+
+    async getCategoria(req, res){
+        let {identificador} = req.params;
+
+        if(isObjectIdOrHexString(identificador)){
+            try {
+                const cat = await Categoria.findById(identificador);
+                return res.status(200).json(cat);
+            } catch(err){
+                return res.status(400).json(err);
+            }
+        }else {
+            try {
+                const cat = await Categoria.findOne({"nome": identificador});
+                return res.status(200).json(cat);
+            } catch(err){
+                return res.status(400).json(err);
+            }
         }
     },
     
-    async getCategoriaByID(req, res) {
-        var {id_categoria} = req.params;
+    // async getCategoriaByID(req, res) {
+    //     var {identificador} = req.params;
         
-        try {
-            const cat = await Categoria.findById(id_categoria);
-            return res.status(200).json(cat);
-        } catch(err){
-            return res.status(400).json(err);
-        }
-    },
+    //     try {
+    //         const cat = await Categoria.findById(identificador);
+    //         return res.status(200).json(cat);
+    //     } catch(err){
+    //         return res.status(400).json(err);
+    //     }
+    // },
+
+    // async getCategoriaByName(req, res) {
+    //     var {identificador} = req.params;
+    //     console.log(req.params);
+        
+        
+    //     try {
+    //         const cat = await Categoria.findOne({"nome": identificador});
+    //         return res.status(200).json(cat);
+    //     } catch(err){
+    //         return res.status(400).json(err);
+    //     }
+    // },
 
     /**
      * 

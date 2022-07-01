@@ -29,9 +29,9 @@ routes.post("/categoria", CategoriaController.createCategoria);
 // Atualizar Categoria
 routes.put("/categoria/:id_categoria", CategoriaController.updateCategoria);
 // Listar Categorias
-routes.get("/categorias", CategoriaController.getCategoria);
+routes.get("/categorias", CategoriaController.getCategorias);
 // Listar categoria pelo ID
-routes.get("/categoria/:id_categoria", CategoriaController.getCategoriaByID);
+routes.get("/categoria/:identificador", CategoriaController.getCategoria);
 // Criar Sub-categorias
 routes.post("/categoria/:id_categoria/subcategoria", CategoriaController.pushSubCategoria);
 //Listar sub-categorias
@@ -43,25 +43,17 @@ routes.delete("/categoria/:id_categoria/subcategoria/:id_subcat", CategoriaContr
 
 //---------------PRODUTO--------------------------------------------------------
 // Criar novo produto na base de dados
-routes.post("/produto", (req, res) => {
-    res.statusCode(200)
-})
+routes.post("/produto", ProdutoController.createProduto);
 // Atualizar produto na base de dados
-routes.put("/produto", (req, res) => {
-    res.statusCode(200)
-})
+routes.put("/produto", ProdutoController.updateProdutoByID);
 // Excluir Produtos da base de dados
 routes.delete("/produto/:produto_id", (req, res) => {
     res.statusCode(200)
 })
 // Listar todos os produtos da base de dados
-routes.get("/produtos", (req, res) => {
-    res.statusCode(200)
-})
+routes.get("/produtos", ProdutoController.getProdutos);
 // Listar apenas um produto pelo ID
-routes.get("/produto/:produto_id", (req, res) => {
-    res.statusCode(200)
-})
+routes.get("/produto/:id_produto", ProdutoController.getProdutoByID);
 
 //------------ANUNCIO DO PRODUTO -------------------------
 // Criar anúncio
