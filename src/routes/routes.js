@@ -13,14 +13,14 @@ routes.post("/login")
 routes.post("/usuario", UserController.createUser);
 // Atualizar Usuário
 routes.put("/usuario/:usuario_id", UserController.updateUserByID);
-// Atualizar saldo do usuário
-routes.put("/usuario/:usuario_id/saldo", (req, res) => {
-    res.statusCode(200)
-})
 // Listar todos os usuários OK
 routes.get("/usuarios", UserController.getUser)
 // Listar apenas um usuário pelo ID
 routes.get("/usuario/:usuario_id", UserController.getUserByID)
+// Atualizar saldo do usuário
+routes.put("/usuario/:usuario_id/saldo", (req, res) => {
+    res.statusCode(200)
+})
 
 
 //---------------PRODUTO--------------------------------------------------------

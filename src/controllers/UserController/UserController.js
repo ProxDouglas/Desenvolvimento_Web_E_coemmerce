@@ -51,17 +51,7 @@ const UserController = {
 
     },
 
-    /*async updateBalanceByID(req, res) {
-        const bodyData = req.body
-        const { usuario_id } = req.params
-
-        
-        try {
-            const updateUsuario = await Usuario.findByIdAndUpdate(usuario_id, {$inc:bodyData})
-            return res.status(200).json(updateUsuario)
-        } catch(err) {
-            return res.status(400).json(err)
-        }
+    
     
 }
 

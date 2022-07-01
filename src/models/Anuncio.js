@@ -8,7 +8,7 @@ const AnuncioModel = new mongoose.Schema({
         required: true
     },
 
-    emial: {
+    email: {
         type:String,
         required: true
     },
