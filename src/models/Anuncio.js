@@ -61,6 +61,9 @@ const AnuncioModel = new mongoose.Schema({
         },
         required: false
     }
+},
+{
+    versionKey: false
 })
 
 module.exports = AnuncioModel

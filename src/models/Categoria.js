@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 
-const ProdutoSchema = new mongoose.Schema({
+const CategoriaSchema = new mongoose.Schema({
 
     nome: {
         type: String,
@@ -17,8 +17,8 @@ const ProdutoSchema = new mongoose.Schema({
         type:String,
         required: true
     },
-    sub_categoria:[
-        {
+    sub_categoria:[{
+        type: ({
             nome: {
                 type: String,
                 required: true
@@ -28,8 +28,13 @@ const ProdutoSchema = new mongoose.Schema({
                 type: String,
                 required: true
             }
-        }
-    ]
+        }),
+        required: false
+    }],
+
+},
+{
+    versionKey: false
 })
 
 

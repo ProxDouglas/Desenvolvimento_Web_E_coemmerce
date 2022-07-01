@@ -5,7 +5,6 @@ const CategoriaController = {
     async createCategoria(req, res) {
         const bodyData = req.body;
         try{
-
             const newUser = await Categoria.create(bodyData);
             return res.status(200).json(newUser);
             
@@ -15,7 +14,7 @@ const CategoriaController = {
         }
     },
 
-    async getUser(req, res) {
+    async getCategoria(req, res) {
         try {
             const users = await Categoria.find();
             return res.status(200).json(users);
@@ -24,28 +23,116 @@ const CategoriaController = {
         }
     },
     
-    async getUserByID(req, res) {
-        var catID = req.params;
+    async getCategoriaByID(req, res) {
+        var {id_categoria} = req.params;
         
         try {
-            const cat = await Categoria.findById(catID);
+            const cat = await Categoria.findById(id_categoria);
             return res.status(200).json(cat);
         } catch(err){
             return res.status(400).json(err);
         }
+    },
+
+    /**
+     * 
+     * @param req 
+     * @param res 
+     *  O update de categoria só pode ser executada caso o atributo 
+     * sub_categoria for = undefined
+     */
+    
+
+    async updateCategoria(req, res){
+        let cat = req.body;
+        const {id_categoria} = req.params;
+        
+        try {
+            const updateCat = await Categoria
+                .findByIdAndUpdate(id_categoria, cat, {new: true})
+            return res.status(200).json(updateCat)
+        } catch(err) {
+            return res.status(400).json(err)
+        }
+    },
+
+    /**
+     * 
+     * @param req = sub-categoriaSchema
+     *  Para adicionar a sub-Categoria é necessário dar um push na lista
+     */
+
+    async pushSubCategoria(req, res){
+        let cat = req.body;
+        const {id_categoria} = req.params;
+        
+        try {
+            const updateCat = await Categoria
+                .findByIdAndUpdate(
+                    id_categoria, 
+                    {$push:{sub_categoria: cat}}, 
+                    {new: true}
+                    )
+            return res.status(200).json(updateCat)
+        } catch(err) {
+            return res.status(400).json(err)
+        }
+    },
+
+    async listSubCategoria(req, res){
+        let cat = req.body;
+        const {id_categoria, id_subcat} = req.params;
+        
+        try {
+            const updateCat = await Categoria
+                .findByIdAndUpdate(
+                    id_categoria, 
+                    {$push:{sub_categoria: cat}}, 
+                    {new: true}
+                    )
+            return res.status(200).json(updateCat)
+        } catch(err) {
+            return res.status(400).json(err)
+        }
+        
+    },
+
+    async listSubCategoria(req, res){
+        const {id_categoria} = req.params;
+        
+        try {
+            const updateCat = await Categoria
+                .find(
+                    id_categoria 
+                    
+                    ).$where(sub_categoria);
+            return res.status(200).json(updateCat)
+        } catch(err) {
+            return res.status(400).json(err)
+        }
     }
 
-    // async updateCategoria(req, res){
-    //     let cat = req.body;
-    //     const {usuario_id} = req.body;
 
-    //     try{
-            
-    //     }catch(err){
-    //         console.log(err);
+
+    // async updateSubCategoria(req, res){
+    //     let cat = req.body;
+    //     const {id_categoria, id_subcat} = req.params;
+        
+    //     try {
+    //         const updateCat = await Categoria
+    //             .findByIdAndUpdate(
+    //                 id_categoria, 
+    //                 {$push:{sub_categoria: cat}}, 
+    //                 {new: true}
+    //                 )
+    //         return res.status(200).json(updateCat)
+    //     } catch(err) {
+    //         return res.status(400).json(err)
     //     }
         
     // }
+
+
     
 }
 
