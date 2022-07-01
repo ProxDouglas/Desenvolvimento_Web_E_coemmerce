@@ -23,13 +23,22 @@ routes.put("/usuario/:usuario_id/saldo", (req, res) => {
     res.statusCode(200)
 })
 
+//---------------------------Categoria-------------------------------------------
+// Criar Categoria
 routes.post("/categoria", CategoriaController.createCategoria);
+// Atualizar Categoria
 routes.put("/categoria/:id_categoria", CategoriaController.updateCategoria);
+// Listar Categorias
 routes.get("/categorias", CategoriaController.getCategoria);
+// Listar categoria pelo ID
 routes.get("/categoria/:id_categoria", CategoriaController.getCategoriaByID);
+// Criar Sub-categorias
 routes.post("/categoria/:id_categoria/subcategoria", CategoriaController.pushSubCategoria);
+//Listar sub-categorias
 routes.get("/categoria/:id_categoria/subcategorias", CategoriaController.listSubCategoria);
+// Atualizar sub-categorias por ID
 routes.put("/categoria/:id_categoria/subcategoria/:id_subcat", CategoriaController.updateByIDSubCategoria);
+// Deletar sub-categorias
 routes.delete("/categoria/:id_categoria/subcategoria/:id_subcat", CategoriaController.deleteByIDSubCategoria);
 
 //---------------PRODUTO--------------------------------------------------------
