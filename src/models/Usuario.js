@@ -74,9 +74,12 @@ const Schema = new mongoose.Schema({
         type: Boolean,
         default: true
     }
+
 },
 {
     versionKey: false
+
+
 })
 
 
