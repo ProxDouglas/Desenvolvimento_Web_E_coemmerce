@@ -65,7 +65,15 @@ const Schema = new mongoose.Schema({
     Anuncio:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Anuncio'
-    }]
+    }],
+    Saldo:{
+        type: Number,
+        default: 0   
+    },
+    Status:{
+        type: Boolean,
+        default: true
+    }
 })
 
 

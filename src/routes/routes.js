@@ -12,15 +12,15 @@ routes.post("/login")
 // Criar Usuário OK
 routes.post("/usuario", UserController.createUser);
 // Atualizar Usuário
-routes.put("/usuario");
-// Atualizar saldo do usuário
-routes.put("/usuario/:usuario_id/saldo", (req, res) => {
-    res.statusCode(200)
-})
+routes.put("/usuario/:usuario_id", UserController.updateUserByID);
 // Listar todos os usuários OK
 routes.get("/usuarios", UserController.getUser)
 // Listar apenas um usuário pelo ID
 routes.get("/usuario/:usuario_id", UserController.getUserByID)
+// Atualizar saldo do usuário
+routes.put("/usuario/:usuario_id/saldo", (req, res) => {
+    res.statusCode(200)
+})
 
 
 //---------------PRODUTO--------------------------------------------------------
@@ -82,6 +82,8 @@ routes.get("/anuncio/:anuncio_id", (req, res) => {
 routes.post("/carrinho/:usuario_id")
 routes.get("/carrinho/:usuario_id")
 routes.get("/carrinho/:usuario_id/:carrinho_id")
+
+//----------------Entrega-----------------
 
 
 module.exports = routes
