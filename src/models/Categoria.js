@@ -18,7 +18,7 @@ const CategoriaSchema = new mongoose.Schema({
         required: true
     },
     sub_categoria:[{
-        type: ({
+        type: {
             nome: {
                 type: String,
                 required: true
@@ -28,7 +28,7 @@ const CategoriaSchema = new mongoose.Schema({
                 type: String,
                 required: true
             }
-        }),
+        },
         required: false
     }],
 

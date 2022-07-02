@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Anuncio = require("./Anuncio");
 
-const Schema = new mongoose.Schema({
+const UsuarioSchema = new mongoose.Schema({
 
     nome: {
         type:String,
@@ -33,7 +33,21 @@ const Schema = new mongoose.Schema({
         required: true
     },
 
-    media_avalização: String,
+    avalizacao: [{
+        type: {
+            id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Usuario',
+                required: true
+            },
+        
+            nota: {
+                type: Number,
+                required: true
+            }
+        },
+        required: false
+    }],
     endereco:{
         rua:{
             type: String,
@@ -62,7 +76,7 @@ const Schema = new mongoose.Schema({
         ref: 'Anuncio'
     },
 
-    Anuncio:[{
+    anuncio:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Anuncio'
     }],
@@ -81,4 +95,4 @@ const Schema = new mongoose.Schema({
 })
 
 
-module.exports = mongoose.model('Usuario', Schema)
+module.exports = mongoose.model('Usuario', UsuarioSchema)

@@ -18,18 +18,12 @@ async function connection() {
   // await mongoose.connect('mongodb+srv://groupLobtec:groupLobtec@e-commerce.pjmhya7.mongodb.net/E-commerce');
   await mongoose.connect('mongodb://localhost:27017/e-commerce');
 
-
   console.log("Database Connected")
 }
-
-app.listen(3000, (req, res) => {
-  console.log("Server Runner");
-})
-
 
 app.use(cors())
 app.use(express.json())
 app.use(routes);
 
-app.listen(45678, () => console.log("Server Running"))
+app.listen(45678, () => console.log("Server Running"));
 

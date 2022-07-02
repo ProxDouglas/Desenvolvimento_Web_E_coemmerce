@@ -1,5 +1,5 @@
 const Usuario = require("../../models/Usuario")
-const UserController = {
+class UserController  {
 
     async createUser(req, res) {
         const bodyData = req.body
@@ -11,7 +11,7 @@ const UserController = {
         }catch(err){
             return res.status(400).json(err)
         }
-    },
+    }
 
     async getUser(req, res) {
         try {
@@ -20,7 +20,7 @@ const UserController = {
         } catch(err){
             return res.status(400).json(err)
         }
-    },
+    }
     
     async getUserByID(req, res) {
         const  { usuario_id }  = req.params
@@ -31,7 +31,7 @@ const UserController = {
         } catch(err){
             return res.status(400).json(err)
         }
-    },
+    }
 
     async updateUserByID(req, res) {
         const bodyData = req.body
@@ -45,10 +45,18 @@ const UserController = {
             return res.status(400).json(err)
         }
 
-    },
+    }
 
-    
-    
+    async pushAnuncio(id_usuario, id_anuncio){
+
+        try{
+            let pushAnuncio = await Usuario.findByIdAndUpdate(id_usuario, {$push: {anuncio: id_anuncio}});
+            return pushAnuncio;
+        }catch(err){
+            return err;
+        }
+    }
+
 }
 
-module.exports = UserController;
+module.exports = new UserController;

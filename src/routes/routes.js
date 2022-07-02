@@ -3,6 +3,7 @@ const { Router } = require("express");
 const UserController = require("../controllers/UserController/UserController");
 const CategoriaController = require("../controllers/CategoriaController");
 const ProdutoController = require("../controllers/ProdutoController");
+const AnuncioController = require("../controllers/AnuncioController.js");
 
 const routes = Router()
 
@@ -17,7 +18,9 @@ routes.put("/usuario/:usuario_id", UserController.updateUserByID);
 // Listar todos os usuários OK
 routes.get("/usuarios", UserController.getUser)
 // Listar apenas um usuário pelo ID
-routes.get("/usuario/:usuario_id", UserController.getUserByID)
+routes.get("/usuario/:usuario_id", UserController.getUserByID);
+// Listar os anuncios de determinado usuário
+routes.get("/usuario/:id_usuario/anuncio", AnuncioController.getAnuncioByUsuario);
 // Atualizar saldo do usuário
 routes.put("/usuario/:usuario_id/saldo", (req, res) => {
     res.statusCode(200)
@@ -54,44 +57,26 @@ routes.delete("/produto/:produto_id", (req, res) => {
 routes.get("/produtos", ProdutoController.getProdutos);
 // Listar apenas um produto pelo ID
 routes.get("/produto/:id_produto", ProdutoController.getProdutoByID);
+// Listar anuncios de determinado produto
+routes.get("/produto/:id_produto/anuncio", AnuncioController.getAnuncioByProduto);
 
 //------------ANUNCIO DO PRODUTO -------------------------
 // Criar anúncio
-routes.post("/anuncio/:usuario_id",  (req, res) => {
-    res.statusCode(200)
-})
+routes.post("/anuncio",  AnuncioController.createAnuncio);
 // Atualizar informações do anúncio
-routes.put("/anuncio/:usuario_id", (req, res) => {
-    res.statusCode(200)
-})
-// Excluir anuncio de um determinado usuario
-routes.delete("/anuncio/:anuncio_id", (req, res) => {
-    res.statusCode(200)
-})
+routes.put("/anuncioU/:id_anuncio", AnuncioController.updateAnuncioByID);
 // Excluir anuncio pelo ID
-routes.delete("/anuncio/:usuario_id", (req, res) => {
+routes.delete("/anuncio/:id_usuario", (req, res) => {
     res.statusCode(200)
 })
 // Listar todos os anúncios
-routes.get("/anuncio", (req, res) => {
-    res.statusCode(200)
-})
-// Listar os anuncios de determinado usuário
-routes.get("/anuncio/:usuario_id", (req, res) => {
-    res.statusCode(200)
-})
-// Listar anuncios de determinado produto
-routes.get("/anuncio/:produto_id", (req, res) => {
-    res.statusCode(200)
-})
+routes.get("/anuncios", AnuncioController.getAnuncios);
 // Exibir um único anúncio
-routes.get("/anuncio/:anuncio_id", (req, res) => {
-    res.statusCode(200)
-})
+routes.get("/anuncio/:id_anuncio", AnuncioController.getAnuncioByID);
 //-------------------Carrinho-----------------
-routes.post("/carrinho/:usuario_id")
-routes.get("/carrinho/:usuario_id")
-routes.get("/carrinho/:usuario_id/:carrinho_id")
+routes.post("/carrinho/:id_usuario")
+routes.get("/carrinho/:id_usuario")
+routes.get("/carrinho/:id_usuario/:carrinho_id")
 
 //----------------Entrega-----------------
 

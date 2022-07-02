@@ -1,41 +1,31 @@
 const mongoose = require("mongoose");
 
 
-const AnuncioModel = new mongoose.Schema({
+const AnuncioSchema = new mongoose.Schema({
 
     nome: {
         type:String,
         required: true
     },
 
-    email: {
-        type:String,
+    preco: {
+        type: Number,
         required: true
     },
 
-    data_nascimento: {
-        type:String,
-        required: true
+    autor:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Usuario'
     },
 
-    cpf: {
-        type:String,
-        required: true
+    produto:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Produto'
     },
 
-    telefone: {
-        type:String,
-        required: true
-    },
-
-    senha: {
-        type:String,
-        required: true
-    },
-
-    media_avalização: [{ //array
-        type: ({
-            avaliador: {
+    avalizacoes: [{ //array
+        type: {
+            id: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Usuario',
                 required: true
@@ -45,17 +35,12 @@ const AnuncioModel = new mongoose.Schema({
                 type: Number,
                 required: true
             }
-        }),
+        },
         required: false
     }],
 
-    autor:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Usuario'
-    },
-
     topicos:[{ //array
-        type:({
+        type:{
             texto: {
                 type: String,
                 required: true
@@ -66,7 +51,7 @@ const AnuncioModel = new mongoose.Schema({
             },
 
             comentarios: [{ //array
-                type: ({
+                type: {
                     texto: {
                         type: String,
                         required: true
@@ -75,10 +60,10 @@ const AnuncioModel = new mongoose.Schema({
                         type: String,
                         required: true
                     },
-                }),
+                },
                 required: false
             }],
-        }),
+        },
         required: false
     }]
 },
@@ -86,4 +71,4 @@ const AnuncioModel = new mongoose.Schema({
     versionKey: false
 })
 
-module.exports = AnuncioModel
+module.exports = mongoose.model('Anuncio', AnuncioSchema);
