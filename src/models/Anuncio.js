@@ -23,6 +23,11 @@ const AnuncioSchema = new mongoose.Schema({
         ref: 'Produto'
     },
 
+    data: {
+        type: Date,
+        default: Date.now
+    },
+
     avalizacoes: [{ //array
         type: {
             id: {
@@ -39,24 +44,24 @@ const AnuncioSchema = new mongoose.Schema({
         required: false
     }],
 
-    topicos:[{ //array
+    topico:[{ //array
         type:{
             texto: {
                 type: String,
                 required: true
             },
-            id_usuario:{
+            autor:{
                 type: String,
                 required: true
             },
 
-            comentarios: [{ //array
+            comentario: [{ //array
                 type: {
                     texto: {
                         type: String,
                         required: true
                     },
-                    id_usuario:{
+                    autor:{
                         type: String,
                         required: true
                     },

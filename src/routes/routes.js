@@ -1,6 +1,8 @@
 const { Router } = require("express");
 
-const UserController = require("../controllers/UserController/UserController");
+const auth = require("../middlewares/Autenticacao");
+
+const UserController = require("../controllers/UserController");
 const CategoriaController = require("../controllers/CategoriaController");
 const ProdutoController = require("../controllers/ProdutoController");
 const AnuncioController = require("../controllers/AnuncioController.js");
@@ -9,14 +11,14 @@ const routes = Router()
 
 
 // Criar Sessão/Login
-routes.post("/login")
+routes.post("/login", UserController.login);
 //---------------USUÁRIO--------------------------------
 // Criar Usuário OK
 routes.post("/usuario", UserController.createUser);
 // Atualizar Usuário
 routes.put("/usuario/:usuario_id", UserController.updateUserByID);
 // Listar todos os usuários OK
-routes.get("/usuarios", UserController.getUser)
+routes.get("/usuarios", auth,  UserController.getUser);
 // Listar apenas um usuário pelo ID
 routes.get("/usuario/:usuario_id", UserController.getUserByID);
 // Listar os anuncios de determinado usuário
@@ -68,7 +70,21 @@ routes.put("/anuncioU/:id_anuncio", AnuncioController.updateAnuncioByID);
 // Excluir anuncio pelo ID
 routes.delete("/anuncio/:id_usuario", (req, res) => {
     res.statusCode(200)
-})
+});
+
+routes.post("/anuncio/:id_anuncio/topico", AnuncioController.pushTopico);
+routes.get("/anuncio/:id_anuncio/topicos", AnuncioController.getTopicos);
+routes.get("/anuncio/:id_anuncio/topico/:id_topico", AnuncioController.getTopico);
+routes.put("/anuncio/:id_anuncio/topico/:id_topico", AnuncioController.editTopico); //apenas texto
+routes.delete("/anuncio/:id_anuncio/topico/:id_topico", AnuncioController.deleteTopico);
+
+
+// routes.post("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
+// routes.get("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
+// routes.get("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
+// routes.put("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
+// routes.delete("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
+
 // Listar todos os anúncios
 routes.get("/anuncios", AnuncioController.getAnuncios);
 // Exibir um único anúncio

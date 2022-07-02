@@ -18,8 +18,9 @@ npm install body-parser --save
 npm install express-session --save
 npm install express-flash --save
 npm install --save cookie-parser
-npm install mongodb@4.7
+deprecated npm install mongodb@4.7
 npm install mongoose --save
+npm install bcrypt --save
 
 ## Rotas
 POST: /usuario

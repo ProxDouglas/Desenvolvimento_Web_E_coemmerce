@@ -115,9 +115,9 @@ class CategoriaController  {
                     {$push:{sub_categoria: cat}}, 
                     {new: true}
                     )
-            return res.status(200).json(updateCat)
+            return res.status(200).json(updateCat);
         } catch(err) {
-            return res.status(400).json(err)
+            return res.status(400).json(err);
         }
         
     }

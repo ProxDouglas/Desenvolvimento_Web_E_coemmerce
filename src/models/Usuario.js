@@ -13,8 +13,8 @@ const UsuarioSchema = new mongoose.Schema({
         required: true
     },
 
-    data_nascimento: {
-        type:String,
+    data_nascimento: { //yyyy-mm-dd
+        type: Date,
         required: true
     },
 
@@ -80,11 +80,11 @@ const UsuarioSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Anuncio'
     }],
-    Saldo:{
+    saldo:{
         type: Number,
         default: 0   
     },
-    Status:{
+    status:{
         type: Boolean,
         default: true
     }
