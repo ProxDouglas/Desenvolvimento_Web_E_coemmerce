@@ -59,3 +59,11 @@ avaliação
 produtos antigos no banco
 
 https://curatedgo.com/r/generate-swagger-documentation-mlabouardyswaggymnia/index.html
+
+
+##Logins para teste de auth
+
+{
+	"email": "philipi@simba.com",
+	"senha": "12345"
+}
