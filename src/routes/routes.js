@@ -1,5 +1,6 @@
+//Importa o express
 const { Router } = require("express");
-
+// Importa o arquivo de autenticação
 const auth = require("../middlewares/Autenticacao");
 
 const UserController = require("../controllers/UserController");
@@ -9,9 +10,11 @@ const AnuncioController = require("../controllers/AnuncioController.js");
 
 const routes = Router()
 
-
+//---------------LOGIN----------------------------------
 // Criar Sessão/Login
 routes.post("/login", UserController.login);
+
+
 //---------------USUÁRIO--------------------------------
 // Criar Usuário OK
 routes.post("/usuario", UserController.createUser);
@@ -23,10 +26,7 @@ routes.get("/usuarios", auth,  UserController.getUser);
 routes.get("/usuario/:usuario_id", UserController.getUserByID);
 // Listar os anuncios de determinado usuário
 routes.get("/usuario/:id_usuario/anuncio", AnuncioController.getAnuncioByUsuario);
-// Atualizar saldo do usuário
-routes.put("/usuario/:usuario_id/saldo", (req, res) => {
-    res.statusCode(200)
-})
+
 
 //---------------------------Categoria-------------------------------------------
 // Criar Categoria
@@ -46,15 +46,12 @@ routes.put("/categoria/:id_categoria/subcategoria/:id_subcat", CategoriaControll
 // Deletar sub-categorias
 routes.delete("/categoria/:id_categoria/subcategoria/:id_subcat", CategoriaController.deleteByIDSubCategoria);
 
+
 //---------------PRODUTO--------------------------------------------------------
 // Criar novo produto na base de dados
 routes.post("/produto", ProdutoController.createProduto);
 // Atualizar produto na base de dados
 routes.put("/produto", ProdutoController.updateProdutoByID);
-// Excluir Produtos da base de dados
-routes.delete("/produto/:produto_id", (req, res) => {
-    res.statusCode(200)
-})
 // Listar todos os produtos da base de dados
 routes.get("/produtos", ProdutoController.getProdutos);
 // Listar apenas um produto pelo ID
@@ -62,33 +59,37 @@ routes.get("/produto/:id_produto", ProdutoController.getProdutoByID);
 // Listar anuncios de determinado produto
 routes.get("/produto/:id_produto/anuncio", AnuncioController.getAnuncioByProduto);
 
+
 //------------ANUNCIO DO PRODUTO -------------------------
 // Criar anúncio
 routes.post("/anuncio",  AnuncioController.createAnuncio);
-// Atualizar informações do anúncio
-routes.put("/anuncioU/:id_anuncio", AnuncioController.updateAnuncioByID);
-// Excluir anuncio pelo ID
-routes.delete("/anuncio/:id_usuario", (req, res) => {
-    res.statusCode(200)
-});
-
-routes.post("/anuncio/:id_anuncio/topico", AnuncioController.pushTopico);
-routes.get("/anuncio/:id_anuncio/topicos", AnuncioController.getTopicos);
-routes.get("/anuncio/:id_anuncio/topico/:id_topico", AnuncioController.getTopico);
-routes.put("/anuncio/:id_anuncio/topico/:id_topico", AnuncioController.editTopico); //apenas texto
-routes.delete("/anuncio/:id_anuncio/topico/:id_topico", AnuncioController.deleteTopico);
-
-
-// routes.post("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
-// routes.get("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
-// routes.get("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
-// routes.put("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
-// routes.delete("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
-
-// Listar todos os anúncios
+// Lista todos os anúncios
 routes.get("/anuncios", AnuncioController.getAnuncios);
 // Exibir um único anúncio
 routes.get("/anuncio/:id_anuncio", AnuncioController.getAnuncioByID);
+// Atualizar informações do anúncio
+routes.put("/anuncio/:id_anuncio", AnuncioController.updateAnuncioByID);
+// Excluir anuncio pelo ID
+routes.delete("/anuncio/:id_usuario", )
+
+
+//-------------------- Tópicos dentro do anúncio--------------------
+// Cria uma pergunta dentro do anuncio
+routes.post("/anuncio/:id_anuncio/topico", AnuncioController.pushTopico);
+// Lista todas as perguntas do anúncio
+routes.get("/anuncio/:id_anuncio/topicos", AnuncioController.getTopicos);
+// Lista as perguntas de determinado usuário
+routes.get("/anuncio/:id_anuncio/topico/:id_topico", AnuncioController.getTopico);
+// Atualiza apenas o texto do tópico
+routes.put("/anuncio/:id_anuncio/topico/:id_topico", AnuncioController.editTopico); //apenas texto
+// Apaga o tópico de determinado usuário em um anuncio
+routes.delete("/anuncio/:id_anuncio/topico/:id_topico", AnuncioController.deleteTopico);
+
+
+
+
+
+
 //-------------------Carrinho-----------------
 routes.post("/carrinho/:id_usuario")
 routes.get("/carrinho/:id_usuario")

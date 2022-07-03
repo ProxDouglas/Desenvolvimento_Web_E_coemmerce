@@ -33,7 +33,7 @@ const UsuarioSchema = new mongoose.Schema({
         required: true
     },
 
-    avalizacao: [{
+    avaliacao: [{
         type: {
             id: {
                 type: mongoose.Schema.Types.ObjectId,

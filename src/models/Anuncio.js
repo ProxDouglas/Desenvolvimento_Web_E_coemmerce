@@ -28,7 +28,7 @@ const AnuncioSchema = new mongoose.Schema({
         default: Date.now
     },
 
-    avalizacoes: [{ //array
+    avaliacoes: [{ //array
         type: {
             id: {
                 type: mongoose.Schema.Types.ObjectId,

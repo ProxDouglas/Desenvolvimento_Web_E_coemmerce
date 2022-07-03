@@ -30,7 +30,7 @@ const ProdutoSchema = new mongoose.Schema({
         ref: 'Usuario'
     },
 
-    avalizacao_geral: {
+    avaliacao_geral: {
         type: Number,
         default: -1
     }
