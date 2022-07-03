@@ -78,3 +78,41 @@ const Schema = new mongoose.Schema({
 
 
 module.exports = mongoose.model('Usuario', Schema)
+
+// Criar Usuário OK
+ /**
+  * @swagger
+  * components:
+  *   schemas:
+  *      Usuario:
+  *         type: object
+  *         properties:
+  *            nome: 
+  *               type: string
+  *               description: nome do usuário
+  *            email:
+  *               type: string
+  *               description: e-mail do usuário
+  *            data_nascimento:
+  *               type: string
+  *               description: data de nascimento do usuário
+  *            cpf:
+  *               type: string
+  *               description: nome do usuário 
+  *            telefone:
+  *               type: string
+  *               description: telefone do usuário
+  *            senha:
+  *               type: string
+  *               description: senha do usuário
+  *         required:
+  *            - nome
+  *            - email 
+  *            - data_nascimento
+  *            - cpf 
+  *         exemplo:
+  *            - nome: Michael Jackson
+  *            - email: Michael.Jackson@gmail.com
+  *            - data_nascimento: 11/01/1974
+  *            - cpf: 22.222.222-22
+  */ 

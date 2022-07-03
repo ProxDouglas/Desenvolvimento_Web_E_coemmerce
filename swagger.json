@@ -1,0 +1,9 @@
+{
+   "openapi": "3.0.0",
+   "info": {
+      "title": "aaaa",
+      "description": "aaaaaaaaaaaaaaaaaa",
+      "version": "1.0.0"
+   },
+   "basePath": "http://localhost:45678/api-docs/"
+}

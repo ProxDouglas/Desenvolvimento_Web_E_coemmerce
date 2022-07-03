@@ -11,6 +11,7 @@ routes.post("/login")
 //---------------USUÁRIO--------------------------------
 // Criar Usuário OK
 routes.post("/usuario", UserController.createUser);
+
 // Atualizar Usuário
 routes.put("/usuario/:usuario_id", UserController.updateUserByID);
 // Listar todos os usuários OK
@@ -87,6 +88,44 @@ routes.get("/carrinho/:usuario_id/:carrinho_id")
 
 
 module.exports = routes
+
+// Criar Usuário OK
+ /**
+  * @swagger
+  * components:
+  *   schemas:
+  *      usuario:
+  *         type: object
+  *         properties:
+  *            nome: 
+  *               type: string
+  *               description: nome do usuário
+  *            email:
+  *               type: string
+  *               description: e-mail do usuário
+  *            data_nascimento:
+  *               type: string
+  *               description: data de nascimento do usuário
+  *            cpf:
+  *               type: string
+  *               description: nome do usuário 
+  *            telefone:
+  *               type: string
+  *               description: telefone do usuário
+  *            senha:
+  *               type: string
+  *               description: senha do usuário
+  *         required:
+  *            - nome
+  *            - email 
+  *            - data_nascimento
+  *            - cpf 
+  *         exemplo:
+  *            - nome: Michael Jackson
+  *            - email: Michael.Jackson@gmail.com
+  *            - data_nascimento: 11/01/1974
+  *            - cpf: 22.222.222-22
+  */
 
 
 
