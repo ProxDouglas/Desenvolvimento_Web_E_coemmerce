@@ -63,33 +63,32 @@ routes.get("/produto/:id_produto/anuncio", AnuncioController.getAnuncioByProduto
 //------------ANUNCIO DO PRODUTO -------------------------
 // Criar anúncio
 routes.post("/anuncio",  AnuncioController.createAnuncio);
-// Lista todos os anúncios
-routes.get("/anuncios", AnuncioController.getAnuncios);
-// Exibir um único anúncio
-routes.get("/anuncio/:id_anuncio", AnuncioController.getAnuncioByID);
 // Atualizar informações do anúncio
-routes.put("/anuncio/:id_anuncio", AnuncioController.updateAnuncioByID);
+routes.put("/anuncioU/:id_anuncio", AnuncioController.updateAnuncioByID);
 // Excluir anuncio pelo ID
-routes.delete("/anuncio/:id_usuario", )
-
-
-//-------------------- Tópicos dentro do anúncio--------------------
+routes.delete("/anuncio/:id_anuncio", AnuncioController.deleteAnuncio)
 // Cria uma pergunta dentro do anuncio
 routes.post("/anuncio/:id_anuncio/topico", AnuncioController.pushTopico);
 // Lista todas as perguntas do anúncio
 routes.get("/anuncio/:id_anuncio/topicos", AnuncioController.getTopicos);
 // Lista as perguntas de determinado usuário
 routes.get("/anuncio/:id_anuncio/topico/:id_topico", AnuncioController.getTopico);
-// Atualiza apenas o texto do tópico
+// Atualiza apenas texto do tópico de determinado usuário
 routes.put("/anuncio/:id_anuncio/topico/:id_topico", AnuncioController.editTopico); //apenas texto
 // Apaga o tópico de determinado usuário em um anuncio
 routes.delete("/anuncio/:id_anuncio/topico/:id_topico", AnuncioController.deleteTopico);
 
 
+// routes.post("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
+// routes.get("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
+// routes.get("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
+// routes.put("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
+// routes.delete("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
 
-
-
-
+// Listar todos os anúncios
+routes.get("/anuncios", AnuncioController.getAnuncios);
+// Exibir um único anúncio
+routes.get("/anuncio/:id_anuncio", AnuncioController.getAnuncioByID);
 //-------------------Carrinho-----------------
 routes.post("/carrinho/:id_usuario")
 routes.get("/carrinho/:id_usuario")
