@@ -66,7 +66,7 @@ routes.post("/anuncio",  AnuncioController.createAnuncio);
 // Atualizar informações do anúncio
 routes.put("/anuncioU/:id_anuncio", AnuncioController.updateAnuncioByID);
 // Excluir anuncio pelo ID
-routes.delete("/anuncio/:id_anuncio", AnuncioController.deleteAnuncio)
+routes.delete("/anuncio/:id_anuncio", )
 // Cria uma pergunta dentro do anuncio
 routes.post("/anuncio/:id_anuncio/topico", AnuncioController.pushTopico);
 // Lista todas as perguntas do anúncio
