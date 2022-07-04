@@ -24,8 +24,8 @@ async function connection() {
 }
 
 
-router.use('/api-docs', swaggerUi.serve);
-router.get('/api-docs', swaggerUi.setup(swaggerDocument));
+routes.use('/api-docs', swaggerUi.serve);
+routes.get('/api-docs', swaggerUi.setup(swaggerDocument));
 app.use(cors())
 app.use(express.json())
 app.use(routes);
