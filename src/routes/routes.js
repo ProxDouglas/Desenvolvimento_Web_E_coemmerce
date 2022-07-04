@@ -93,7 +93,7 @@ routes.get("/anuncio/:id_anuncio", AnuncioController.getAnuncioByID);
 //-------------------Carrinho-----------------
 //o id do usuario vai na requisicao json
 routes.post("/carrinho/:id_usuario", CarrinhoController.pushAnuncioCarrinho);
-routes.delete("/carrinho/:id_usuario", CarrinhoController.deleteAnuncioCarrinho)
+routes.delete("/carrinho/:id_usuario/anuncio/:id_anuncio", CarrinhoController.deleteAnuncioCarrinho)
 routes.get("/carrinho/:id_usuario", CarrinhoController.getCarrinhoByIDUser);
 routes.get("/carrinhos");
 

@@ -1,7 +1,8 @@
 const Carrinho = require("../models/Carrinho")
 const Anuncio = require("../models/Anuncio");
 const Usuario = require("../models/Usuario");
-const { isObjectIdOrHexString } = require("mongoose");
+const { isObjectIdOrHexString, default: mongoose } = require("mongoose");
+const { OrderedBulkOperation } = require("mongodb");
 
 class CarrinhoController  {
 
@@ -30,87 +31,85 @@ class CarrinhoController  {
         let {id_usuario} = req.params;
         let {anuncios} = req.body;
 
-        if(isObjectIdOrHexString(id_usuario) && isObjectIdOrHexString(anuncios)){
+        try{
+            if(isObjectIdOrHexString(id_usuario) && isObjectIdOrHexString(anuncios)){
 
-            let existe = await this.existeCarrinho(id_usuario);
+                let anuncio = await Anuncio.findOne({_id: anuncios});
 
-            if( existe == false){
-              this.createCarrinho(id_usuario);  
+                if(anuncio  == undefined){
+                    return res.status(404).json({msg: 'Anuncio inexistente ou não encontrado'});
+                }
+                
+
+                try{
+                    
+                    let carrinhoUpdate = await Carrinho.findOneAndUpdate
+                                (
+                                    {comprador: id_usuario}, 
+                                    (
+                                    {$push: {anuncios: {anuncio: anuncios}},
+                                    $inc: {preco_total: + anuncio.preco}}
+                                    ), {new: true}
+                                );
+                    
+                    
+                    if( carrinhoUpdate == undefined){
+                        
+                        const carrinhoObj = new Carrinho({
+                            comprador: id_usuario, 
+                            preco_total: anuncio.preco,
+                            anuncios: [
+                                {
+                                   anuncio: anuncio 
+                                }
+                            ]
+                        });
+                        
+                        const carrinho = await carrinhoObj.save();
+                        
+
+                        return res.status(200).json(carrinho);
+                    }
+
+                    return res.status(200).json(carrinhoUpdate);
+                }catch(err){
+                    return res.status(400).json(err);
+                }
             }
-
-            let anuncio = await this.getPrecoAnuncio(id_anuncio);
-
-            if(anuncio  == undefined){
-                return res.status(404).json({msg: 'Anuncio inexistente ou não encontrado'});
-            }
-
-            try{
-                let pushAnuncio = await Carrinho.findOneAndUpdate
-                                                (
-                                                    {comprador: id_usuario}, 
-                                                    {$push: {anuncios: id_anuncio}},
-                                                    {$inc: {preco_total: anuncio.preco}}
-                                                );
-                return res.status(200).json(pushAnuncio);
-            }catch(err){
-                return res.status(400).json(err);
-            }
+            return res.status(400).json({msg: "Identificador de Usuário invalido"})
+        }catch(err){
+            return res.status(500).json(err);
         }
-        return res.status(400).json({msg: "Identificador de Usuário invalido"})
     }
 
     //retira anuncio do carrinho 
     async deleteAnuncioCarrinho(req, res){
-        let {id_carrinho, id_anuncio} = req.params;
+        let {id_usuario, id_anuncio} = req.params;
 
-        let anuncio = await this.getPrecoAnuncio(id_anuncio);
+        let anuncio = await Anuncio.findOne({_id: id_anuncio});
 
         if(anuncio  == undefined){
             return res.status(404).json({msg: 'Anuncio inexistente ou não encontrado'});
         }
 
         try{
-            let pushAnuncio = await Carrinho.findByIdAndUpdate
-                                            (
-                                                id_carrinho, 
-                                                {$pull: {anuncios: id_anuncio}}, 
-                                                {$inc: {preco_total: -anuncio.preco}}
-                                            );
-            return res.status(200).json(pushAnuncio);
+            // let user_id = mongoose.Types.ObjectId(id_usuario);
+            let deleteAnuncio = await Carrinho.findOneAndUpdate
+                            (
+                                {comprador: id_usuario}, 
+                                (
+                                {$pull: {anuncios: {anuncio: id_anuncio}},
+                                $inc: {preco_total: - anuncio.preco}}
+                                ), 
+                                {new: true}
+                            );
+                            
+            return res.status(200).json(deleteAnuncio);
         }catch(err){
             return res.status(400).json({erro: err, msg: ""});
         }
     }
 
-    async getPrecoAnuncio(id_anuncio){
-        try{
-            return await Anuncio.findById(id_anuncio);
-        }catch(err){
-            return res.status(err).json('Erro na operação');
-        }
-    }
-
-    async existeCarrinho(comprador){
-
-        let usuario = await Usuario.findOne({_di: comprador});
-        if(usuario != undefined){
-            let existCarrinho = await Carrinho.findOne({comprador: comprador});
-                if(existCarrinho != undefined){
-                    return true;
-                }
-                return false;
-        }
-        return false;
-    }
-
-    async createCarrinho(comprador) {
-        try{
-            let newCarrinho = await Carrinho.create({comprador: comprador});
-            return res.status(200).json(newCarrinho);
-        }catch(err){
-            return res.status(400).json(err);
-        }
-    }
 
     async deleteCarrinhoByUser(comprador){
         try{

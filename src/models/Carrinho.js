@@ -1,3 +1,4 @@
+const { Int32 } = require("mongodb");
 const mongoose = require("mongoose");
 
 
@@ -10,10 +11,17 @@ const CarrinhoSchema = new mongoose.Schema({
     },
 
     anuncios:[{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Anuncio'
+        anuncio:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Anuncio',
+        },
+        // depois fazemos alteração
+        quantidade:{
+            type: Number,
+            default: 1
+        }
     }],
-
+    
     preco_total: {
         type: Number,
         default: 0
