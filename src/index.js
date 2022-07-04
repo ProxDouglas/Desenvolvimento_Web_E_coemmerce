@@ -2,10 +2,12 @@ const mongoose = require('mongoose');
 const express = require('express');
 const cors = require("cors");
 var app = express();
-var session = require("express-session");
-var flash = require("express-flash");
-var bodyParser = require("body-parser");
-var cookieParser = require("cookie-parser");
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+// var session = require("express-session");
+// var flash = require("express-flash");
+// var bodyParser = require("body-parser");
+// var cookieParser = require("cookie-parser");
 
 
 
@@ -21,6 +23,9 @@ async function connection() {
   console.log("Database Connected")
 }
 
+
+router.use('/api-docs', swaggerUi.serve);
+router.get('/api-docs', swaggerUi.setup(swaggerDocument));
 app.use(cors())
 app.use(express.json())
 app.use(routes);

@@ -7,6 +7,7 @@ const UserController = require("../controllers/UserController");
 const CategoriaController = require("../controllers/CategoriaController");
 const ProdutoController = require("../controllers/ProdutoController");
 const AnuncioController = require("../controllers/AnuncioController.js");
+const CarrinhoController = require("../controllers/CarrinhoController.js");
 
 const routes = Router()
 
@@ -90,9 +91,11 @@ routes.get("/anuncios", AnuncioController.getAnuncios);
 // Exibir um único anúncio
 routes.get("/anuncio/:id_anuncio", AnuncioController.getAnuncioByID);
 //-------------------Carrinho-----------------
-routes.post("/carrinho/:id_usuario")
-routes.get("/carrinho/:id_usuario")
-routes.get("/carrinho/:id_usuario/:carrinho_id")
+//o id do usuario vai na requisicao json
+routes.post("/carrinho/:id_usuario", CarrinhoController.pushAnuncioCarrinho);
+routes.delete("/carrinho/:id_usuario", CarrinhoController.deleteAnuncioCarrinho)
+routes.get("/carrinho/:id_usuario", CarrinhoController.getCarrinhoByIDUser);
+routes.get("/carrinhos");
 
 //----------------Entrega-----------------
 
