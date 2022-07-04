@@ -57,6 +57,9 @@ const UsuarioSchema = new mongoose.Schema({
             type: String,
             required: true
         },
+        apt:{
+            type: String
+        },
         cep:{
             type: String,
             required: true
