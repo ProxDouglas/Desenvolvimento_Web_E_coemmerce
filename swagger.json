@@ -1,9 +1,24 @@
 {
    "openapi": "3.0.0",
    "info": {
-      "title": "aaaa",
-      "description": "aaaaaaaaaaaaaaaaaa",
+      "title": "Programa Lobtec trainee  E - commerce",
+      "description": "Back end e testes:  NodJS, MongoDB, Swagger, Insomnia",
       "version": "1.0.0"
    },
-   "basePath": "http://localhost:45678/api-docs/"
+   "basePath": "http://localhost:45678/api-docs/",
+   "paths": {
+      "/usuarios" : {
+         "get": {
+            "parameters":{
+               "in": "query",
+               "nome": "string",
+               "email": "string",
+               "data_nascimento": "string",
+               "cpf": "string",
+               "telefone": "string",
+               "senha": "string"
+            }
+         }
+      }
+   }
 }
