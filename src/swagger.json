@@ -1,28 +1,32 @@
 {
-    "swagger": "2.0",
+    "openapi": "3.0.0",
     "info": {
       "version": "1.0.0",
-      "title": "Rocktech (Video and News App) API",
-      "description": "API for the tutorial on building mobile app by <b>Mark's Coding Spot</b> using NodeJS."
+      "title": "API E-commerce Lobtec",
+      "description": "Back end, testes e documentação:  NodeJS, MongoDB, Swagger, Insomnia"
     },
     "host": "localhost:45678",
     "basePath": "/",
     "tags": [
       {
-        "name": "Auth",
-        "description": "Auth endpoints"
+        "name": "Categoria",
+        "description": "Endpoints de Categoria"
       },
       {
-        "name": "Admin",
-        "description": "Admin endpoints"
+        "name": "Produto",
+        "description": "Produto endpoints"
       },
       {
-        "name": "Posts",
-        "description": "Posts endpoints"
+        "name": "Anúncio",
+        "description": "Anúncio endpoints"
       },
       {
-        "name": "Profile",
-        "description": "User profile endpoints"
+        "name": "Usuário",
+        "description": "Usuário endpoints"
+      },
+      {
+        "name": "Autenticação",
+        "description": "Autenticação Endpoint"
       }
     ],
     "schemes": [
@@ -45,7 +49,7 @@
       "application/json"
     ],
     "paths": {
-      "/auth/login": {
+      "/produtos": {
         "post": {
           "tags": [
             "Auth"
@@ -64,12 +68,13 @@
           "responses": {}
         }
       },
-      "/auth/register": {
+      
+      "/usuario": {
         "post": {
           "tags": [
-            "Auth"
+            "Usuário"
           ],
-          "description": "",
+          "description": "Cria um usuário",
           "parameters": [
             {
               "name": "obj",
@@ -259,45 +264,124 @@
           "responses": {}
         }
       },
-      "/api/categories": {
+      "/categorias": {
         "get": {
           "tags": [
-            "Posts"
+            "Categoria"
           ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "limit",
-              "in": "query",
-              "type": "string"
-            },
-            {
-              "name": "page",
-              "in": "query",
-              "type": "string"
-            }
-          ],
+          "description": "Lista todas as categorias criadas",
+          
           "responses": {
-            "201": {
-              "description": "Created"
+            "200": {
+              "description": "OK"
             },
-            "500": {
-              "description": "Internal Server Error"
+            "400": {
+              "description": "Bad request"
             }
           }
-        },
-        "post": {
+        }
+        
+      },
+      "/categoria":{
+        "post":{
+            "tags": [
+                "Categoria"
+            ],
+            
+            "description": "Cria uma categoria com os atributos 'nome', 'descrição', 'característica' e 'subcategorias(array).'",
+            "parameters":[
+                {
+                    "name": "Nome",
+                    "in":"body",
+                    "required": true,
+                    "schema":{
+                        "$ref": "#/models/Categoria.js"
+                    }
+                }
+            ],
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "type": "object",
+                            "properties":{
+                                "nome":{
+                                    "type":"string"
+                                },
+                                "descricao":{
+                                    "type":"string"
+                                },
+                                "caracteristica":{
+                                    "type":"string"
+                                },
+                                "subcategoria":{
+                                    "type":"string",
+                                    "nome":{
+                                        "type":"string"
+                                    },
+                                    "descricao":{
+                                        "type":"string"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "nome": "Eletronicos",
+                                "descrição": "Categoria de produtos Eletronicos",
+                                "característica": "Contém eletricidade",
+                                "Sub-categorias": ["Smartphone","TV"]
+                            }
+                        }
+                    }
+                }
+            },
+            "responses":{
+                "200":{
+                    "description": "Categoria criada"
+                },
+                "400": {
+                  "description": "Bad request"
+                },
+                "422": {
+                  "description": "Unprocessable Entity"
+                },
+                "500": {
+                  "description": "Internal Server Error"
+                }
+            }
+        }
+      },
+      "/categoria/:id_categoria": {
+        "put": {
           "tags": [
-            "Posts"
+            "Categoria"
           ],
-          "description": "",
+          "description": "Atualiza informações referentes a uma categoria específica. Pesquisa pelo ID da categoria.",
+          "requestBody":{
+            "content":{
+                "application/json":{
+                    "schema":{
+                        "type": "string",
+                        "example": {
+                            "Nome": "Açougue"
+                            
+                        }
+                    }
+                }
+            }
+        },
           "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
             {
               "name": "obj",
               "in": "body",
               "required": true,
               "schema": {
-                "$ref": "#/definitions/CategoryModel"
+                "$ref": "#/models/Categoria.js"
               }
             }
           ],
@@ -321,54 +405,25 @@
             }
           ]
         }
-      },
-      "/api/categories/{id}": {
-        "put": {
-          "tags": [
-            "Posts"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "obj",
-              "in": "body",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/CategoryModel"
-              }
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Created"
-            },
-            "401": {
-              "description": "Unauthorized"
-            },
-            "422": {
-              "description": "Unprocessable Entity"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          },
-          "security": [
-            {
-              "Authorization": []
-            }
-          ]
-        },
+        ,
         "get": {
           "tags": [
-            "Posts"
+            "Categoria"
           ],
           "description": "",
+          "requestBody":{
+            "content":{
+                "application/json":{
+                    "schema":{
+                        "type": "string",
+                        "example": {
+                            "_ID": "62bef50b0d4645ace4d94b2e"
+                            
+                        }
+                    }
+                }
+            }
+        },
           "parameters": [
             {
               "name": "id",
@@ -391,7 +446,7 @@
         },
         "delete": {
           "tags": [
-            "Posts"
+            "Categoria"
           ],
           "description": "",
           "parameters": [
@@ -773,69 +828,7 @@
           }
         }
       },
-      "/api/videos": {
-        "get": {
-          "tags": [
-            "Posts"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "limit",
-              "in": "query",
-              "type": "string"
-            },
-            {
-              "name": "page",
-              "in": "query",
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Created"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          }
-        },
-        "post": {
-          "tags": [
-            "Posts"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "obj",
-              "in": "body",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/VideoModel"
-              }
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Created"
-            },
-            "401": {
-              "description": "Unauthorized"
-            },
-            "422": {
-              "description": "Unprocessable Entity"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          },
-          "security": [
-            {
-              "Authorization": []
-            }
-          ]
-        }
-      },
+      
       "/api/videos/top": {
         "get": {
           "tags": [
@@ -1010,9 +1003,13 @@
       "CategoryModel": {
         "type": "object",
         "properties": {
-          "title": {
+          "nome": {
             "type": "string",
-            "example": "Comedy"
+            "example": "Eletrônicos"
+          },
+          "descricao":{
+            "type": "string",
+            "example": "Categoria de artigos eletrônicos"
           }
         },
         "required": [
