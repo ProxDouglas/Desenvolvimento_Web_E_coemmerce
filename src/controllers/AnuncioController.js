@@ -75,7 +75,7 @@ class AnuncioController{
 
             let anuncio = Anuncio.findById(id_anuncio);
             
-            let usuario = await Usuario.findByIdAndUpdate(anuncio.autor, {$pull: {anuncio: [id_anuObj]}});
+            let usuario = await Usuario.findByIdAndUpdate(anuncio.autor, {$pull: {anuncio: [id_anuncio]}});
 
 
             let deleteAnuncio = await Anuncio.findByIdAndDelete(id_anuncio);

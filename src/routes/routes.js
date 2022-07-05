@@ -18,45 +18,45 @@ routes.post("/login", UserController.login);
 
 //---------------USUÁRIO--------------------------------
 // Criar Usuário OK
-routes.post("/usuario", UserController.createUser);
+routes.post("/usuario", auth, UserController.createUser);
 // Atualizar Usuário
-routes.put("/usuario/:usuario_id", UserController.updateUserByID);
+routes.put("/usuario/:usuario_id", auth, UserController.updateUserByID);
 // Listar todos os usuários OK
-routes.get("/usuarios", UserController.getUser);
+routes.get("/usuarios", auth, UserController.getUser);
 // Listar apenas um usuário pelo ID
-routes.get("/usuario/:usuario_id", UserController.getUserByID);
+routes.get("/usuario/:usuario_id", auth, UserController.getUserByID);
 // Listar os anuncios de determinado usuário
-routes.get("/usuario/:id_usuario/anuncio", AnuncioController.getAnuncioByUsuario);
+routes.get("/usuario/:id_usuario/anuncio", auth, AnuncioController.getAnuncioByUsuario);
 
 
 //---------------------------Categoria-------------------------------------------
 // Criar Categoria
-routes.post("/categoria", CategoriaController.createCategoria);
+routes.post("/categoria", auth, CategoriaController.createCategoria);
 // Atualizar Categoria
-routes.put("/categoria/:id_categoria", CategoriaController.updateCategoria);
+routes.put("/categoria/:id_categoria", auth, CategoriaController.updateCategoria);
 // Listar Categorias
 routes.get("/categorias", CategoriaController.getCategorias);
 // Listar categoria pelo ID
 routes.get("/categoria/:identificador", CategoriaController.getCategoria);
 // Criar Sub-categorias
-routes.post("/categoria/:id_categoria/subcategoria", CategoriaController.pushSubCategoria);
+routes.post("/categoria/:id_categoria/subcategoria", auth, CategoriaController.pushSubCategoria);
 //Listar sub-categorias
 routes.get("/categoria/:id_categoria/subcategorias", CategoriaController.listSubCategoria);
 // Atualizar sub-categorias por ID
-routes.put("/categoria/:id_categoria/subcategoria/:id_subcat", CategoriaController.updateByIDSubCategoria);
+routes.put("/categoria/:id_categoria/subcategoria/:id_subcat", auth, CategoriaController.updateByIDSubCategoria);
 // Deletar sub-categorias
-routes.delete("/categoria/:id_categoria/subcategoria/:id_subcat", CategoriaController.deleteByIDSubCategoria);
+routes.delete("/categoria/:id_categoria/subcategoria/:id_subcat", auth, CategoriaController.deleteByIDSubCategoria);
 
 
 //---------------PRODUTO--------------------------------------------------------
 // Criar novo produto na base de dados
-routes.post("/produto", ProdutoController.createProduto);
+routes.post("/produto", auth, ProdutoController.createProduto);
 // Atualizar produto na base de dados
-routes.put("/produto/:id_produto", ProdutoController.updateProdutoByID);
+routes.put("/produto/:id_produto", auth, ProdutoController.updateProdutoByID);
 // Listar todos os produtos da base de dados
-routes.get("/produtos", ProdutoController.getProdutos);
+routes.get("/produtos", auth, ProdutoController.getProdutos);
 // Listar apenas um produto pelo ID
-routes.get("/produto/:id_produto", ProdutoController.getProdutoByID);
+routes.get("/produto/:id_produto", auth, ProdutoController.getProdutoByID);
 // Listar anuncios de determinado produto
 routes.get("/produto/:id_produto/anuncio", AnuncioController.getAnuncioByProduto);
 
@@ -65,13 +65,13 @@ routes.get("/produto/:id_produto/anuncio", AnuncioController.getAnuncioByProduto
 // Listar todos os anúncios
 routes.get("/anuncios", AnuncioController.getAnuncios);
 // Criar anúncio
-routes.post("/anuncio",  AnuncioController.createAnuncio);
+routes.post("/anuncio", auth,  AnuncioController.createAnuncio);
 // Atualizar informações do anúncio
-routes.put("/anuncioU/:id_anuncio", AnuncioController.updateAnuncioByID);
+routes.put("/anuncioU/:id_anuncio", auth, AnuncioController.updateAnuncioByID);
 // Exibir um único anúncio
 routes.get("/anuncio/:id_anuncio", AnuncioController.getAnuncioByID);
 // Excluir anuncio pelo ID
-routes.delete("/anuncio/:id_usuario/:id_anuncio", AnuncioController.deleteAnuncio )
+routes.delete("/anuncio/:id_usuario/:id_anuncio", auth, AnuncioController.deleteAnuncio )
 
 
 // Cria uma pergunta dentro do anuncio
@@ -79,11 +79,11 @@ routes.post("/anuncio/:id_anuncio/topico", AnuncioController.pushTopico);
 // Lista todas as perguntas do anúncio
 routes.get("/anuncio/:id_anuncio/topicos", AnuncioController.getTopicos);
 // Lista as perguntas de determinado usuário
-routes.get("/anuncio/:id_anuncio/topico/:id_topico", AnuncioController.getTopico);
+routes.get("/anuncio/:id_anuncio/topico/:id_topico", auth, AnuncioController.getTopico);
 // Atualiza apenas texto do tópico de determinado usuário
-routes.put("/anuncio/:id_anuncio/topico/:id_topico", AnuncioController.editTopico); //apenas texto
+routes.put("/anuncio/:id_anuncio/topico/:id_topico", auth, AnuncioController.editTopico); //apenas texto
 // Apaga o tópico de determinado usuário em um anuncio
-routes.delete("/anuncio/:id_anuncio/topico/:id_topico", AnuncioController.deleteTopico);
+routes.delete("/anuncio/:id_anuncio/topico/:id_topico", auth, AnuncioController.deleteTopico);
 
 
 // routes.post("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
@@ -96,10 +96,20 @@ routes.delete("/anuncio/:id_anuncio/topico/:id_topico", AnuncioController.delete
 
 //-------------------Carrinho-----------------
 //o id do usuario vai na requisicao json
-routes.post("/carrinho/:id_usuario", CarrinhoController.pushAnuncioCarrinho);
-routes.delete("/carrinho/:id_usuario/anuncio/:id_anuncio", CarrinhoController.deleteAnuncioCarrinho)
-routes.get("/carrinho/:id_usuario", CarrinhoController.getCarrinhoByIDUser);
-routes.get("/carrinhos");
+// Criar Carrinho de compras
+routes.post("/carrinho/:id_usuario", auth, CarrinhoController.pushAnuncioCarrinho);
+// Apagar carrinho de compras
+routes.delete("/carrinho/:id_usuario/anuncio/:id_anuncio", auth, CarrinhoController.deleteAnuncioCarrinho)
+// Listar carrinho do usuário
+routes.get("/carrinho/:id_usuario", auth, CarrinhoController.getCarrinhoByIDUser);
+//routes.get("/carrinhos");
+
+//------------------Transação------------------
+routes.post("/transacao")
+routes.put("/transacao")
+routes.get("/transacao")
+routes.delete("/transacao")
+
 
 //----------------Entrega-----------------
 
