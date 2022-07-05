@@ -1,17 +1,19 @@
-const Entrega = require("../models/Entrega")
+const Entrega = require("../models/Entrega");
+const Transacao = require("../models/Transacao");
+const Usuario = require("../models/Usuario");
 
 class EntregaController  {
 
-    async createEntrega(req, res) { 
-        let bodyData = req.body;
-        try{
-            const newEntrega = await Entrega.create(bodyData);
-            return res.status(200).json(newEntrega);
+    // async createEntrega(req, res) { 
+    //     let bodyData = req.body;
+    //     try{
+    //         const newEntrega = await Entrega.create(bodyData);
+    //         return res.status(200).json(newEntrega);
             
-        }catch(err){
-            return res.status(400).json(err);
-        }
-    }
+    //     }catch(err){
+    //         return res.status(400).json(err);
+    //     }
+    // }
 
     async getEntregas(req, res) {
         try {
@@ -42,12 +44,23 @@ class EntregaController  {
         }
     }
 
+    //O ideal ´que muda o status um por um
     async updateEntregaByID(req, res) {
-        const bodyData = req.body
+        const {endereco, status_entrega} = req.body
         const { id_entrega } = req.params
 
         try {
-            const updateEntrega = await Entrega.findByIdAndUpdate(id_entrega, bodyData, {new: true})
+            const updateEntrega = await Entrega.findByIdAndUpdate(id_entrega, {endereco: endereco}, {new: true});
+
+            if(status_entrega == 'preparando'){
+                await Transacao.findOneAndUpdate({_id: updateEntrega.transacao}, {pagamento_status: true});
+            }
+
+            if(status_entrega == 'entregue'){
+                let transacao = await Transacao.findOneAndUpdate({_id: updateEntrega.transacao}, {pagamento_status: true});
+                await Usuario.findOneAndUpdate({_id: transacao.vendedor}, {$inc: {saldo: transacao.valor_total}});
+            }
+
             return res.status(200).json(updateEntrega)
         } catch(err) {
             return res.status(400).json(err)

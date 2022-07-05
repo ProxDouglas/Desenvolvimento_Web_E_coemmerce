@@ -35,8 +35,13 @@ class ProdutoController {
         const bodyData = req.body
         const { id_produto } = req.params
 
+        console.log(bodyData);
+        console.log(id_produto);
+
         try {
-            const updateProduto = await Produto.findByIdAndUpdate(id_produto, bodyData)
+            const updateProduto = await Produto.findOneAndUpdate({_id: id_produto}, bodyData, {new: true})
+            console.log(updateProduto);
+
             return res.status(200).json(updateProduto)
         } catch(err) {
             return res.status(400).json(err)

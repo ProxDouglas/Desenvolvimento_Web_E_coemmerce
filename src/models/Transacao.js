@@ -27,6 +27,14 @@ const EntregaSchema = new mongoose.Schema({
         default: Date.now
     },
 
+    //formato yyyy-mm-dd
+    data_limite:{
+        type: Date,
+        min: Date.now,
+        max: new Date( Date.now.getYear() , Date.now.getMouth() ,Date.now.getDay() + parseInt(7)),
+        required: true
+    },
+
     valor_total:{
         type: Number,
         required: true
@@ -38,7 +46,7 @@ const EntregaSchema = new mongoose.Schema({
     },
     
     pagamento_status:{
-        type: Number,
+        type: Enum ['esperando', 'pago', 'cancelado'],
         default: false
     }
 },
