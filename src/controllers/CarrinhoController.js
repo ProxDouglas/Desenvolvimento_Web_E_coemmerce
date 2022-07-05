@@ -60,7 +60,8 @@ class CarrinhoController  {
                             preco_total: anuncio.preco,
                             anuncios: [
                                 {
-                                   anuncio: anuncio 
+                                   anuncio: anuncios.anuncio,
+                                   quantidade: anuncios.quantidade 
                                 }
                             ]
                         });
