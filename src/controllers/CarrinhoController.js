@@ -32,9 +32,9 @@ class CarrinhoController  {
         let {anuncios} = req.body;
 
         try{
-            if(isObjectIdOrHexString(id_usuario) && isObjectIdOrHexString(anuncios)){
+            if(isObjectIdOrHexString(id_usuario) && isObjectIdOrHexString(anuncios.anuncio)){
 
-                let anuncio = await Anuncio.findOne({_id: anuncios});
+                let anuncio = await Anuncio.findOne({_id: anuncios.anuncio});
 
                 if(anuncio  == undefined){
                     return res.status(404).json({msg: 'Anuncio inexistente ou não encontrado'});
@@ -47,7 +47,7 @@ class CarrinhoController  {
                                 (
                                     {comprador: id_usuario}, 
                                     (
-                                    {$push: {anuncios: {anuncio: anuncios}},
+                                    {$push: {anuncios:  anuncios},
                                     $inc: {preco_total: + anuncio.preco}}
                                     ), {new: true}
                                 );

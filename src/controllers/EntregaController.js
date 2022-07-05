@@ -61,7 +61,7 @@ class EntregaController  {
             }
 
             if(status_entrega == 'entregue'){
-                let transacao = await Transacao.findOneAndUpdate({_id: updateEntrega.transacao}, {pagamento_status: true});
+                let compra = await Compra.findOneAndUpdate({_id: updateEntrega.transacao}, {pagamento_status: true});
                 await Usuario.findOneAndUpdate({_id: transacao.vendedor}, {$inc: {saldo: transacao.valor_total}});
             }
 
