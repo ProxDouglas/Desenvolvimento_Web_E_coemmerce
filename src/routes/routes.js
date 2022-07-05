@@ -117,6 +117,7 @@ routes.put("/transacao/:id_transacao", TransacaoController.updateTransacaoByID);
 // Lista uma transação
 routes.get("/transacao/:id_transacao", TransacaoController.getTransacaoByID);
 // Lista todas as transacoes
+routes.get("/transacoes", TransacaoController.getTransacoes);
 // routes.get("/transacoes", TransacaoController.getTransacaos);
 
 
