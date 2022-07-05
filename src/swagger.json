@@ -1,390 +1,110 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-      "version": "1.0.0",
-      "title": "API E-commerce Lobtec",
-      "description": "Back end, testes e documentação:  NodeJS, MongoDB, Swagger, Insomnia"
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "API E-commerce Lobtec",
+    "description": "Back end, testes e documentação:  NodeJS, MongoDB, Swagger, Insomnia"
+  },
+  "host": "localhost:45678",
+  "basePath": "/",
+  "components":{
+    "securitySchemes": {
+       "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+       }
+    }
+ },
+ "security": [{
+  "bearerAuth": []
+ }],
+
+
+  "tags": [
+      {
+          "name": "Usuário",
+          "description": "Usuário endpoints"
+      },
+      {
+      "name": "Categoria",
+      "description": "Endpoints de Categoria"
     },
-    "host": "localhost:45678",
-    "basePath": "/",
-    "tags": [
-        {
-            "name": "Usuário",
-            "description": "Usuário endpoints"
-        },
-        {
-        "name": "Categoria",
-        "description": "Endpoints de Categoria"
-      },
-      {
-        "name": "Produto",
-        "description": "Produto endpoints"
-      },
-      {
-        "name": "Anúncio",
-        "description": "Anúncio endpoints"
-      },
-      
-      {
-        "name": "Autenticação",
-        "description": "Autenticação Endpoint"
-      }
-    ],
-    "schemes": [
-      "http",
-      "https"
-    ],
-    "securityDefinitions": {
-      "Authorization": {
-        "type": "apiKey",
-        "name": "Authorization",
-        "description": "Value: Bearer ",
-        "in": "header",
-        "scheme": "bearer"
-      }
+    {
+      "name": "Produto",
+      "description": "Produto endpoints"
     },
-    "consumes": [
-      "application/json"
-    ],
-    "produces": [
-      "application/json"
-    ],
-    "paths": {
-      "/produtos": {
-        "get": {
-            "tags": [
-              "Produto"
-            ],
-            "description": "Lista todos os produtos cadastrados na base de dados.",
-            
-            "responses": {
-              "201": {
-                "description": "Created"
-              },
-              "401": {
-                "description": "Unauthorized"
-              },
-              "500": {
-                "description": "Internal Server Error"
-              }
-            },
-            "security": [
-              {
-                "Authorization": []
-              }
-            ]
-          }
-      },
-      "/produto":{
-        "get": {
-            "tags": [
-              "Produto"
-            ],
-            "description": "Lista os produtos de determinado usuário",
-            "parameters": [
-              {
-                "name": "limit",
-                "in": "query",
-                "type": "string"
-              },
-              {
-                "name": "page",
-                "in": "query",
-                "type": "string"
-              }
-            ],
-            "responses": {
-              "201": {
-                "description": "Created"
-              },
-              "401": {
-                "description": "Unauthorized"
-              },
-              "500": {
-                "description": "Internal Server Error"
-              }
-            },
-            "security": [
-              {
-                "Authorization": []
-              }
-            ]
-        },
-        "post":{
-            "tags": [
-                "Produto"
-            ],
-            
-            "description": "Cria um produto com os atributos 'nome', 'característica' , 'categoria' e 'subcategoria.'",
-            "parameters":[
-                {
-                    "name": "Nome",
-                    "in":"body",
-                    "required": true,
-                    "schema":{
-                        "$ref": "#/models/Produto.js"
-                    }
-                }
-            ],
-            "requestBody":{
-                "content":{
-                    "application/json":{
-                        "schema":{
-                            "type": "object",
-                            "properties":{
-                                "nome":{
-                                    "type":"string"
-                                },
-                                "caracteristica":{
-                                    "type":"string"
-                                },
-                                "categoria":{
-                                    "type":"string"
-                                },
-                                "subcategoria":{
-                                    "type":"string"                                    
-                                }
-                            },
-                            "example": {
-                                "nome": "Samsumg S22",
-                                "característica": "Smartphone Samsung S22",
-                                "categoria": "Eletrônicos",
-                                "Sub-categoria": "Smartphone"
-                            }
-                        }
-                    }
-                }
-            },
-            "responses":{
-                "200":{
-                    "description": "Produto criado"
-                },
-                "400": {
-                  "description": "Bad request"
-                },
-                "422": {
-                  "description": "Unprocessable Entity"
-                },
-                "500": {
-                  "description": "Internal Server Error"
-                }
-            }
-        },
-        "put": {
-            "tags": [
-              "Produto"
-            ],
-            "description": "Atualiza os atributos de um determinado produto",
-            "requestBody":{
-                "content":{
-                    "application/json":{
-                        "schema":{
-                            "type": "string",
-                            "example": {
-                                "nome": "Samsung Galaxy S22+"
-                                
-                            }
-                        }
-                    }
-                }
-            },
-            "parameters": [
-              {
-                "name": "obj",
-                "in": "body",
-                "required": true,
-                "schema": {
-                  "$ref": "#/models/Produto.js"
-                }
-              }
-            ],
-            "example": {
-                "nome": "Samsung S22+"                
-            },
-            "responses": {
-              "200": {
-                "description": "Updated"
-              },
-              "422": {
-                "description": "Unprocessable Entity"
-              },
-              "500": {
-                "description": "Internal Server Error"
-              }
-            },
-            "security": [
-              {
-                "Authorization": []
-              }
-            ]
-          }
-      },
-     
-      "/usuarios": {
-        "get": {
-            "tags": [
-              "Usuário"
-            ],
-            "description": "Lista todos os usuários cadastrados.",
-            "parameters": [],
-            "responses": {
-              "200": {
-                "description": "OK"
-              },
-              "404": {
-                "description": "Not Found"
-              },
-              "500": {
-                "description": "Internal Server Error"
-              }
-            },
-            "security": [
-              {
-                "Authorization": []
-              }
-            ]
-          },
-        "post": {
+    {
+      "name": "Anúncio",
+      "description": "Anúncio endpoints"
+    },
+    
+    {
+      "name": "Autenticação",
+      "description": "Autenticação Endpoint"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "Authorization": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "description": "Value: Bearer ",
+      "in": "header",
+      "scheme": "bearer"
+    }
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/produtos": {
+      "get": {
           "tags": [
-            "Usuário"
+            "Produto"
           ],
-          "description": "Cria um usuário",
-          "parameters": [
-            {
-              "name": "obj",
-              "in": "body",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/RegisterModel"
-              }
-            }
-          ],
-          "responses": {
-            "422": {
-              "description": "Unprocessable Entity"
-            }
-          }
-        }
-      },
-      "/categorias": {
-        "get": {
-          "tags": [
-            "Categoria"
-          ],
-          "description": "Lista todas as categorias criadas",
+          "description": "Lista todos os produtos cadastrados na base de dados.",
           
           "responses": {
-            "200": {
-              "description": "OK"
+            "201": {
+              "description": "Created"
             },
-            "400": {
-              "description": "Bad request"
-            }
-          }
-        }
-        
-      },
-      "/categoria":{
-        "post":{
-            "tags": [
-                "Categoria"
-            ],
-            
-            "description": "Cria uma categoria com os atributos 'nome', 'descrição', 'característica' e 'subcategorias(array).'",
-            "parameters":[
-                {
-                    "name": "Nome",
-                    "in":"body",
-                    "required": true,
-                    "schema":{
-                        "$ref": "#/models/Categoria.js"
-                    }
-                }
-            ],
-            "requestBody":{
-                "content":{
-                    "application/json":{
-                        "schema":{
-                            "type": "object",
-                            "properties":{
-                                "nome":{
-                                    "type":"string"
-                                },
-                                "descricao":{
-                                    "type":"string"
-                                },
-                                "caracteristica":{
-                                    "type":"string"
-                                },
-                                "subcategoria":{
-                                    "type":"string",
-                                    "nome":{
-                                        "type":"string"
-                                    },
-                                    "descricao":{
-                                        "type":"string"
-                                    }
-                                }
-                            },
-                            "example": {
-                                "nome": "Eletronicos",
-                                "descrição": "Categoria de produtos Eletronicos",
-                                "característica": "Contém eletricidade",
-                                "Sub-categorias": ["Smartphone","TV"]
-                            }
-                        }
-                    }
-                }
+            "401": {
+              "description": "Unauthorized"
             },
-            "responses":{
-                "200":{
-                    "description": "Categoria criada"
-                },
-                "400": {
-                  "description": "Bad request"
-                },
-                "422": {
-                  "description": "Unprocessable Entity"
-                },
-                "500": {
-                  "description": "Internal Server Error"
-                }
+            "500": {
+              "description": "Internal Server Error"
             }
+          },
+          "security": [
+            {
+              "Authorization": []
+            }
+          ]
         }
-      },
-      "/categoria/:id_categoria": {
-        "put": {
+    },
+    "/produto/:id_produto":{
+      "get": {
           "tags": [
-            "Categoria"
+            "Produto"
           ],
-          "description": "Atualiza informações referentes a uma categoria específica. Pesquisa pelo ID da categoria.",
-          "requestBody":{
-            "content":{
-                "application/json":{
-                    "schema":{
-                        "type": "string",
-                        "example": {
-                            "Nome": "Açougue"
-                            
-                        }
-                    }
-                }
-            }
-        },
+          "description": "Lista os produtos de determinado usuário",
           "parameters": [
             {
-              "name": "id",
-              "in": "path",
-              "required": true,
+              "name": "limit",
+              "in": "query",
               "type": "string"
             },
             {
-              "name": "obj",
-              "in": "body",
-              "required": true,
-              "schema": {
-                "$ref": "#/models/Categoria.js"
-              }
+              "name": "page",
+              "in": "query",
+              "type": "string"
             }
           ],
           "responses": {
@@ -394,6 +114,111 @@
             "401": {
               "description": "Unauthorized"
             },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          },
+          "security": [
+            {
+              "Authorization": []
+            }
+          ]
+      },
+      "post":{
+          "tags": [
+              "Produto"
+          ],
+          
+          "description": "Cria um produto com os atributos 'nome', 'característica' , 'categoria' e 'subcategoria.'",
+          "parameters":[
+              {
+                  "name": "Nome",
+                  "in":"body",
+                  "required": true,
+                  "schema":{
+                      "$ref": "#/models/Produto.js"
+                  }
+              }
+          ],
+          "requestBody":{
+              "content":{
+                  "application/json":{
+                      "schema":{
+                          "type": "object",
+                          "properties":{
+                              "nome":{
+                                  "type":"string"
+                              },
+                              "caracteristica":{
+                                  "type":"string"
+                              },
+                              "categoria":{
+                                  "type":"string"
+                              },
+                              "subcategoria":{
+                                  "type":"string"                                    
+                              }
+                          },
+                          "example": {
+                              "nome": "Samsumg S22",
+                              "característica": "Smartphone Samsung S22",
+                              "categoria": "Eletrônicos",
+                              "Sub-categoria": "Smartphone"
+                          }
+                      }
+                  }
+              }
+          },
+          "responses":{
+              "200":{
+                  "description": "Produto criado"
+              },
+              "400": {
+                "description": "Bad request"
+              },
+              "422": {
+                "description": "Unprocessable Entity"
+              },
+              "500": {
+                "description": "Internal Server Error"
+              }
+          }
+      },
+      "put": {
+          "tags": [
+            "Produto"
+          ],
+          "description": "Atualiza os atributos de um determinado produto",
+          "requestBody":{
+              "content":{
+                  "application/json":{
+                      "schema":{
+                          "type": "string",
+                          "example": {
+                              "nome": "Samsung Galaxy S22+"
+                              
+                          }
+                      }
+                  }
+              }
+          },
+          "parameters": [
+            {
+              "name": "obj",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/models/Produto.js"
+              }
+            }
+          ],
+          "example": {
+              "nome": "Samsung S22+"                
+          },
+          "responses": {
+            "200": {
+              "description": "Updated"
+            },
             "422": {
               "description": "Unprocessable Entity"
             },
@@ -407,64 +232,19 @@
             }
           ]
         }
-        ,
-        "get": {
+    },
+   
+    "/usuarios": {
+      
+      "get": {
           "tags": [
-            "Categoria"
+            "Usuário"
           ],
-          "description": "",
-          "requestBody":{
-            "content":{
-                "application/json":{
-                    "schema":{
-                        "type": "string",
-                        "example": {
-                            "_ID": "62bef50b0d4645ace4d94b2e"
-                            
-                        }
-                    }
-                }
-            }
-        },
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "type": "string"
-            }
-          ],
+          "description": "Lista todos os usuários cadastrados.",
+          "parameters": [],
           "responses": {
             "200": {
               "description": "OK"
-            },
-            "404": {
-              "description": "Not Found"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          }
-        },
-        "delete": {
-          "tags": [
-            "Categoria"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "204": {
-              "description": "No Content"
-            },
-            "401": {
-              "description": "Unauthorized"
             },
             "404": {
               "description": "Not Found"
@@ -478,195 +258,624 @@
               "Authorization": []
             }
           ]
-        }
+        },
+        
+        "post":{
+          "tags": [
+              "Usuário"
+          ],
+          
+          "description": "Cria uma categoria com os atributos 'nome', 'descrição', 'característica' e 'subcategorias(array).'",
+          "parameters":[
+              {
+                  "name": "Nome",
+                  "in":"body",
+                  "required": true,
+                  "schema":{
+                      "$ref": "#/models/Usuario.js"
+                  }
+              }
+          ],
+          "requestBody":{
+              "content":{
+                  "application/json":{
+                      "schema":{
+                          "type": "object",
+                          "properties":{
+                            "nome":{
+                              "type":"string"
+                          },
+                          "email":{
+                              "type":"string"
+                          },
+                          "cpf":{
+                              "type":"string"
+                          },
+                          "telefone":{
+                            "type":"string"
+                          },
+                          "senha":{
+                            "type":"string"
+                          },
+                          "endereco":{
+                              "type":"string",
+                              "rua":{
+                                  "type":"string"
+                              },
+                              "number":{
+                                  "type":"integer"
+                              },
+                              "cep":{
+                                "type":"string"
+                              },
+                              "cidade":{
+                                "type":"string"
+                              },
+                              "estado":{
+                                "type":"string"
+                              }
+                          }
+                      },
+                          "example": {
+                            "nome": "Pedro Silva",
+                            "email": "pedro@example.com",
+                            "data_nascimento": "12/09/2000",
+                            "cpf": "22.222.222-22",
+                            "telefone": "11 7777-7777",
+                            "senha": "1234",
+                            "endereco":{                          
+                              "rua": "Rua bela flores",
+                              "number": "999",
+                              "cep":"77777-111",
+                              "cidade": "São Paulo",
+                              "estado": "SP"
+                            }
+
+                          }
+                      }
+                  }
+              }
+          },
+          "responses":{
+              "200":{
+                  "description": "Categoria criada"
+              },
+              "400": {
+                "description": "Bad request"
+              },
+              "422": {
+                "description": "Unprocessable Entity"
+              },
+              "500": {
+                "description": "Internal Server Error"
+              }
+          }
       }
     },
-    "definitions": {
-      "LoginModel": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "example": "admin@markscodingspot.com"
+    "/usuario/:usuario_id": {
+      "put": {
+        "tags": [
+          "Usuário"
+        ],
+        "description": "Atualiza os atributos de um usuário",
+        "requestBody":{
+            "content":{
+                "application/json":{
+                    "schema":{
+                        "type": "string",
+                        "example": {
+                            "nome": "Marcelo Silva"
+                            
+                        }
+                    }
+                }
+            }
+        },
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/models/Usuario.js"
+            }
+          }
+        ],
+        "example": {
+            "nome": "Marcelo Silva"                
+        },
+        "responses": {
+          "200": {
+            "description": "Updated"
           },
-          "password": {
-            "type": "string",
-            "example": "Password123#"
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
-        "required": [
-          "email",
-          "password"
+        "security": [
+          {
+            "Authorization": []
+          }
         ]
       },
-      "RegisterModel": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "John Snow"
+  
+      "get": {
+        "tags": [
+          "Usuário"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
           },
-          "email": {
-            "type": "string",
-            "example": "mail@mail.com"
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
           },
-          "password": {
-            "type": "string",
-            "example": "Password123#"
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
-        "required": [
-          "name",
-          "email",
-          "password"
+        "security": [
+          {
+            "Authorization": []
+          }
         ]
-      },
-      "UpdateUserModel": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "John Snow"
-          }
-        },
-        "required": [
-          "name"
-        ]
-      },
-      "CategoryModel": {
-        "type": "object",
-        "properties": {
-          "nome": {
-            "type": "string",
-            "example": "Eletrônicos"
+      }
+    },
+
+    "/usuario/:id_usuario/anuncio": {
+      "get": {
+        "tags": [
+          "Usuário"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
           },
-          "descricao":{
-            "type": "string",
-            "example": "Categoria de artigos eletrônicos"
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
           }
-        },
-        "required": [
-          "title"
-        ]
-      },
-      "StoryModel": {
-        "type": "object",
-        "properties": {
-          "category": {
-            "type": "string",
-            "example": "6064e654b5c7475bac63ad22"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
           },
-          "title": {
-            "type": "string",
-            "example": "Elon Musk Admits He Wants to Travel to Mars Because No One Hates Him There Yet"
+          "401": {
+            "description": "Unauthorized"
           },
-          "body": {
-            "type": "string",
-            "example": "AUSTIN, Texas — Wiping tears from his eyes at a recent press conference, SpaceX CEO Elon Musk revealed that the reason he’s so keen on traveling to Mars is not for the potential benefits to science, but because it’s the one place he can think of where no one hates him yet."
+          "500": {
+            "description": "Internal Server Error"
           }
         },
-        "required": [
-          "category",
-          "title",
-          "body"
+        "security": [
+          {
+            "Authorization": []
+          }
         ]
-      },
-      "VideoModel": {
-        "type": "object",
-        "properties": {
-          "videoId": {
-            "type": "string",
-            "example": "QWhJqvuB1ZA"
+      }
+    },
+    
+    "/categorios": {
+      "get": {
+        "tags": [
+          "Categoria"
+        ],
+        "description": "Lista todas as categorias criadas",
+        
+        "responses": {
+          "200": {
+            "description": "OK"
           },
-          "title": {
-            "type": "string",
-            "example": "Welcome To America with Gad Elmaleh and Ron Livingston"
+          "400": {
+            "description": "Bad request"
           }
-        },
-        "required": [
-          "videoId",
-          "title"
-        ]
-      },
-      "CommentModel": {
-        "type": "object",
-        "properties": {
-          "story": {
-            "type": "string",
-            "example": "606576d16bb28e33ecf2872c"
+        }
+      }
+      
+    },
+    "/categorio":{
+      "post":{
+          "tags": [
+              "Categoria"
+          ],
+          
+          "description": "Cria uma categoria com os atributos 'nome', 'descrição', 'característica' e 'subcategorias(array).'",
+          "parameters":[
+              {
+                  "name": "Nome",
+                  "in":"body",
+                  "required": true,
+                  "schema":{
+                      "$ref": "#/models/Categoria.js"
+                  }
+              }
+          ],
+          "requestBody":{
+              "content":{
+                  "application/json":{
+                      "schema":{
+                          "type": "object",
+                          "properties":{
+                              "nome":{
+                                  "type":"string"
+                              },
+                              "descricao":{
+                                  "type":"string"
+                              },
+                              "caracteristica":{
+                                  "type":"string"
+                              },
+                              "subcategoria":{
+                                  "type":"string",
+                                  "nome":{
+                                      "type":"string"
+                                  },
+                                  "descricao":{
+                                      "type":"string"
+                                  }
+                              }
+                          },
+                          "example": {
+                              "nome": "Eletronicos",
+                              "descrição": "Categoria de produtos Eletronicos",
+                              "característica": "Contém eletricidade",
+                              "Sub-categorias": ["Smartphone","TV"]
+                          }
+                      }
+                  }
+              }
           },
-          "body": {
-            "type": "string",
-            "example": "That's very funny (:"
+          "responses":{
+              "200":{
+                  "description": "Categoria criada"
+              },
+              "400": {
+                "description": "Bad request"
+              },
+              "422": {
+                "description": "Unprocessable Entity"
+              },
+              "500": {
+                "description": "Internal Server Error"
+              }
           }
-        },
-        "required": [
-          "story",
-          "body"
-        ]
-      },
-      "VerifyEmailModel": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "number",
-            "example": 333333
+      }
+    },
+    "/categoria/:id_categoria": {
+      "put": {
+        "tags": [
+          "Categoria"
+        ],
+        "description": "Atualiza informações referentes a uma categoria específica. Pesquisa pelo ID da categoria.",
+        "requestBody":{
+          "content":{
+              "application/json":{
+                  "schema":{
+                      "type": "string",
+                      "example": {
+                          "Nome": "Açougue"
+                          
+                      }
+                  }
+              }
           }
-        },
-        "required": [
-          "code"
-        ]
       },
-      "ChangePasswordModel": {
-        "type": "object",
-        "properties": {
-          "oldPassword": {
-            "type": "string",
-            "example": "Password123#"
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
           },
-          "newPassword": {
-            "type": "string",
-            "example": "Password789#"
+          {
+            "name": "obj",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/models/Categoria.js"
+            }
           }
-        },
-        "required": [
-          "oldPassword",
-          "newPassword"
-        ]
-      },
-      "ForgotPassWordModel": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "example": "coommark@gmail.com"
-          }
-        },
-        "required": [
-          "email"
-        ]
-      },
-      "ResetPasswordModel": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "example": "coommark@gmail.com"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
           },
-          "code": {
-            "type": "number",
-            "example": 999999
+          "401": {
+            "description": "Unauthorized"
           },
-          "newPassword": {
-            "type": "string",
-            "example": "Password789#"
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
-        "required": [
-          "email",
-          "code",
-          "newPassword"
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+      ,
+      "get": {
+        "tags": [
+          "Categoria"
+        ],
+        "description": "",
+        "requestBody":{
+          "content":{
+              "application/json":{
+                  "schema":{
+                      "type": "string",
+                      "example": {
+                          "_ID": "62bef50b0d4645ace4d94b2e"
+                          
+                      }
+                  }
+              }
+          }
+      },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Categoria"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
         ]
       }
     }
+  },
+  "definitions": {
+    "LoginModel": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "admin@markscodingspot.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "Password123#"
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ]
+    },
+    "RegisterModel": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "John Snow"
+        },
+        "email": {
+          "type": "string",
+          "example": "mail@mail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "Password123#"
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "password"
+      ]
+    },
+    "UpdateUserModel": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "John Snow"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "CategoryModel": {
+      "type": "object",
+      "properties": {
+        "nome": {
+          "type": "string",
+          "example": "Eletrônicos"
+        },
+        "descricao":{
+          "type": "string",
+          "example": "Categoria de artigos eletrônicos"
+        }
+      },
+      "required": [
+        "title"
+      ]
+    },
+    "StoryModel": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "example": "6064e654b5c7475bac63ad22"
+        },
+        "title": {
+          "type": "string",
+          "example": "Elon Musk Admits He Wants to Travel to Mars Because No One Hates Him There Yet"
+        },
+        "body": {
+          "type": "string",
+          "example": "AUSTIN, Texas — Wiping tears from his eyes at a recent press conference, SpaceX CEO Elon Musk revealed that the reason he’s so keen on traveling to Mars is not for the potential benefits to science, but because it’s the one place he can think of where no one hates him yet."
+        }
+      },
+      "required": [
+        "category",
+        "title",
+        "body"
+      ]
+    },
+    "VideoModel": {
+      "type": "object",
+      "properties": {
+        "videoId": {
+          "type": "string",
+          "example": "QWhJqvuB1ZA"
+        },
+        "title": {
+          "type": "string",
+          "example": "Welcome To America with Gad Elmaleh and Ron Livingston"
+        }
+      },
+      "required": [
+        "videoId",
+        "title"
+      ]
+    },
+    "CommentModel": {
+      "type": "object",
+      "properties": {
+        "story": {
+          "type": "string",
+          "example": "606576d16bb28e33ecf2872c"
+        },
+        "body": {
+          "type": "string",
+          "example": "That's very funny (:"
+        }
+      },
+      "required": [
+        "story",
+        "body"
+      ]
+    },
+    "VerifyEmailModel": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "number",
+          "example": 333333
+        }
+      },
+      "required": [
+        "code"
+      ]
+    },
+    "ChangePasswordModel": {
+      "type": "object",
+      "properties": {
+        "oldPassword": {
+          "type": "string",
+          "example": "Password123#"
+        },
+        "newPassword": {
+          "type": "string",
+          "example": "Password789#"
+        }
+      },
+      "required": [
+        "oldPassword",
+        "newPassword"
+      ]
+    },
+    "ForgotPassWordModel": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "coommark@gmail.com"
+        }
+      },
+      "required": [
+        "email"
+      ]
+    },
+    "ResetPasswordModel": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "coommark@gmail.com"
+        },
+        "code": {
+          "type": "number",
+          "example": 999999
+        },
+        "newPassword": {
+          "type": "string",
+          "example": "Password789#"
+        }
+      },
+      "required": [
+        "email",
+        "code",
+        "newPassword"
+      ]
+    }
   }
+}
