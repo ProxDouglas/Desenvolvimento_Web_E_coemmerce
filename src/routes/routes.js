@@ -9,6 +9,9 @@ const ProdutoController = require("../controllers/ProdutoController");
 const AnuncioController = require("../controllers/AnuncioController.js");
 const CarrinhoController = require("../controllers/CarrinhoController.js");
 const TransacaoController = require("../controllers/TransacaoController");
+const Entrega = require("../models/Entrega");
+const EntregaController = require("../controllers/EntregaController");
+const { createEntrega } = require("../controllers/EntregaController");
 
 const routes = Router()
 
@@ -113,12 +116,23 @@ routes.put("/transacao/:id_transacao", TransacaoController.updateTransacaoByID);
 // Lista uma transação
 routes.get("/transacao/:id_transacao", TransacaoController.getTransacaoByID);
 // Lista todas as transacoes
-routes.get("/transacoes")
+routes.get("/transacoes", TransacaoController.getTransacoes);
 
 
 
 //----------------Entrega-----------------
-
+// Cria entrega
+routes.post("/entrega", EntregaController.createEntrega);
+// Lista todas as entregas
+routes.get("/entregas", EntregaController.getEntregas);
+// Lista entrega pelo ID da entrega
+routes.get("/entrega/:id_entrega", EntregaController.getEntregaByID);
+// Lista entrega pelo ID da transação
+routes.get("/entrega/:id_transacao", EntregaController.getEntregaByTransacao);
+// Atualiza o estado da entrega e o endereço pelo ID da entrega
+routes.put("/entrega/:id_entrega", EntregaController.updateEntregaByID);
+// Atualiza o estado da entrega pelo ID da transação
+routes.put("/entrega/:id_transacao", EntregaController.updateEntregaByTransacao);
 
 module.exports = routes
 

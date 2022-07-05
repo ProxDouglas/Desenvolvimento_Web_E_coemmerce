@@ -4,16 +4,16 @@ const Usuario = require("../models/Usuario");
 
 class EntregaController  {
 
-    // async createEntrega(req, res) { 
-    //     let bodyData = req.body;
-    //     try{
-    //         const newEntrega = await Entrega.create(bodyData);
-    //         return res.status(200).json(newEntrega);
+     async createEntrega(req, res) { 
+         let bodyData = req.body;
+         try{
+             const newEntrega = await Entrega.create(bodyData);
+             return res.status(200).json(newEntrega);
             
-    //     }catch(err){
-    //         return res.status(400).json(err);
-    //     }
-    // }
+         }catch(err){
+             return res.status(400).json(err);
+         }
+     }
 
     async getEntregas(req, res) {
         try {
