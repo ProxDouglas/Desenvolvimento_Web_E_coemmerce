@@ -42,7 +42,7 @@ class CarrinhoController  {
                 
 
                 try{
-                    let preco = parseFloat(anuncio.preco)
+                    let preco = parseFloat(anuncio.preco) * parseInt(anuncios.quantidade);
                     
                     let carrinhoUpdate = await Carrinho.findOneAndUpdate
                                 (
@@ -58,7 +58,7 @@ class CarrinhoController  {
                         
                         const carrinhoObj = new Carrinho({
                             comprador: id_usuario, 
-                            preco_total: anuncio.preco,
+                            preco_total: preco,
                             anuncios: [
                                 {
                                    anuncio: anuncios.anuncio,
