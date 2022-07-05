@@ -1,6 +1,7 @@
 const Entrega = require("../models/Entrega");
 const Transacao = require("../models/Transacao");
 const Usuario = require("../models/Usuario");
+const Compra = require("../models/Compra");
 
 class EntregaController  {
 
@@ -34,10 +35,10 @@ class EntregaController  {
         }
     }
 
-    async getEntregaByTransacao(req, res) {
-        const  { id_transacao }  = req.params
+    async getEntregaByCompra(req, res) {
+        const  { id_compra }  = req.params
         try {
-            const entrega = await Entrega.findOne({transacao: id_transacao})
+            const entrega = await Compra.findOne({compra: id_compra})
             return res.status(200).json(entrega)
         } catch(err){
             return res.status(400).json(err)
@@ -70,14 +71,22 @@ class EntregaController  {
         }
     }
 
-    async updateEntregaByTransacao(req, res) {
-        const bodyData = req.body;
-        const { id_transacao } = req.params;
+    async updateEntregaByCompra(req, res) {
+        const {endereco, status_entrega} = req.body
+        const { id_compra } = req.params;
 
         
 
         try {
-            const updateEntrega = await Entrega.findOneAndUpdate({transacao: id_transacao}, bodyData, {new: true})
+            const updateEntrega = await Entrega
+                .findOneAndUpdate(
+                    {compra: id_compra}, 
+                    {
+                        endereco: endereco, 
+                        status_entrega: status_entrega
+                    }, 
+                    {new: true}
+                )
             return res.status(200).json(updateEntrega)
         } catch(err) {
             return res.status(400).json(err)

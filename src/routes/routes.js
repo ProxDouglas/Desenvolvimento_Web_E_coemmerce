@@ -130,11 +130,11 @@ routes.get("/entregas", EntregaController.getEntregas);
 // Lista entrega pelo ID da entrega
 routes.get("/entrega/:id_entrega", EntregaController.getEntregaByID);
 // Lista entrega pelo ID da transação
-routes.get("/entrega/:id_transacao", EntregaController.getEntregaByTransacao);
+routes.get("/entrega/:id_compra", EntregaController.getEntregaByCompra);
 // Atualiza o estado da entrega e o endereço pelo ID da entrega
 routes.put("/entrega/:id_entrega", EntregaController.updateEntregaByID);
 // Atualiza o estado da entrega pelo ID da transação
-routes.put("/entrega/:id_transacao", EntregaController.updateEntregaByTransacao);
+routes.put("/entrega/:id_compra", EntregaController.updateEntregaByCompra);
 
 
 //------------Compra---------------
