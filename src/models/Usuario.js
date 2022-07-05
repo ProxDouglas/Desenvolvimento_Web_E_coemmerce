@@ -80,8 +80,10 @@ const UsuarioSchema = new mongoose.Schema({
     },
 
     anuncio:[{
+        
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Anuncio'
+        
     }],
     saldo:{
         type: Number,

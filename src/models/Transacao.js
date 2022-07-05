@@ -44,10 +44,15 @@ const EntregaSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+
+    forma_pagamento:{
+        type: Enum['cartao', 'Boleto', 'Pix', 'Deposito'],
+        required: true
+    },
     
     pagamento_status:{
         type: Enum ['esperando', 'pago', 'cancelado'],
-        default: false
+        default: 'esperando'
     }
 },
 {

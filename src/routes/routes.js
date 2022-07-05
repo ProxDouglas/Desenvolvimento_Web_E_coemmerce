@@ -71,7 +71,7 @@ routes.put("/anuncioU/:id_anuncio", AnuncioController.updateAnuncioByID);
 // Exibir um único anúncio
 routes.get("/anuncio/:id_anuncio", AnuncioController.getAnuncioByID);
 // Excluir anuncio pelo ID
-routes.delete("/anuncio/:id_usuario/:id_anuncio",  )
+routes.delete("/anuncio/:id_usuario/:id_anuncio", AnuncioController.deleteAnuncio )
 
 
 // Cria uma pergunta dentro do anuncio

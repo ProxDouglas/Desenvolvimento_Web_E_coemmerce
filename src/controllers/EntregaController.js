@@ -50,7 +50,10 @@ class EntregaController  {
         const { id_entrega } = req.params
 
         try {
-            const updateEntrega = await Entrega.findByIdAndUpdate(id_entrega, {endereco: endereco}, {new: true});
+            const updateEntrega = await Entrega.findByIdAndUpdate(
+                    id_entrega, {
+                        endereco: endereco, 
+                        status_entrega: status_entrega}, {new: true});
 
             if(status_entrega == 'preparando'){
                 await Transacao.findOneAndUpdate({_id: updateEntrega.transacao}, {pagamento_status: true});

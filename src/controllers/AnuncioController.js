@@ -1,5 +1,6 @@
 const Anuncio  = require('../models/Anuncio');
-const Usuario = require('./UserController');
+const Usuario  = require('../models/Usuario');
+
 const mongoose = require('mongoose');
 
 class AnuncioController{
@@ -9,7 +10,7 @@ class AnuncioController{
         try{
 
             let newAnuncio = await Anuncio.create(dataAnu)
-            await Usuario.pushAnuncio(newAnuncio.autor, newAnuncio._id);
+            let pushAnuncio = await Usuario.findByIdAndUpdate(newAnuncio.autor, {$push: {anuncio: newAnuncio._id}});
             return res.status(200).json(newAnuncio)
         }catch(err){
             return res.status(400).json(err)
@@ -64,6 +65,23 @@ class AnuncioController{
             return res.status(200).json(updateAnuncio)
         } catch(err) {
             return res.status(400).json(err)
+        }
+    }
+
+
+    async deleteAnuncio(req, res){
+        let {id_anuncio} = req.params;
+        try{
+
+            let anuncio = Anuncio.findById(id_anuncio);
+            
+            let usuario = await Usuario.findByIdAndUpdate(anuncio.autor, {$pull: {anuncio: [id_anuObj]}});
+
+
+            let deleteAnuncio = await Anuncio.findByIdAndDelete(id_anuncio);
+            res.status(200).json({anuncio: deleteAnuncio, usuario: usuario });
+        }catch(err){
+            res.status(400).json(err);
         }
     }
 

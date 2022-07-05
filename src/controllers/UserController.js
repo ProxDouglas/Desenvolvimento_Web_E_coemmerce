@@ -53,26 +53,6 @@ class UserController  {
 
     }
 
-    async pushAnuncio(id_usuario, id_anuncio){
-
-        try{
-            let pushAnuncio = await Usuario.findByIdAndUpdate(id_usuario, {$push: {anuncio: id_anuncio}});
-            return pushAnuncio;
-        }catch(err){
-            return err;
-        }
-    }
-
-    async deleteAnuncio(id_usuario, id_anuncio){
-
-        try{
-            let pushAnuncio = await Usuario.findByIdAndUpdate(id_usuario, {$pull: {anuncio: id_anuncio}});
-            return pushAnuncio;
-        }catch(err){
-            return err;
-        }
-    }
-
     async login(req, res) {
         const { email, senha } = req.body;
         

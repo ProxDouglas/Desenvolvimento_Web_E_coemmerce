@@ -38,7 +38,7 @@ const EntregaSchema = new mongoose.Schema({
             type: String,
             required: true
         },
-        number:{
+        numero:{
             type: String,
             required: true
         },

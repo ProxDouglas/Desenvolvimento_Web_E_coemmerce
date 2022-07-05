@@ -5,6 +5,32 @@ const Compra = require("../LogicBusiness.js/Compra");
 
 class TransacaoController  {
 
+    /**
+     * São dois corpos transacao e endereco
+     *  @param { 
+     * transacao{
+     *      comprador: id_usuario,
+     *      vendedor: id_usuario,
+     *      anuncio: id_usuario,
+     *      data_limite: tipo data Formato(yyyy-mm-dd)
+     *      valor_total: Number
+     *      frete: Number,
+     *      forma_pagamento: Enum['cartao', 'Boleto', 'Pix', 'Deposito']
+     *      
+     * }
+     * 
+     * endereco{
+     *      rua: String,
+     *      number:  String,
+     *      apt: String (opcional)
+     *      cep: String,
+     *      cidade: String,
+     *      estado: String   
+     * }
+     * } req
+     * 
+     */
+
     async createTransacao(req, res) { 
         let {transacao, endereco} = req.body;
         try{
@@ -42,6 +68,15 @@ class TransacaoController  {
         }
     }
 
+    //só da para mudar o status da transacao
+    /**
+     * 
+     * @param {
+     *  pagamento_status: Enum ['esperando', 'pago', 'cancelado']
+     * } req 
+     * @param {*} res 
+     * @returns 
+     */
     async updateTransacaoByID(req, res) {
         const {pagamento_status} = req.body
         const { id_transacao } = req.params
