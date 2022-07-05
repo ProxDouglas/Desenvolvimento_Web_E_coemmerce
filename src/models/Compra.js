@@ -37,12 +37,14 @@ const CompraSchema = new mongoose.Schema({
     },
 
     forma_pagamento:{
-        type: Enum['cartao', 'Boleto', 'Pix', 'Deposito'],
+        type: String,
+        enum: ['cartao', 'Boleto', 'Pix', 'Deposito'],
         required: true
     },
     
     pagamento_status:{
-        type: Enum ['esperando', 'pago', 'cancelado'],
+        type: String,
+         enum: ['esperando', 'pago', 'cancelado'],
         default: 'esperando'
     }
 },

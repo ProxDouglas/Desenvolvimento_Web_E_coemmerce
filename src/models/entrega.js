@@ -21,7 +21,8 @@ const EntregaSchema = new mongoose.Schema({
 
     //update
     status_entrega:{
-        type: Enum ['pagamento' ,'preparando', 'enviado', 'entregue'],
+        type: String,
+        enum: ['pagamento' ,'preparando', 'enviado', 'entregue'],
         default: 'pagamento'
     },
 

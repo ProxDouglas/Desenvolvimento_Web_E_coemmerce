@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 
-const EntregaSchema = new mongoose.Schema({
+const TransacaoSchema = new mongoose.Schema({
 
     
     comprador:{

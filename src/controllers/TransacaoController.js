@@ -1,6 +1,5 @@
 const Transacao = require("../models/Transacao");
 const Entrega = require("../models/Entrega");
-const Compra = require("../LogicBusiness.js/Compra");
 
 
 class TransacaoController  {
