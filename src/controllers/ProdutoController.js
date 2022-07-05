@@ -33,10 +33,10 @@ class ProdutoController {
 
     async updateProdutoByID(req, res) {
         const bodyData = req.body
-        const { produto_id } = req.params
+        const { id_produto } = req.params
 
         try {
-            const updateProduto = await Produto.findByIdAndUpdate(produto_id, bodyData)
+            const updateProduto = await Produto.findByIdAndUpdate(id_produto, bodyData)
             return res.status(200).json(updateProduto)
         } catch(err) {
             return res.status(400).json(err)

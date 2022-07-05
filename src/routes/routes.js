@@ -52,7 +52,7 @@ routes.delete("/categoria/:id_categoria/subcategoria/:id_subcat", CategoriaContr
 // Criar novo produto na base de dados
 routes.post("/produto", ProdutoController.createProduto);
 // Atualizar produto na base de dados
-routes.put("/produto", ProdutoController.updateProdutoByID);
+routes.put("/produto/:id_produto", ProdutoController.updateProdutoByID);
 // Listar todos os produtos da base de dados
 routes.get("/produtos", ProdutoController.getProdutos);
 // Listar apenas um produto pelo ID
@@ -62,12 +62,18 @@ routes.get("/produto/:id_produto/anuncio", AnuncioController.getAnuncioByProduto
 
 
 //------------ANUNCIO DO PRODUTO -------------------------
+// Listar todos os anúncios
+routes.get("/anuncios", AnuncioController.getAnuncios);
 // Criar anúncio
 routes.post("/anuncio",  AnuncioController.createAnuncio);
 // Atualizar informações do anúncio
 routes.put("/anuncioU/:id_anuncio", AnuncioController.updateAnuncioByID);
+// Exibir um único anúncio
+routes.get("/anuncio/:id_anuncio", AnuncioController.getAnuncioByID);
 // Excluir anuncio pelo ID
-routes.delete("/anuncio/:id_anuncio", )
+routes.delete("/anuncio/:id_usuario/:id_anuncio",  )
+
+
 // Cria uma pergunta dentro do anuncio
 routes.post("/anuncio/:id_anuncio/topico", AnuncioController.pushTopico);
 // Lista todas as perguntas do anúncio
@@ -86,10 +92,8 @@ routes.delete("/anuncio/:id_anuncio/topico/:id_topico", AnuncioController.delete
 // routes.put("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
 // routes.delete("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
 
-// Listar todos os anúncios
-routes.get("/anuncios", AnuncioController.getAnuncios);
-// Exibir um único anúncio
-routes.get("/anuncio/:id_anuncio", AnuncioController.getAnuncioByID);
+
+
 //-------------------Carrinho-----------------
 //o id do usuario vai na requisicao json
 routes.post("/carrinho/:id_usuario", CarrinhoController.pushAnuncioCarrinho);
