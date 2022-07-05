@@ -22,7 +22,7 @@ routes.post("/usuario", UserController.createUser);
 // Atualizar Usuário
 routes.put("/usuario/:usuario_id", UserController.updateUserByID);
 // Listar todos os usuários OK
-routes.get("/usuarios", auth,  UserController.getUser);
+routes.get("/usuarios", UserController.getUser);
 // Listar apenas um usuário pelo ID
 routes.get("/usuario/:usuario_id", UserController.getUserByID);
 // Listar os anuncios de determinado usuário

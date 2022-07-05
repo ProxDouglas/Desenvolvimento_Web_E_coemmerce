@@ -8,7 +8,11 @@
     "host": "localhost:45678",
     "basePath": "/",
     "tags": [
-      {
+        {
+            "name": "Usuário",
+            "description": "Usuário endpoints"
+        },
+        {
         "name": "Categoria",
         "description": "Endpoints de Categoria"
       },
@@ -20,10 +24,7 @@
         "name": "Anúncio",
         "description": "Anúncio endpoints"
       },
-      {
-        "name": "Usuário",
-        "description": "Usuário endpoints"
-      },
+      
       {
         "name": "Autenticação",
         "description": "Autenticação Endpoint"
@@ -50,26 +51,199 @@
     ],
     "paths": {
       "/produtos": {
-        "post": {
-          "tags": [
-            "Auth"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "obj",
-              "in": "body",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/LoginModel"
+        "get": {
+            "tags": [
+              "Produto"
+            ],
+            "description": "Lista todos os produtos cadastrados na base de dados.",
+            
+            "responses": {
+              "201": {
+                "description": "Created"
+              },
+              "401": {
+                "description": "Unauthorized"
+              },
+              "500": {
+                "description": "Internal Server Error"
               }
-            }
-          ],
-          "responses": {}
-        }
+            },
+            "security": [
+              {
+                "Authorization": []
+              }
+            ]
+          }
       },
-      
-      "/usuario": {
+      "/produto":{
+        "get": {
+            "tags": [
+              "Produto"
+            ],
+            "description": "Lista os produtos de determinado usuário",
+            "parameters": [
+              {
+                "name": "limit",
+                "in": "query",
+                "type": "string"
+              },
+              {
+                "name": "page",
+                "in": "query",
+                "type": "string"
+              }
+            ],
+            "responses": {
+              "201": {
+                "description": "Created"
+              },
+              "401": {
+                "description": "Unauthorized"
+              },
+              "500": {
+                "description": "Internal Server Error"
+              }
+            },
+            "security": [
+              {
+                "Authorization": []
+              }
+            ]
+        },
+        "post":{
+            "tags": [
+                "Produto"
+            ],
+            
+            "description": "Cria um produto com os atributos 'nome', 'característica' , 'categoria' e 'subcategoria.'",
+            "parameters":[
+                {
+                    "name": "Nome",
+                    "in":"body",
+                    "required": true,
+                    "schema":{
+                        "$ref": "#/models/Produto.js"
+                    }
+                }
+            ],
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "type": "object",
+                            "properties":{
+                                "nome":{
+                                    "type":"string"
+                                },
+                                "caracteristica":{
+                                    "type":"string"
+                                },
+                                "categoria":{
+                                    "type":"string"
+                                },
+                                "subcategoria":{
+                                    "type":"string"                                    
+                                }
+                            },
+                            "example": {
+                                "nome": "Samsumg S22",
+                                "característica": "Smartphone Samsung S22",
+                                "categoria": "Eletrônicos",
+                                "Sub-categoria": "Smartphone"
+                            }
+                        }
+                    }
+                }
+            },
+            "responses":{
+                "200":{
+                    "description": "Produto criado"
+                },
+                "400": {
+                  "description": "Bad request"
+                },
+                "422": {
+                  "description": "Unprocessable Entity"
+                },
+                "500": {
+                  "description": "Internal Server Error"
+                }
+            }
+        },
+        "put": {
+            "tags": [
+              "Produto"
+            ],
+            "description": "Atualiza os atributos de um determinado produto",
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "type": "string",
+                            "example": {
+                                "nome": "Samsung Galaxy S22+"
+                                
+                            }
+                        }
+                    }
+                }
+            },
+            "parameters": [
+              {
+                "name": "obj",
+                "in": "body",
+                "required": true,
+                "schema": {
+                  "$ref": "#/models/Produto.js"
+                }
+              }
+            ],
+            "example": {
+                "nome": "Samsung S22+"                
+            },
+            "responses": {
+              "200": {
+                "description": "Updated"
+              },
+              "422": {
+                "description": "Unprocessable Entity"
+              },
+              "500": {
+                "description": "Internal Server Error"
+              }
+            },
+            "security": [
+              {
+                "Authorization": []
+              }
+            ]
+          }
+      },
+     
+      "/usuarios": {
+        "get": {
+            "tags": [
+              "Usuário"
+            ],
+            "description": "Lista todos os usuários cadastrados.",
+            "parameters": [],
+            "responses": {
+              "200": {
+                "description": "OK"
+              },
+              "404": {
+                "description": "Not Found"
+              },
+              "500": {
+                "description": "Internal Server Error"
+              }
+            },
+            "security": [
+              {
+                "Authorization": []
+              }
+            ]
+          },
         "post": {
           "tags": [
             "Usuário"
@@ -90,178 +264,6 @@
               "description": "Unprocessable Entity"
             }
           }
-        }
-      },
-      "/auth/verify": {
-        "post": {
-          "tags": [
-            "Auth"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "obj",
-              "in": "body",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/VerifyEmailModel"
-              }
-            }
-          ],
-          "responses": {}
-        }
-      },
-      "/auth/forgotPassword": {
-        "post": {
-          "tags": [
-            "Auth"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "obj",
-              "in": "body",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/ForgotPassWordModel"
-              }
-            }
-          ],
-          "responses": {}
-        }
-      },
-      "/auth/resetPassword": {
-        "post": {
-          "tags": [
-            "Auth"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "obj",
-              "in": "body",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/ResetPasswordModel"
-              }
-            }
-          ],
-          "responses": {}
-        }
-      },
-      "/auth/changePassword": {
-        "post": {
-          "tags": [
-            "Auth"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "obj",
-              "in": "body",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/ChangePasswordModel"
-              }
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Created"
-            },
-            "404": {
-              "description": "Not Found"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          },
-          "security": [
-            {
-              "Authorization": []
-            }
-          ]
-        }
-      },
-      "/api/users": {
-        "get": {
-          "tags": [
-            "Admin"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "limit",
-              "in": "query",
-              "type": "string"
-            },
-            {
-              "name": "page",
-              "in": "query",
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Created"
-            },
-            "401": {
-              "description": "Unauthorized"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          },
-          "security": [
-            {
-              "Authorization": []
-            }
-          ]
-        }
-      },
-      "/api/users/{id}": {
-        "get": {
-          "tags": [
-            "Admin"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK"
-            },
-            "401": {
-              "description": "Unauthorized"
-            },
-            "404": {
-              "description": "Not Found"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          },
-          "security": [
-            {
-              "Authorization": []
-            }
-          ]
-        }
-      },
-      "/api/seed": {
-        "get": {
-          "tags": [
-            "Admin"
-          ],
-          "description": "",
-          "parameters": [],
-          "responses": {}
         }
       },
       "/categorias": {
@@ -447,475 +449,6 @@
         "delete": {
           "tags": [
             "Categoria"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "204": {
-              "description": "No Content"
-            },
-            "401": {
-              "description": "Unauthorized"
-            },
-            "404": {
-              "description": "Not Found"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          },
-          "security": [
-            {
-              "Authorization": []
-            }
-          ]
-        }
-      },
-      "/api/comments": {
-        "post": {
-          "tags": [
-            "Posts"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "obj",
-              "in": "body",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/CommentModel"
-              }
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Created"
-            },
-            "422": {
-              "description": "Unprocessable Entity"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          },
-          "security": [
-            {
-              "Authorization": []
-            }
-          ]
-        }
-      },
-      "/api/comments/{id}": {
-        "delete": {
-          "tags": [
-            "Posts"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "204": {
-              "description": "No Content"
-            },
-            "404": {
-              "description": "Not Found"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          },
-          "security": [
-            {
-              "Authorization": []
-            }
-          ]
-        }
-      },
-      "/api/profile": {
-        "get": {
-          "tags": [
-            "Profile"
-          ],
-          "description": "",
-          "parameters": [],
-          "responses": {
-            "200": {
-              "description": "OK"
-            },
-            "404": {
-              "description": "Not Found"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          },
-          "security": [
-            {
-              "Authorization": []
-            }
-          ]
-        },
-        "put": {
-          "tags": [
-            "Profile"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "obj",
-              "in": "body",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/UpdateUserModel"
-              }
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Created"
-            },
-            "422": {
-              "description": "Unprocessable Entity"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          },
-          "security": [
-            {
-              "Authorization": []
-            }
-          ]
-        }
-      },
-      "/api/stories": {
-        "get": {
-          "tags": [
-            "Posts"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "limit",
-              "in": "query",
-              "type": "string"
-            },
-            {
-              "name": "page",
-              "in": "query",
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Created"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          }
-        },
-        "post": {
-          "tags": [
-            "Posts"
-          ],
-          "description": "",
-          "consumes": [
-            "multipart/form-data"
-          ],
-          "parameters": [
-            {
-              "name": "file",
-              "in": "formData",
-              "required": true,
-              "type": "file"
-            },
-            {
-              "name": "category",
-              "in": "formData",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "title",
-              "in": "formData",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "body",
-              "in": "formData",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Created"
-            },
-            "401": {
-              "description": "Unauthorized"
-            },
-            "422": {
-              "description": "Unprocessable Entity"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          },
-          "security": [
-            {
-              "Authorization": []
-            }
-          ]
-        }
-      },
-      "/api/stories/top": {
-        "get": {
-          "tags": [
-            "Posts"
-          ],
-          "description": "",
-          "parameters": [],
-          "responses": {
-            "201": {
-              "description": "Created"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          }
-        }
-      },
-      "/api/stories/{id}": {
-        "put": {
-          "tags": [
-            "Posts"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "obj",
-              "in": "body",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/StoryModel"
-              }
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Created"
-            },
-            "401": {
-              "description": "Unauthorized"
-            },
-            "422": {
-              "description": "Unprocessable Entity"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          },
-          "security": [
-            {
-              "Authorization": []
-            }
-          ]
-        },
-        "get": {
-          "tags": [
-            "Posts"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK"
-            },
-            "404": {
-              "description": "Not Found"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          }
-        },
-        "delete": {
-          "tags": [
-            "Posts"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "204": {
-              "description": "No Content"
-            },
-            "401": {
-              "description": "Unauthorized"
-            },
-            "404": {
-              "description": "Not Found"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          },
-          "security": [
-            {
-              "Authorization": []
-            }
-          ]
-        }
-      },
-      "/api/stories/slug/{slug}": {
-        "get": {
-          "tags": [
-            "Posts"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "slug",
-              "in": "path",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK"
-            },
-            "404": {
-              "description": "Not Found"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          }
-        }
-      },
-      
-      "/api/videos/top": {
-        "get": {
-          "tags": [
-            "Posts"
-          ],
-          "description": "",
-          "parameters": [],
-          "responses": {
-            "201": {
-              "description": "Created"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          }
-        }
-      },
-      "/api/videos/{id}": {
-        "put": {
-          "tags": [
-            "Posts"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "obj",
-              "in": "body",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/VideoModel"
-              }
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Created"
-            },
-            "401": {
-              "description": "Unauthorized"
-            },
-            "422": {
-              "description": "Unprocessable Entity"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          },
-          "security": [
-            {
-              "Authorization": []
-            }
-          ]
-        },
-        "get": {
-          "tags": [
-            "Posts"
-          ],
-          "description": "",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK"
-            },
-            "404": {
-              "description": "Not Found"
-            },
-            "500": {
-              "description": "Internal Server Error"
-            }
-          }
-        },
-        "delete": {
-          "tags": [
-            "Posts"
           ],
           "description": "",
           "parameters": [
