@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
 
-
+/**
+ * è necessário mais campos para associar 
+ * a uma entidade de entrega como os correios
+ */
 const EntregaSchema = new mongoose.Schema({
 
+    
     comprador:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Usuario',
@@ -15,13 +19,9 @@ const EntregaSchema = new mongoose.Schema({
         required: true
     },
 
-    comprador:{
-        type: mongoose.Schema.Types.ObjectId,
-    },
-
     status_entrega:{
-        type: Enum ['preparando', 'enviado', 'entregue'],
-        default: 'preparando'
+        type: Enum ['pagamento' ,'preparando', 'enviado', 'entregue'],
+        default: 'pagamento'
     },
 
     avaliacao:{

@@ -1,11 +1,20 @@
-const Entrega = require("../models/Entrega")
+const Entrega = require("../models/Entrega");
+const Transacao = require("../models/Transacao");
 
-class EntregaController  {
+class Compra  {
 
-    async createEntrega(req, res) { 
+    async createEntrega(endereco, id_transacao) { 
         let bodyData = req.body;
         try{
-            const newEntrega = await Entrega.create(bodyData);
+            const transacao = Transacao.findOne({_id: id_transacao});
+
+            const newEntrega = await Entrega.create({
+                comprador: transacao.comprador,
+                transacao: id_transacao,
+                endereco: endereco
+                
+        });
+
             return res.status(200).json(newEntrega);
             
         }catch(err){
