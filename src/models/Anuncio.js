@@ -28,6 +28,11 @@ const AnuncioSchema = new mongoose.Schema({
         default: Date.now
     },
 
+    estoque:{
+        type:Number,
+        required: true
+    },
+
     avaliacoes: [{ //array
         type: {
             id: {

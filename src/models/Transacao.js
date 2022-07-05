@@ -19,20 +19,18 @@ const EntregaSchema = new mongoose.Schema({
     anuncio:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Anuncio',
-        required: true
+        required: true,  
+    },
+
+    quantidade_prod:{
+        type: Number,
+        required: true,
+        default: 1
     },
 
     data:{
         type: Date,
         default: Date.now
-    },
-
-    //formato yyyy-mm-dd
-    data_limite:{
-        type: Date,
-        min: Date.now,
-        max: new Date( Date.now.getYear() , Date.now.getMouth() ,Date.now.getDay() + parseInt(7)),
-        required: true
     },
 
     valor_total:{
@@ -42,21 +40,11 @@ const EntregaSchema = new mongoose.Schema({
 
     frete:{
         type: Number,
-        required: true
+        default: 10.50
     },
-
-    forma_pagamento:{
-        type: Enum['cartao', 'Boleto', 'Pix', 'Deposito'],
-        required: true
-    },
-    
-    pagamento_status:{
-        type: Enum ['esperando', 'pago', 'cancelado'],
-        default: 'esperando'
-    }
 },
 {
     versionKey: false
 })
 
-module.exports = mongoose.model('Entrega', EntregaSchema);
+module.exports = mongoose.model('Transacao', TransacaoSchema);
