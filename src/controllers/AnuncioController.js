@@ -61,7 +61,7 @@ class AnuncioController{
         const { id_anuncio } = req.params
 
         try {
-            const updateAnuncio = await Anuncio.findOneAndUpdate(id_anuncio, bodyData, {new: true})
+            const updateAnuncio = await Anuncio.findOneAndUpdate({_id: id_anuncio}, bodyData, {new: true})
             return res.status(200).json(updateAnuncio)
         } catch(err) {
             return res.status(400).json(err)

@@ -23,7 +23,7 @@ routes.post("/login", UserController.login);
 
 //---------------USUÁRIO--------------------------------
 // Criar Usuário OK
-routes.post("/usuario", auth, UserController.createUser);
+routes.post("/usuario", UserController.createUser);
 // Atualizar Usuário
 routes.put("/usuario/:usuario_id", auth, UserController.updateUserByID);
 // Listar todos os usuários OK
@@ -72,7 +72,7 @@ routes.get("/anuncios", AnuncioController.getAnuncios);
 // Criar anúncio
 routes.post("/anuncio", auth,  AnuncioController.createAnuncio);
 // Atualizar informações do anúncio
-routes.put("/anuncioU/:id_anuncio", auth, AnuncioController.updateAnuncioByID);
+routes.put("/anuncio/:id_anuncio", auth, AnuncioController.updateAnuncioByID);
 // Exibir um único anúncio
 routes.get("/anuncio/:id_anuncio", AnuncioController.getAnuncioByID);
 // Excluir anuncio pelo ID
