@@ -13,9 +13,9 @@ const EntregaSchema = new mongoose.Schema({
         required: true
     },
 
-    transacao:{
+    compra:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Transacao',
+        ref: 'Compra',
         required: true
     },
 

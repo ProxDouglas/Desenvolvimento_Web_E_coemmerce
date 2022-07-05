@@ -28,7 +28,7 @@ const CompraSchema = new mongoose.Schema({
         type: Date,
         // min: Date.now,
         // max: new Date( Date.now.getYear() , Date.now.getMouth() ,Date.now.getDay() + parseInt(7)),
-        required: true
+        // required: true
     },
 
     valor_total:{
@@ -38,7 +38,7 @@ const CompraSchema = new mongoose.Schema({
 
     forma_pagamento:{
         type: String,
-        enum: ['cartao', 'Boleto', 'Pix', 'Deposito'],
+        enum: ['cartao', 'boleto', 'pix', 'deposito'],
         required: true
     },
     

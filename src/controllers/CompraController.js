@@ -1,27 +1,30 @@
 const Transacao = require("../models/Transacao");
 const Entrega = require("../models/Entrega");
-const Compra = require("../LogicBusiness.js/Compra");
+const Compra = require("../models/Compra");
+const Anuncio = require("../models/Anuncio");
+const { default: mongoose } = require("mongoose");
 
 
-class TransacaoController  {
+class CompraController  {
 
     /**
      * São dois corpos transacao e endereco
      *  @param { 
-     * transacao{
+     * compra{
      *      comprador: id_usuario,
-     *      vendedor: id_usuario,
-     *      anuncio: id_usuario,
      *      data_limite: tipo data Formato(yyyy-mm-dd)
-     *      valor_total: Number
-     *      frete: Number,
-     *      forma_pagamento: Enum['cartao', 'Boleto', 'Pix', 'Deposito']
+     *      forma_pagamento: Enum['cartao', 'boleto', 'pix', 'deposito']
      *      
      * }
      * 
+     * anuncios[{
+     *      id_anuncio: ,
+     *      quantidade: Number
+     * }]
+     * 
      * endereco{
      *      rua: String,
-     *      number:  String,
+     *      numero:  String,
      *      apt: String (opcional)
      *      cep: String,
      *      cidade: String,
@@ -31,66 +34,71 @@ class TransacaoController  {
      * 
      */
 
-    async createTransacao(req, res) { 
-        let {transacao, endereco} = req.body;
+    async createCompra(req, res) { 
+        let {compra, anuncios, endereco} = req.body;
         try{
-            const newTransacao = await Transacao.create(transacao);
+            var transacaoArray = [], valorTotal = 0;
+            let i = 0;
+            for(i ; i< anuncios.length; i++){
+                let anuncioCompra = anuncios[i];
+
+                let id_anuncio = mongoose.Types.ObjectId(anuncioCompra.id_anuncio);
+                let anuncio = await Anuncio
+                    .findOne({_id: id_anuncio});
+
+                let transacao = await Transacao.create({
+                    comprador: compra.comprador,
+                    vendedor: anuncio.autor,
+                    anuncio: anuncio._id,
+                    quantidade_prod: anuncios[i].quantidade,
+                    valor_total: parseInt(anuncio.preco) * parseInt(anuncios[i].quantidade)
+                });
+
+                transacaoArray.push({transacao: transacao});
+
+                valorTotal = parseInt(valorTotal) + parseInt(transacao.valor_total);
+            }
+            const newCompra = await Compra.create({
+                comprador: compra.comprador,
+                transacoes: transacaoArray,
+                // data_limite: compra.data_limite,
+                valor_total: valorTotal,
+                forma_pagamento: compra.forma_pagamento
+            });
+
             const newEntrega = await Entrega.create(
                 {
-                    comprador: newTransacao.comprador,
-                    transacao: newTransacao._id,
+                    comprador: compra.comprador,
+                    compra: newCompra._id,
                     endereco: endereco
                 });
 
-            return res.status(200).json({transacao: newTransacao, entrega: newEntrega});
+            return res.status(200).json({compra: newCompra, entrega: newEntrega});
             
         }catch(err){
             return res.status(400).json(err);
         }
     }
 
-    async getTransacaos(req, res) {
+    async getCompras(req, res) {
         try {
-            const transacoes = await Transacao.find();
-            return res.status(200).json(transacoes)
+            const compras = await Compra.find();
+            return res.status(200).json(compras)
         } catch(err){
             return res.status(400).json(err);
         }
     }
     
-    async getTransacaoByID(req, res) {
-        const  { id_transacao }  = req.params
+    async getCompraByID(req, res) {
+        const  { id_compra }  = req.params
         try {
-            const transacao = await Transacao.findById(id_transacao)
-            return res.status(200).json(transacao)
+            const compra = await Compra.findById(id_compra)
+            return res.status(200).json(compra)
         } catch(err){
             return res.status(400).json(err)
         }
     }
-
-    //só da para mudar o status da transacao
-    /**
-     * 
-     * @param {
-     *  pagamento_status: Enum ['esperando', 'pago', 'cancelado']
-     * } req 
-     * @param {*} res 
-     * @returns 
-     */
-    async updateTransacaoByID(req, res) {
-        const {pagamento_status} = req.body
-        const { id_transacao } = req.params
-
-            try {
-                const updateTransacao = await Transacao.findByIdAndUpdate(id_transacao, {pagamento_status: pagamento_status}, {new: true});
-
-                return res.status(200).json(updateTransacao)
-            } catch(err) {
-                return res.status(400).json(err)
-            }
-    }
-
     
 }
 
-module.exports = new TransacaoController;
+module.exports = new CompraController;

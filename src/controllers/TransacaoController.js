@@ -48,7 +48,7 @@ class TransacaoController  {
         }
     }
 
-    async getTransacaos(req, res) {
+    async getTransacoes(req, res) {
         try {
             const transacoes = await Transacao.find();
             return res.status(200).json(transacoes)

@@ -11,6 +11,7 @@ const CarrinhoController = require("../controllers/CarrinhoController.js");
 const TransacaoController = require("../controllers/TransacaoController");
 const Entrega = require("../models/Entrega");
 const EntregaController = require("../controllers/EntregaController");
+const CompraContorller = require("../controllers/CompraController");
 const { createEntrega } = require("../controllers/EntregaController");
 
 const routes = Router()
@@ -116,7 +117,7 @@ routes.put("/transacao/:id_transacao", TransacaoController.updateTransacaoByID);
 // Lista uma transação
 routes.get("/transacao/:id_transacao", TransacaoController.getTransacaoByID);
 // Lista todas as transacoes
-routes.get("/transacoes", TransacaoController.getTransacaos);
+// routes.get("/transacoes", TransacaoController.getTransacaos);
 
 
 
@@ -133,6 +134,11 @@ routes.get("/entrega/:id_transacao", EntregaController.getEntregaByTransacao);
 routes.put("/entrega/:id_entrega", EntregaController.updateEntregaByID);
 // Atualiza o estado da entrega pelo ID da transação
 routes.put("/entrega/:id_transacao", EntregaController.updateEntregaByTransacao);
+
+
+//------------Compra---------------
+routes.post("/compra", CompraContorller.createCompra);
+
 
 module.exports = routes
 
