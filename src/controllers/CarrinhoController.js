@@ -42,13 +42,14 @@ class CarrinhoController  {
                 
 
                 try{
+                    let preco = parseFloat(anuncio.preco)
                     
                     let carrinhoUpdate = await Carrinho.findOneAndUpdate
                                 (
                                     {comprador: id_usuario}, 
                                     (
                                     {$push: {anuncios:  anuncios},
-                                    $inc: {preco_total: + anuncio.preco}}
+                                    $inc: {preco_total: + preco}}
                                     ), {new: true}
                                 );
                     
