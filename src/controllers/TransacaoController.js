@@ -1,14 +1,22 @@
 const Transacao = require("../models/Transacao");
 const Entrega = require("../models/Entrega");
+const Compra = require("../LogicBusiness.js/Compra");
 
 
 class TransacaoController  {
 
     async createTransacao(req, res) { 
-        let bodyData = req.body;
+        let {transacao, endereco} = req.body;
         try{
-            const newTransacao = await Transacao.create(bodyData);
-            return res.status(200).json(newTransacao);
+            const newTransacao = await Transacao.create(transacao);
+            const newEntrega = await Entrega.create(
+                {
+                    comprador: newTransacao.comprador,
+                    transacao: newTransacao._id,
+                    endereco: endereco
+                });
+
+            return res.status(200).json({transacao: newTransacao, entrega: newEntrega});
             
         }catch(err){
             return res.status(400).json(err);
@@ -38,33 +46,14 @@ class TransacaoController  {
         const {pagamento_status} = req.body
         const { id_transacao } = req.params
 
-        // if(pagamento_status != undefined){
-        //     if(pagamento_status == true){
-        //         //
-        //     }
-
             try {
-                const updateTransacao = await Transacao.findByIdAndUpdate(id_transacao, {pagamento_status: pagamento_status}, {new: true})
+                const updateTransacao = await Transacao.findByIdAndUpdate(id_transacao, {pagamento_status: pagamento_status}, {new: true});
+
                 return res.status(200).json(updateTransacao)
             } catch(err) {
                 return res.status(400).json(err)
             }
-        // }
-        // res.status(400).json("Status de pagamento invalido");
     }
-
-
-    // async efetuarPagamento(){
-
-    //     try{
-
-    //         let entrega = Entrega.findOne({transacao: id_transacao});
-
-    //     }catch(err){
-
-    //     }
-
-    // }
 
     
 }

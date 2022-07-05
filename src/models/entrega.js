@@ -19,11 +19,13 @@ const EntregaSchema = new mongoose.Schema({
         required: true
     },
 
+    //update
     status_entrega:{
         type: Enum ['pagamento' ,'preparando', 'enviado', 'entregue'],
         default: 'pagamento'
     },
 
+    //post
     avaliacao:{
         avaliador:{
             type: mongoose.Schema.Types.ObjectId,
