@@ -8,6 +8,7 @@ const CategoriaController = require("../controllers/CategoriaController");
 const ProdutoController = require("../controllers/ProdutoController");
 const AnuncioController = require("../controllers/AnuncioController.js");
 const CarrinhoController = require("../controllers/CarrinhoController.js");
+const TransacaoController = require("../controllers/TransacaoController");
 
 const routes = Router()
 
@@ -75,7 +76,7 @@ routes.delete("/anuncio/:id_usuario/:id_anuncio", auth, AnuncioController.delete
 
 
 // Cria uma pergunta dentro do anuncio
-routes.post("/anuncio/:id_anuncio/topico", AnuncioController.pushTopico);
+routes.post("/anuncio/:id_anuncio/topico",auth, AnuncioController.pushTopico);
 // Lista todas as perguntas do anúncio
 routes.get("/anuncio/:id_anuncio/topicos", AnuncioController.getTopicos);
 // Lista as perguntas de determinado usuário
@@ -105,10 +106,15 @@ routes.get("/carrinho/:id_usuario", auth, CarrinhoController.getCarrinhoByIDUser
 //routes.get("/carrinhos");
 
 //------------------Transação------------------
-routes.post("/transacao")
-routes.put("/transacao")
-routes.get("/transacao")
-routes.delete("/transacao")
+// Cria uma transação
+routes.post("/transacao", TransacaoController.createTransacao);
+// Atualiza o estado da transação
+routes.put("/transacao/:id_transacao", TransacaoController.updateTransacaoByID);
+// Lista uma transação
+routes.get("/transacao/:id_transacao", TransacaoController.getTransacaoByID);
+// Lista todas as transacoes
+routes.get("/transacoes")
+
 
 
 //----------------Entrega-----------------
