@@ -7,12 +7,33 @@ var bcrypt = require("bcrypt");
 class UserController  {
 
     async createUser(req, res) {
-        let bodyData = req.body;
-        try{
-            var hash = await bcrypt.hash(bodyData.senha, 10);
+        // let newUser = new Usuario();
 
-            bodyData.senha = hash;
-            const newUser = await Usuario.create(bodyData);
+        let usuario = req.body;
+        
+        
+
+        try{
+            var hash = await bcrypt.hash(usuario.senha, 10);
+
+            let senha = hash;
+            // const newUser = await Usuario.create(bodyData);
+            const newUser = await Usuario.create({
+                nome: usuario.nome,
+                email: usuario.email,
+                data_nascimento:usuario.data_nascimento,
+                cpf: usuario.cpf,
+                telefone: usuario.telefone,
+                senha: senha,
+                endereco: {
+                    rua: usuario.endereco.rua,
+                    numero: usuario.endereco.numero,
+                    apt: usuario.endereco.apt,
+                    cep: usuario.endereco.cep,
+                    cidade: usuario.endereco.cidade,
+                    estado: usuario.endereco.estado
+                }
+            });
             return res.status(200).json(newUser);
             
         }catch(err){

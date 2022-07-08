@@ -2,13 +2,39 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "REST API",
-    "description": ""
+    "title": "API E-commerce Lobtec",
+    "description": "Back end, testes e documentação:  NodeJS, MongoDB, Swagger, Insomnia"
   },
-  "host": "localhost:3000",
+  "host": "localhost:45678",
   "basePath": "/",
-  "schemes": [
-    "http"
+  "tags": [
+    {
+      "name": "Usuario",
+      "description": "Endpoints"
+    }
+  ],
+  "schemes": [],
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    },
+    "petstore_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://petstore.swagger.io/oauth/authorize",
+      "flow": "implicit",
+      "scopes": {
+        "read_pets": "read your pets",
+        "write_pets": "modify pets in your account"
+      }
+    }
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
   ],
   "paths": {
     "/login": {
@@ -46,18 +72,24 @@
     },
     "/usuario": {
       "post": {
-        "description": "",
+        "tags": [
+          "Usuario"
+        ],
+        "description": "Endpoint to add a user.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
-            "name": "body",
+            "name": "obj",
             "in": "body",
+            "description": "User data.",
+            "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "senha": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Usuario"
             }
           }
         ],
@@ -71,47 +103,39 @@
         }
       }
     },
-    "/usuario/{usuario_id}": {
+    "/usuario/:usuario_id": {
       "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "usuario_id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
+        "tags": [
+          "Usuario"
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        }
-      },
-      "get": {
-        "description": "",
+        "description": "Endpoint to add a user.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
-          {
-            "name": "usuario_id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
           {
             "name": "authorization",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "usuario_id",
+            "in": "path",
+            "description": "User ID.",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "User data.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Usuario"
+            }
           }
         ],
         "responses": {
@@ -131,6 +155,35 @@
       "get": {
         "description": "",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/usuario/{usuario_id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "usuario_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -1176,6 +1229,83 @@
           }
         }
       }
+    }
+  },
+  "definitions": {
+    "Usuario": {
+      "type": "object",
+      "properties": {
+        "nome": {
+          "type": "string",
+          "example": "Philipi Simba"
+        },
+        "email": {
+          "type": "string",
+          "example": "philipi@simba.com"
+        },
+        "data_nascimento": {
+          "type": "string",
+          "example": "1988-05-15"
+        },
+        "cpf": {
+          "type": "string",
+          "example": "444.444.444.44"
+        },
+        "telefone": {
+          "type": "string",
+          "example": "11 22222-2222"
+        },
+        "senha": {
+          "type": "string",
+          "example": "12345"
+        },
+        "endereco": {
+          "type": "object",
+          "properties": {
+            "rua": {
+              "type": "string",
+              "example": "Rua bela visualViewport"
+            },
+            "numero": {
+              "type": "number",
+              "example": 555
+            },
+            "cep": {
+              "type": "string",
+              "example": "77777-777"
+            },
+            "cidade": {
+              "type": "string",
+              "example": "São Paulo"
+            },
+            "estado": {
+              "type": "string",
+              "example": "SP"
+            }
+          }
+        }
+      }
+    },
+    "create": {
+      "type": "object",
+      "properties": {
+        "nome": {
+          "type": "string",
+          "example": "Jhon Doe"
+        },
+        "email": {
+          "type": "string",
+          "example": "jhon@gmail.com"
+        },
+        "about": {
+          "type": "string",
+          "example": ""
+        }
+      },
+      "required": [
+        "nome",
+        "email"
+      ]
     }
   }
 }

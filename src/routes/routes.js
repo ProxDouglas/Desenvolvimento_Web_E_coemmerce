@@ -23,9 +23,54 @@ routes.post("/login", UserController.login);
 
 //---------------USUÁRIO--------------------------------
 // Criar Usuário OK
-routes.post("/usuario", UserController.createUser);
+routes.post("/usuario", UserController.createUser
+/*  
+
+            #swagger.tags = ['Usuario']
+            #swagger.description = 'Endpoint to add a user.' 
+
+            #swagger.path = '/usuario'
+            #swagger.method = 'post'
+            #swagger.produces = ['application/json']
+            #swagger.consumes = ['application/json']
+
+            
+
+            #swagger.parameters['obj'] = {
+                in: 'body',
+                description: 'User data.',
+                required: true,
+                schema: {  $ref: "#/definitions/Usuario" }
+            }
+        */
+
+);
 // Atualizar Usuário
-routes.put("/usuario/:usuario_id", auth, UserController.updateUserByID);
+routes.put("/usuario/:usuario_id", auth, UserController.updateUserByID
+/*  
+
+            #swagger.tags = ['Usuario']
+            #swagger.description = 'Endpoint to add a user.'
+            #swagger.path = '/usuario/:usuario_id'
+            #swagger.method = 'put'
+            #swagger.produces = ['application/json']
+            #swagger.consumes = ['application/json']
+
+            #swagger.parameters['usuario_id'] = {
+                in: 'path',
+                description: 'User ID.',
+                required: true,
+                type: 'integer'
+            }
+
+            #swagger.parameters['obj'] = {
+                in: 'body',
+                description: 'User data.',
+                required: true,
+                schema: {  $ref: "#/definitions/Usuario" }
+            }
+        */
+);
 // Listar todos os usuários OK
 routes.get("/usuarios", auth, UserController.getUser);
 // Listar apenas um usuário pelo ID
