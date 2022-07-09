@@ -163,17 +163,127 @@ class AnuncioController{
             let deletar = await anuncio.save();
             return res.status(200).json(deletar);
 
-        }catch{
+        }catch(err){
             return res.status(400).json(err);
         }
     }
+
+    async pushComentario(req, res){
+        let {id_anuncio, id_topico} = req.params;
+        let {texto, autor, data} = req.body;
+
+        try
+        { 
+            let anuncio = await Anuncio.findById(id_anuncio);
+
+            anuncio.topico.id(id_topico).comentario.push({
+                texto: texto,
+                autor: autor,
+                data: data instanceof Date
+            });
+
+            let push = await anuncio.save();
+            return res.status(200).json(push.topico.comentario);
+
+        }catch(err){
+            assert.equal(err.errors['texto'].message,
+            'O campo `texto` é obrigatório.');
+
+            assert.equal(err.errors['autor'].message,
+            'O campo `autor` é obrigatório.');
+
+            assert.equal(err.errors['data'].message,
+            'O campo `data` é obrigatório.');
+
+            return res.status(400).json(err);
+        }
+    }
+
+
+    async editComentario(req, res){
+        let {id_anuncio, id_topico, id_comentario} = req.params;
+        let {texto} = req.body;
+
+        try
+        { 
+            let anuncio = await Anuncio.findById(id_anuncio);
+
+            anuncio.topico.id(id_topico)
+                .comentario(id_comentario).texto = texto;
+
+            let push = await anuncio.save();
+            return res.status(200).json(push.topico.comentario);
+
+        }catch(err){
+            assert.equal(err.errors['texto'].message,
+            'O campo `texto` é obrigatório.');
+
+            return res.status(400).json(err);
+        }
+    }
+
+    async deleteComentario(req, res){
+        let {id_anuncio, id_topico, id_comentario} = req.params;
+
+        if(isObjectIdOrHexString(id_anuncio) && isObjectIdOrHexString(id_topico) && isObjectIdOrHexString(id_comentario)){
+            try
+            { 
+                let anuncio = await Anuncio.findById(id_anuncio);
+
+                anuncio.topico.id(id_topico)
+                    .comentario(id_comentario).remove();
+
+                let deletar = await anuncio.save();
+                // #swagger.responses[200] = { description: 'Objeto Comentario' }
+                return res.status(200).json(deletar.topico.comentario);
+
+            }catch(err){
+                // #swagger.responses[404] = { description: 'comentario não encontrado' }
+                return res.status(404).json('Erro: comentario não encontrado');
+            }
+        }
+        // #swagger.responses[400] = { description: 'id de anuncio, topico ou comentario Invalido' }
+        return res.status(400).json('Erro: id de anuncio, topico ou comentario Invalido');
+    }
+
+    async getComentarios(req, res){
+        let {id_anuncio, id_topico} = req.params;
+
+        if(isObjectIdOrHexString(id_anuncio) && isObjectIdOrHexString(id_topico) ){
+            try {
+                const anuncio = await Anuncio.findOne( {_id: id_anuncio});
+
+                let comentarios = anuncio.topico.id(id_topico).comentario;
+
+                return res.status(200).json(comentarios);
+            } catch(err){
+                return res.status(404).json(err);
+            }
+        }
+        return res.status(400).json('Erro: id de anuncio, topico ou comentario Invalido');
+    }
+
+    async getComentarioById(req, res){
+        let {id_anuncio, id_topico, id_comentario} = req.params;
+
+        if(isObjectIdOrHexString(id_anuncio) && isObjectIdOrHexString(id_topico) && isObjectIdOrHexString(id_comentario)){
+
+            try {
+                const anuncio = await Anuncio.findOne( {_id: id_anuncio});
+
+                let comentario = anuncio.topico.id(id_topico).comentario.id(id_comentario);
+
+                return res.status(200).json(comentario);
+            } catch(err){
+                return res.status(404).json(err);
+            }
+        }
+        return res.status(400).json('Erro: id de anuncio, topico ou comentario Invalido');
+    }
+
+
+
 }
 
 
 module.exports = new AnuncioController();
-
-
-/**
- * deletar anuncio
- * 
- */

@@ -33,11 +33,11 @@ routes.put("/:id_anuncio/topicos/:id_topico", auth, AnuncioController.editTopico
 routes.delete("/:id_anuncio/topicos/:id_topico", auth, AnuncioController.deleteTopico);
 
 
-// routes.post("/:id_anuncio/topicos/:id_topico/comentario", );
-// routes.get("/:id_anuncio/topicos/:id_topico/comentario", );
-// routes.get("/:id_anuncio/topicos/:id_topico/comentario", );
-// routes.put("/:id_anuncio/topicos/:id_topico/comentario", );
-// routes.delete("/:id_anuncio/topicos/:id_topico/comentario", );
+routes.post("/:id_anuncio/topicos/:id_topico/comentarios", AnuncioController.pushComentario);
+routes.get("/:id_anuncio/topicos/:id_topico/comentarios", AnuncioController.getComentarios);
+routes.get("/:id_anuncio/topicos/:id_topico/comentarios/:id_comentario", AnuncioController.getComentarioById);
+routes.put("/:id_anuncio/topicos/:id_topico/comentarios/id_comentario", AnuncioController.editComentario);
+routes.delete("/:id_anuncio/topicos/:id_topico/comentarios/:id_comentario", AnuncioController.deleteComentario);
 
 
 

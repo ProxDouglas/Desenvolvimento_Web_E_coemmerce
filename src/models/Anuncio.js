@@ -53,23 +53,35 @@ const AnuncioSchema = new mongoose.Schema({
         type:{
             texto: {
                 type: String,
-                required: true
+                required: true,
+                maxLength: 300
             },
             autor:{
-                type: String,
+                type: mongoose.Schema.Types.ObjectId,
                 required: true
+            },
+
+            data: {
+                type: Date,
+                default: Date.now
             },
 
             comentario: [{ //array
                 type: {
                     texto: {
                         type: String,
-                        required: true
+                        required: true,
+                        maxLength: 300
                     },
                     autor:{
-                        type: String,
+                        type: mongoose.Schema.Types.ObjectId,
                         required: true
                     },
+
+                    data: {
+                        type: Date,
+                        default: Date.now
+                    }
                 },
                 required: false
             }],
