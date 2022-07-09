@@ -96,3 +96,7 @@ https://curatedgo.com/r/generate-swagger-documentation-mlabouardyswaggymnia/inde
 	"email": "philipi@simba.com",
 	"senha": "12345"
 }
+
+
+Google Oath2
+https://www.makeuseof.com/nodejs-google-authentication/

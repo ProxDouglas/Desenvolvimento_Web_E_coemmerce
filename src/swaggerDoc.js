@@ -10,12 +10,6 @@ const doc = {
     schemes: [],   // by default: ['http']
     consumes: ['application/json'],  // by default: ['application/json']
     produces: ['application/json'],  // by default: ['application/json']
-    tags: [
-      {
-          "name": "Usuario",
-          "description": "Endpoints"
-      }
-  ],
     securityDefinitions: {
       api_key: {
         type: "apiKey",
@@ -33,26 +27,28 @@ const doc = {
       }
     },  // by default: empty object
     definitions: {
-        Usuario:{
-            nome: "Philipi Simba",
-            email: "philipi@simba.com",
-            data_nascimento: "1988-05-15",
-            cpf: "444.444.444.44",
-            telefone: "11 22222-2222",
-            senha: "12345",
-            endereco: {
-                rua: "Rua bela visualViewport",
-                numero: 555,
-                cep:"77777-777",
-                cidade: "São Paulo",
-                estado: "SP"
-            }
-        },
-        create: {
-            $nome: "Jhon Doe",
-            $email: "jhon@gmail.com",
-            about: ""
-        }
+      Login: {
+        $email: "philipi@simba.com",
+        $senha: "12345"
+      },
+
+      Usuario:{
+          $nome: "Philipi Simba",
+          $email: "philipi@simba.com",
+          $data_nascimento: "1988-05-15",
+          $cpf: "444.444.444.44",
+          $telefone: "11 22222-2222",
+          $endereco: {
+              $rua: "Rua bela visualViewport",
+              $numero: 555,
+              apt: "terceiro bloco",
+              $cep:"77777-777",
+              $cidade: "São Paulo",
+              $estado: "SP"
+          }
+      },
+      
+        
     },          // by default: empty object (Swagger 2.0)
     components: {}            // by default: empty object (OpenAPI 3.x)
   }

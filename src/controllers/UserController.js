@@ -7,8 +7,6 @@ var bcrypt = require("bcrypt");
 class UserController  {
 
     async createUser(req, res) {
-        // let newUser = new Usuario();
-
         let usuario = req.body;
         
         
@@ -18,7 +16,8 @@ class UserController  {
 
             let senha = hash;
             // const newUser = await Usuario.create(bodyData);
-            const newUser = await Usuario.create({
+            const newUser = await Usuario.create(
+                {
                 nome: usuario.nome,
                 email: usuario.email,
                 data_nascimento:usuario.data_nascimento,
@@ -34,9 +33,11 @@ class UserController  {
                     estado: usuario.endereco.estado
                 }
             });
-            return res.status(200).json(newUser);
+            // #swagger.responses[201] = { description: 'Usuario registrado com Sucesso.' }
+            return res.status(201).json(newUser);
             
         }catch(err){
+            // #swagger.responses[400] = { description: 'Requisição Invalida.' }
             return res.status(400).json(err);
         }
     }
@@ -44,6 +45,7 @@ class UserController  {
     async getUser(req, res) {
         try {
             const users = await Usuario.find()
+                .select('_id nome email data_nascimento cpf telefone endereco');
             return res.status(200).json(users)
         } catch(err){
             return res.status(400).json(err)
@@ -54,6 +56,7 @@ class UserController  {
         const  { usuario_id }  = req.params
         try {
             const user = await Usuario.findById(usuario_id)
+                .select('_id nome email data_nascimento cpf telefone endereco');
             return res.status(200).json(user)
         } catch(err){
             return res.status(400).json(err)
@@ -61,17 +64,37 @@ class UserController  {
     }
 
     async updateUserByID(req, res) {
-        const bodyData = req.body
+        const usuario = req.body
         const { usuario_id } = req.params
 
         
         try {
-            const updateUsuario = await Usuario.findByIdAndUpdate(usuario_id, bodyData, {new: true})
+            const updateUsuario = await Usuario
+                .findByIdAndUpdate(
+                    usuario_id,
+
+                    {
+                        nome: usuario.nome,
+                        // email: usuario.email,
+                        data_nascimento:usuario.data_nascimento,
+                        cpf: usuario.cpf,
+                        telefone: usuario.telefone,
+                        endereco: {
+                            rua: usuario.endereco.rua,
+                            numero: usuario.endereco.numero,
+                            apt: usuario.endereco.apt,
+                            cep: usuario.endereco.cep,
+                            cidade: usuario.endereco.cidade,
+                            estado: usuario.endereco.estado
+                        }
+                    }, 
+
+                    {new: true}
+                    )
             return res.status(200).json(updateUsuario)
         } catch(err) {
             return res.status(400).json(err)
         }
-
     }
 
     async login(req, res) {

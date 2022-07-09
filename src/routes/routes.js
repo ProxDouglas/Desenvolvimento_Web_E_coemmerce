@@ -4,12 +4,6 @@ const { Router } = require("express");
 const auth = require("../middlewares/Autenticacao");
 
 const UserController = require("../controllers/UserController");
-const CategoriaController = require("../controllers/CategoriaController");
-const ProdutoController = require("../controllers/ProdutoController");
-const AnuncioController = require("../controllers/AnuncioController.js");
-const CarrinhoController = require("../controllers/CarrinhoController.js");
-const TransacaoController = require("../controllers/TransacaoController");
-const Entrega = require("../models/Entrega");
 const EntregaController = require("../controllers/EntregaController");
 const CompraContorller = require("../controllers/CompraController");
 const { createEntrega } = require("../controllers/EntregaController");
@@ -21,149 +15,20 @@ const routes = Router()
 routes.post("/login", UserController.login);
 
 
-//---------------USUÁRIO--------------------------------
-// Criar Usuário OK
-routes.post("/usuario", UserController.createUser
-/*  
 
-            #swagger.tags = ['Usuario']
-            #swagger.description = 'Endpoint to add a user.' 
+routes.use('/usuarios', require('./Usuario/UsuarioRoutes') /* #swagger.tags = ['Usuarios']*/);
 
-            #swagger.path = '/usuario'
-            #swagger.method = 'post'
-            #swagger.produces = ['application/json']
-            #swagger.consumes = ['application/json']
+routes.use('/categorias', require('./Categoria/CategoriaRoutes') /* #swagger.tags = ['Categorias']*/);
 
-            
+routes.use('/produtos', require('./Produto/ProdutoRoutes') /* #swagger.tags = ['Produtos']*/);
 
-            #swagger.parameters['obj'] = {
-                in: 'body',
-                description: 'User data.',
-                required: true,
-                schema: {  $ref: "#/definitions/Usuario" }
-            }
-        */
+routes.use('/anuncios', require('./Anuncio/AnuncioRoutes') /* #swagger.tags = ['Anuncios']*/);
 
-);
-// Atualizar Usuário
-routes.put("/usuario/:usuario_id", auth, UserController.updateUserByID
-/*  
+routes.use('/carrinhos', require('./Carrinho/CarrinhoRoutes') /* #swagger.tags = ['Carrinhos']*/);
 
-            #swagger.tags = ['Usuario']
-            #swagger.description = 'Endpoint to add a user.'
-            #swagger.path = '/usuario/:usuario_id'
-            #swagger.method = 'put'
-            #swagger.produces = ['application/json']
-            #swagger.consumes = ['application/json']
-
-            #swagger.parameters['usuario_id'] = {
-                in: 'path',
-                description: 'User ID.',
-                required: true,
-                type: 'integer'
-            }
-
-            #swagger.parameters['obj'] = {
-                in: 'body',
-                description: 'User data.',
-                required: true,
-                schema: {  $ref: "#/definitions/Usuario" }
-            }
-        */
-);
-// Listar todos os usuários OK
-routes.get("/usuarios", auth, UserController.getUser);
-// Listar apenas um usuário pelo ID
-routes.get("/usuario/:usuario_id", auth, UserController.getUserByID);
-// Listar os anuncios de determinado usuário
-routes.get("/usuario/:id_usuario/anuncio", auth, AnuncioController.getAnuncioByUsuario);
+routes.use('/transacoes', require('./Transacao/TransacaoRoutes') /* #swagger.tags = ['Transacoes']*/);
 
 
-//---------------------------Categoria-------------------------------------------
-// Criar Categoria
-routes.post("/categoria", auth, CategoriaController.createCategoria);
-// Atualizar Categoria
-routes.put("/categoria/:id_categoria", auth, CategoriaController.updateCategoria);
-// Listar Categorias
-routes.get("/categorias", CategoriaController.getCategorias);
-// Listar categoria pelo ID
-routes.get("/categoria/:identificador", CategoriaController.getCategoria);
-// Criar Sub-categorias
-routes.post("/categoria/:id_categoria/subcategoria", auth, CategoriaController.pushSubCategoria);
-//Listar sub-categorias
-routes.get("/categoria/:id_categoria/subcategorias", CategoriaController.listSubCategoria);
-// Atualizar sub-categorias por ID
-routes.put("/categoria/:id_categoria/subcategoria/:id_subcat", auth, CategoriaController.updateByIDSubCategoria);
-// Deletar sub-categorias
-routes.delete("/categoria/:id_categoria/subcategoria/:id_subcat", auth, CategoriaController.deleteByIDSubCategoria);
-
-
-//---------------PRODUTO--------------------------------------------------------
-// Criar novo produto na base de dados
-routes.post("/produto", auth, ProdutoController.createProduto);
-// Atualizar produto na base de dados
-routes.put("/produto/:id_produto", auth, ProdutoController.updateProdutoByID);
-// Listar todos os produtos da base de dados
-routes.get("/produtos", auth, ProdutoController.getProdutos);
-// Listar apenas um produto pelo ID
-routes.get("/produto/:id_produto", auth, ProdutoController.getProdutoByID);
-// Listar anuncios de determinado produto
-routes.get("/produto/:id_produto/anuncio", AnuncioController.getAnuncioByProduto);
-
-
-//------------ANUNCIO DO PRODUTO -------------------------
-// Listar todos os anúncios
-routes.get("/anuncios", AnuncioController.getAnuncios);
-// Criar anúncio
-routes.post("/anuncio", auth,  AnuncioController.createAnuncio);
-// Atualizar informações do anúncio
-routes.put("/anuncio/:id_anuncio", auth, AnuncioController.updateAnuncioByID);
-// Exibir um único anúncio
-routes.get("/anuncio/:id_anuncio", AnuncioController.getAnuncioByID);
-// Excluir anuncio pelo ID
-routes.delete("/anuncio/:id_usuario/:id_anuncio", auth, AnuncioController.deleteAnuncio )
-
-
-// Cria uma pergunta dentro do anuncio
-routes.post("/anuncio/:id_anuncio/topico",auth, AnuncioController.pushTopico);
-// Lista todas as perguntas do anúncio
-routes.get("/anuncio/:id_anuncio/topicos", AnuncioController.getTopicos);
-// Lista as perguntas de determinado usuário
-routes.get("/anuncio/:id_anuncio/topico/:id_topico", auth, AnuncioController.getTopico);
-// Atualiza apenas texto do tópico de determinado usuário
-routes.put("/anuncio/:id_anuncio/topico/:id_topico", auth, AnuncioController.editTopico); //apenas texto
-// Apaga o tópico de determinado usuário em um anuncio
-routes.delete("/anuncio/:id_anuncio/topico/:id_topico", auth, AnuncioController.deleteTopico);
-
-
-// routes.post("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
-// routes.get("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
-// routes.get("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
-// routes.put("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
-// routes.delete("/anuncio/:id_anuncio/topico/:id_topico/comentario", );
-
-
-
-//-------------------Carrinho-----------------
-//o id do usuario vai na requisicao json
-// Criar Carrinho de compras
-routes.post("/carrinho/:id_usuario", auth, CarrinhoController.pushAnuncioCarrinho);
-// Apagar carrinho de compras
-routes.delete("/carrinho/:id_usuario/anuncio/:id_anuncio", auth, CarrinhoController.deleteAnuncioCarrinho)
-// Listar carrinho do usuário
-routes.get("/carrinho/:id_usuario", auth, CarrinhoController.getCarrinhoByIDUser);
-//routes.get("/carrinhos");
-
-//------------------Transação------------------
-// Cria uma transação
-routes.post("/transacao", TransacaoController.createTransacao);
-// Atualiza o estado da transação
-routes.put("/transacao/:id_transacao", TransacaoController.updateTransacaoByID);
-// Lista uma transação
-routes.get("/transacao/:id_transacao", TransacaoController.getTransacaoByID);
-// Lista todas as transacoes
-routes.get("/transacoes", TransacaoController.getTransacoes);
-// routes.get("/transacoes", TransacaoController.getTransacaos);
 
 
 
