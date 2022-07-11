@@ -253,11 +253,11 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "Usuario registrado com Sucesso."
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Requisição Invalida."
           }
         }
       },
@@ -892,7 +892,7 @@
         }
       }
     },
-    "/anuncios/{id_anuncio}/topico": {
+    "/anuncios/{id_anuncio}/topicos": {
       "post": {
         "tags": [
           "Topicos"
@@ -922,9 +922,7 @@
             "description": "Forbidden"
           }
         }
-      }
-    },
-    "/anuncios/{id_anuncio}/topicos": {
+      },
       "get": {
         "tags": [
           "Anuncios"
@@ -948,7 +946,7 @@
         }
       }
     },
-    "/anuncios/{id_anuncio}/topico/{id_topico}": {
+    "/anuncios/{id_anuncio}/topicos/{id_topico}": {
       "get": {
         "tags": [
           "Anuncios"
@@ -1066,6 +1064,203 @@
           },
           "403": {
             "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/anuncios/{id_anuncio}/topicos/{id_topico}/comentarios": {
+      "post": {
+        "tags": [
+          "Anuncios"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id_anuncio",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_topico",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "texto": {
+                  "example": "any"
+                },
+                "autor": {
+                  "example": "any"
+                },
+                "data": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Anuncios"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id_anuncio",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_topico",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/anuncios/{id_anuncio}/topicos/{id_topico}/comentarios/{id_comentario}": {
+      "get": {
+        "tags": [
+          "Anuncios"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id_anuncio",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_topico",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_comentario",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Anuncios"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id_anuncio",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_topico",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_comentario",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Objeto Comentario"
+          },
+          "400": {
+            "description": "id de anuncio, topico ou comentario Invalido"
+          },
+          "404": {
+            "description": "comentario não encontrado"
+          }
+        }
+      }
+    },
+    "/anuncios/{id_anuncio}/topicos/{id_topico}/comentarios/id_comentario": {
+      "put": {
+        "tags": [
+          "Anuncios"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id_anuncio",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_topico",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "texto": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           }
         }
       }
@@ -1299,6 +1494,23 @@
     }
   },
   "definitions": {
+    "Login": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "philipi@simba.com"
+        },
+        "senha": {
+          "type": "string",
+          "example": "12345"
+        }
+      },
+      "required": [
+        "email",
+        "senha"
+      ]
+    },
     "Usuario": {
       "type": "object",
       "properties": {
@@ -1321,10 +1533,6 @@
         "telefone": {
           "type": "string",
           "example": "11 22222-2222"
-        },
-        "senha": {
-          "type": "string",
-          "example": "12345"
         },
         "endereco": {
           "type": "object",
@@ -1369,7 +1577,6 @@
         "data_nascimento",
         "cpf",
         "telefone",
-        "senha",
         "endereco"
       ]
     }

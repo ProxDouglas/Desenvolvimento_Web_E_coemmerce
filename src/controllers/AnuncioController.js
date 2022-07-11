@@ -153,50 +153,66 @@ class AnuncioController{
 
     async deleteTopico(req, res){
         let {id_anuncio, id_topico} = req.params
-        try
-        {
-            
-            let anuncio = await Anuncio.findById(id_anuncio);
+        if(isObjectIdOrHexString(id_anuncio) && isObjectIdOrHexString(id_topico)){
 
-            anuncio.topico.id(id_topico).remove();
+            try
+            {
+                
+                let anuncio = await Anuncio.findById(id_anuncio);
+                if(anuncio != undefined){
 
-            let deletar = await anuncio.save();
-            return res.status(200).json(deletar);
+                    anuncio.topico.id(id_topico).remove();
 
-        }catch(err){
-            return res.status(400).json(err);
+                    let deletar = await anuncio.save();
+                    return res.status(200).json(deletar);
+                }
+                // #swagger.responses[404] = { description: 'Anuncio não encontrado' }
+                return res.status(404).json('Error: Anuncio não encontrado');
+
+            }catch(err){
+                return res.status(400).json(err);
+            }
         }
+        // #swagger.responses[400] = { description: 'id de anuncio ou topico Invalido' }
+        return res.status(400).json('Erro: id de anuncio ou topico Invalido');
     }
 
     async pushComentario(req, res){
         let {id_anuncio, id_topico} = req.params;
         let {texto, autor, data} = req.body;
 
-        try
-        { 
-            let anuncio = await Anuncio.findById(id_anuncio);
+        if(isObjectIdOrHexString(id_anuncio) && isObjectIdOrHexString(id_topico)){
+            try
+            { 
+                let anuncio = await Anuncio.findById(id_anuncio);
+                if(anunccio != undefined){
+                    anuncio.topico.id(id_topico).comentario.push({
+                        texto: texto,
+                        autor: autor,
+                        data: data instanceof Date
+                    });
 
-            anuncio.topico.id(id_topico).comentario.push({
-                texto: texto,
-                autor: autor,
-                data: data instanceof Date
-            });
+                    let push = await anuncio.save();
+                    return res.status(200).json(push.topico.comentario);
+                }
+                // #swagger.responses[404] = { description: 'Anuncio não encontrado' }
+                return res.status(404).json('Error: Anuncio não encontrado');
+            }catch(err){
+                assert.equal(err.errors['texto'].message,
+                'O campo `texto` é obrigatório.');
 
-            let push = await anuncio.save();
-            return res.status(200).json(push.topico.comentario);
+                assert.equal(err.errors['autor'].message,
+                'O campo `autor` é obrigatório.');
 
-        }catch(err){
-            assert.equal(err.errors['texto'].message,
-            'O campo `texto` é obrigatório.');
+                assert.equal(err.errors['data'].message,
+                'O campo `data` é obrigatório.');
 
-            assert.equal(err.errors['autor'].message,
-            'O campo `autor` é obrigatório.');
-
-            assert.equal(err.errors['data'].message,
-            'O campo `data` é obrigatório.');
-
-            return res.status(400).json(err);
+                return res.status(400).json(err);
+            }
         }
+
+        // #swagger.responses[400] = { description: 'id de anuncio ou topico Invalido' }
+        return res.status(400).json('Erro: id de anuncio ou topico Invalido');
     }
 
 
@@ -204,22 +220,30 @@ class AnuncioController{
         let {id_anuncio, id_topico, id_comentario} = req.params;
         let {texto} = req.body;
 
-        try
-        { 
-            let anuncio = await Anuncio.findById(id_anuncio);
+        if(isObjectIdOrHexString(id_anuncio) && isObjectIdOrHexString(id_topico) && isObjectIdOrHexString(id_comentario)){
+            try
+            { 
+                
+                let anuncio = await Anuncio.findById(id_anuncio);
+                if(anuncio != undefined){
 
-            anuncio.topico.id(id_topico)
-                .comentario(id_comentario).texto = texto;
+                    anuncio.topico.id(id_topico)
+                        .comentario(id_comentario).texto = texto;
 
-            let push = await anuncio.save();
-            return res.status(200).json(push.topico.comentario);
-
-        }catch(err){
-            assert.equal(err.errors['texto'].message,
-            'O campo `texto` é obrigatório.');
-
-            return res.status(400).json(err);
+                    let push = await anuncio.save();
+                    return res.status(200).json(push.topico.comentario);
+                }
+                // #swagger.responses[404] = { description: 'Anuncio não encontrado' }
+                return res.status(404).json('Error: Anuncio não encontrado');
+            }catch(err){
+                assert.equal(err.errors['texto'].message,
+                'O campo `texto` é obrigatório.');
+                // #swagger.responses[400] = { description: 'Requisição não aceita pelo padrão' }
+                return res.status(400).json(err);
+            }
         }
+        // #swagger.responses[400] = { description: 'id de anuncio, topico ou comentario Invalido' }
+        return res.status(400).json('Erro: id de anuncio, topico ou comentario Invalido');
     }
 
     async deleteComentario(req, res){
@@ -255,11 +279,14 @@ class AnuncioController{
 
                 let comentarios = anuncio.topico.id(id_topico).comentario;
 
+                // #swagger.responses[200] = { description: 'Objeto Comentario' }
                 return res.status(200).json(comentarios);
             } catch(err){
+                // #swagger.responses[404] = { description: 'Sem comentarios' }
                 return res.status(404).json(err);
             }
         }
+        // #swagger.responses[400] = { description: 'id de anuncio ou topico Invalido' }
         return res.status(400).json('Erro: id de anuncio, topico ou comentario Invalido');
     }
 
@@ -273,11 +300,14 @@ class AnuncioController{
 
                 let comentario = anuncio.topico.id(id_topico).comentario.id(id_comentario);
 
+                // #swagger.responses[200] = { description: 'Objeto Comentario' }
                 return res.status(200).json(comentario);
             } catch(err){
+                // #swagger.responses[404] = { description: 'comentario não encontrado' }
                 return res.status(404).json(err);
             }
         }
+        // #swagger.responses[400] = { description: 'id de anuncio, topico ou comentario Invalido' }
         return res.status(400).json('Erro: id de anuncio, topico ou comentario Invalido');
     }
 

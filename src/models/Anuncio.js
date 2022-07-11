@@ -5,7 +5,9 @@ const AnuncioSchema = new mongoose.Schema({
 
     nome: {
         type:String,
-        required: true
+        required: true,
+        maxLength: 50,
+        minlength: 5
     },
 
     preco: {
@@ -54,7 +56,8 @@ const AnuncioSchema = new mongoose.Schema({
             texto: {
                 type: String,
                 required: true,
-                maxLength: 300
+                maxLength: 300,
+                minlength: 5
             },
             autor:{
                 type: mongoose.Schema.Types.ObjectId,
@@ -71,7 +74,8 @@ const AnuncioSchema = new mongoose.Schema({
                     texto: {
                         type: String,
                         required: true,
-                        maxLength: 300
+                        maxLength: 300,
+                        minlength: 5
                     },
                     autor:{
                         type: mongoose.Schema.Types.ObjectId,

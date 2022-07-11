@@ -30,6 +30,12 @@ npm install mongoose --save
 
 npm install bcrypt --save
 
+npm install passport-google-oauth2 --save
+
+npm install passport-jwt
+
+npm install dotenv --save
+
 ## Rotas
 POST: /usuario
 
@@ -97,6 +103,15 @@ https://curatedgo.com/r/generate-swagger-documentation-mlabouardyswaggymnia/inde
 	"senha": "12345"
 }
 
+swagger-autogen
+https://www.npmjs.com/package/swagger-autogen/v/2.9.0
 
 Google Oath2
 https://www.makeuseof.com/nodejs-google-authentication/
+
+https://cloud.google.com/nodejs/getting-started/authenticate-users?hl=pt-br#create_the_source_code
+
+
+secretId: 189992687297-pk6qd1toijahev3tgmlsq4nb4sb729ma.apps.googleusercontent.com
+secretKey: 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
+redirectAPI: http://localhost:45678/api/session/oath/google

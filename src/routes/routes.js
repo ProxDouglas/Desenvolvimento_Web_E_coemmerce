@@ -2,6 +2,7 @@
 const { Router } = require("express");
 // Importa o arquivo de autenticação
 const auth = require("../middlewares/Autenticacao");
+const passport = require('passport');
 
 const UserController = require("../controllers/UserController");
 const EntregaController = require("../controllers/EntregaController");
@@ -12,7 +13,23 @@ const routes = Router()
 
 //---------------LOGIN----------------------------------
 // Criar Sessão/Login
-routes.post("/login", UserController.login);
+routes.post("/login", UserController.login /* #swagger.tags = ['Login']*/);
+
+routes.get('/auth/google',
+    passport.authenticate('google', { scope: [ 'email', 'profile' ] })
+);
+
+routes.get("/api/session/oath/google",
+passport.authenticate( 'google', {
+    successRedirect: '/protected',
+    failureRedirect: '/auth/google/failure'
+  })
+);
+
+app.get("/profile", (req, res) => {
+    console.log(req);
+    res.send("Welcome");
+});
 
 
 
