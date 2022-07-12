@@ -3,6 +3,8 @@ dotenv.config();
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
 
+const Usuario = require('../models/Usuario');
+
 
 const GOOGLE_CLIENT_ID = process.env.CLIENT_ID//'189992687297-pk6qd1toijahev3tgmlsq4nb4sb729ma.apps.googleusercontent.com';
 const GOOGLE_CLIENT_SECRET = process.env.CLIENT_SECRET//'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';
@@ -20,21 +22,19 @@ passport.use(new GoogleStrategy({
 
 async (request, accessToken, refreshToken, profile, done) => {
   try {
-    await User.findOne({ 'google.id': profile.id });
+    let existingUser = await Usuario.findOne({ 'id_google': profile.id });
     // if user exists return the user 
     if (existingUser) {
-      return done(null, existingUser);
+      return done(null, existingUser); 
     }
     // if user does not exist create a new user 
     console.log('Creating new user...');
     const newUser = new User({
-      method: 'google',
-      google: {
-        id: profile.id,
-        name: profile.displayName,
-        email: profile.emails[0].value
-      }
+      id_google: profile.id,
+      nome: profile.displayName,
+      email: profile.emails[0].value
     });
+
     await newUser.save();
     return done(null, newUser);
     

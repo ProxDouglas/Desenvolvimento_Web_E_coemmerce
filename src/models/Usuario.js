@@ -3,9 +3,18 @@ const Anuncio = require("./Anuncio");
 
 const UsuarioSchema = new mongoose.Schema({
 
+    id_google: { //id google
+        type: String,
+        required: false
+    },
     nome: {
         type:String,
         required: true
+    },
+
+    img: {
+        data: Buffer,
+        contextType: String
     },
 
     email: {
@@ -15,22 +24,17 @@ const UsuarioSchema = new mongoose.Schema({
 
     data_nascimento: { //yyyy-mm-dd
         type: Date,
-        required: true
-    },
-
-    cpf: {
-        type:String,
-        required: true
+        required: false
     },
 
     telefone: {
         type:String,
-        required: true
+        required: false
     },
 
-    senha: {
+    senha: { 
         type:String,
-        required: true
+        required: false
     },
 
     avaliacao: [{
@@ -48,7 +52,7 @@ const UsuarioSchema = new mongoose.Schema({
         },
         required: false
     }],
-    endereco:{
+    endereco:[{
         rua:{
             type: String,
             required: true
@@ -72,7 +76,7 @@ const UsuarioSchema = new mongoose.Schema({
             type: String,
             required: true
         }
-    },
+    }],
 
     favoritos:{
         type: mongoose.Schema.Types.ObjectId,
@@ -89,7 +93,7 @@ const UsuarioSchema = new mongoose.Schema({
         type: Number,
         default: 0   
     },
-    status:{
+    status:{ //ativo e inativo
         type: Boolean,
         default: true
     }

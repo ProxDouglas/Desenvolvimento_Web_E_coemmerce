@@ -26,10 +26,10 @@ passport.authenticate( 'google', {
   })
 );
 
-app.get("/profile", (req, res) => {
-    console.log(req);
-    res.send("Welcome");
-});
+// app.get("/profile", (req, res) => {
+//     console.log(req);
+//     res.send("Welcome");
+// });
 
 
 

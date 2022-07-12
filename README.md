@@ -115,3 +115,6 @@ https://cloud.google.com/nodejs/getting-started/authenticate-users?hl=pt-br#crea
 secretId: 189992687297-pk6qd1toijahev3tgmlsq4nb4sb729ma.apps.googleusercontent.com
 secretKey: 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
 redirectAPI: http://localhost:45678/api/session/oath/google
+
+Validaçao  do token do google
+https://developers.google.com/identity/gsi/web/guides/verify-google-id-token
