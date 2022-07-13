@@ -97,33 +97,6 @@ class UserController  {
         }
     }
 
-    async login(req, res) {
-        const { email, senha } = req.body;
-        
-        try{
-            
-            const user = await Usuario.findOne({email: email});
-
-            if(user != undefined){
-                
-                let resultado = await bcrypt.compare(senha,user.senha);
-
-                if(resultado == true){
-                    let token = jwt.sign({ email: user.email, status: user.status}, JWTSecret)
-                    return res.status(200).json({token: token});
-                }else{
-                    let msg = "Senha incorreta";
-                    res.status(406).json(msg);
-                }  
-            }else{
-                res.status(406);
-                res.json({status: false, err: "Email incorreto ou inexistente!"});
-            }
-        } catch(err) {
-            return res.status(400).json(err)
-        }
-    }
-
 }
 
 module.exports = new UserController;

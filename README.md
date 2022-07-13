@@ -36,6 +36,8 @@ npm install passport-jwt
 
 npm install dotenv --save
 
+npm install google-auth-library --save
+
 ## Rotas
 POST: /usuario
 
@@ -118,3 +120,5 @@ redirectAPI: http://localhost:45678/api/session/oath/google
 
 Validaçao  do token do google
 https://developers.google.com/identity/gsi/web/guides/verify-google-id-token
+
+https://stackoverflow.com/questions/42405439/how-to-verify-google-auth-token-at-server-side-in-node-js

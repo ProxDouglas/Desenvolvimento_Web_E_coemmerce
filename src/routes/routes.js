@@ -4,34 +4,46 @@ const { Router } = require("express");
 const auth = require("../middlewares/Autenticacao");
 const passport = require('passport');
 
-const UserController = require("../controllers/UserController");
 const EntregaController = require("../controllers/EntregaController");
 const CompraContorller = require("../controllers/CompraController");
+const LoginController = require('../controllers/LoginController');
 const { createEntrega } = require("../controllers/EntregaController");
+
+const verifyToken = require('../middlewares/AuthGoogle');
 
 const routes = Router()
 
-//---------------LOGIN----------------------------------
-// Criar Sessão/Login
-routes.post("/login", UserController.login /* #swagger.tags = ['Login']*/);
+// var jwt = require("jsonwebtoken");
+// const JWTSecret = require("../middlewares/segredo");
 
-routes.get('/auth/google',
-    passport.authenticate('google', { scope: [ 'email', 'profile' ] })
-);
+// routes.post('/verify', (req, res) => {
 
-routes.get("/api/session/oath/google",
-passport.authenticate( 'google', {
-    successRedirect: '/protected',
-    failureRedirect: '/auth/google/failure'
-  })
-);
+//     const  authToken  = req.headers['authorization'];
+    
+    
+//     if(authToken != undefined){
+//         const bearer = authToken.split(' ');
+//         var token = bearer[1];
+        
 
-// app.get("/profile", (req, res) => {
-//     console.log(req);
-//     res.send("Welcome");
+//         let obj = verifyToken.verify(token);
+
+//         verifyToken.verify(token).catch(console.error);
+
+//         let valido = verifyToken.verifyIdToken(token);
+
+//         return res.status(200).json(obj);
+
+//     }
+//     return res.status(400).json("Erro");
+
 // });
 
+//---------------LOGIN----------------------------------
+// Criar Sessão/Login
+routes.post("/login", LoginController.login /* #swagger.tags = ['Login']*/);
 
+routes.post('/login/google/:token', LoginController.alterToken /* #swagger.tags = ['Login']*/);
 
 routes.use('/usuarios', require('./Usuario/UsuarioRoutes') /* #swagger.tags = ['Usuarios']*/);
 

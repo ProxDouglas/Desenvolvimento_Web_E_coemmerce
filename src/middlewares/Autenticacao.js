@@ -1,6 +1,7 @@
-const tris = require("../models/Usuario")
+const AuthGoogle = require('./AuthGoogle');
 var jwt = require("jsonwebtoken");
 const JWTSecret = require("../middlewares/segredo");
+const Usuario = require('../models/Usuario'); 
 
 function auth(req, res, next){
     const  authToken  = req.headers['authorization'];
@@ -10,26 +11,27 @@ function auth(req, res, next){
         const bearer = authToken.split(' ');
         var token = bearer[1];
 
-        try{
-            var decoded = jwt.verify(token, JWTSecret);
-            
-            if(decoded.status == true){  //para acionar esse if é necessário verificar se usuario está ativo
-                next();
-            }else{
-                res.status(403);
-                res.send("Usuario inativo!");
-                return;
-            }
-        }catch(err){
+    try{
+        var decoded = jwt.verify(token, JWTSecret);
+        
+        if(decoded.status == true){  //para acionar esse if é necessário verificar se usuario está ativo
+            next();
+        }else{
             res.status(403);
-            res.send("Você não está autenticado");
+            res.send("Usuario inativo!");
             return;
         }
+    }catch(err){
+        res.status(403);
+        res.send("Você não está autenticado");
+        return;
+    }
     }else{
         res.status(403);
         res.send("Você não está autenticado");
         return;
     }
+    
 }
 
 module.exports = auth;
