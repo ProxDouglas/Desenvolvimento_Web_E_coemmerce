@@ -17,7 +17,7 @@ class LoginController {
             // var token = bearer[1];
 
             let googleUser = await AuthGoogle.verify(token);
-            AuthGoogle.verify().catch(console.error);
+            //AuthGoogle.verify().catch(console.error);
 
             if(googleUser['sub'] != undefined){
                 let valid = await AuthGoogle.verifyIdToken(token);
@@ -36,7 +36,7 @@ class LoginController {
                     }
 
                     let newtoken = jwt.sign({ email: usuario.email, nome: usuario.nome}, JWTSecret, {expiresIn: 2})
-                    return res.status(200).json({token: 'Bearer ' + newtoken});
+                    return res.status(200).json({newtoken});
                 }
             }
         }
