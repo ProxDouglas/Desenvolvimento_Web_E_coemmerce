@@ -9,15 +9,33 @@ const CompraContorller = require("../controllers/CompraController");
 const LoginController = require('../controllers/LoginController');
 const { createEntrega } = require("../controllers/EntregaController");
 
-const verifyToken = require('../middlewares/AuthGoogle');
-
 const routes = Router()
 
 //---------------LOGIN----------------------------------
 // Criar Sessão/Login
-routes.post("/login", LoginController.login /* #swagger.tags = ['Login']*/);
+routes.post("/login", LoginController.login 
+    /* #swagger.tags = ['Login']
 
-routes.post('/login/google/:token', LoginController.alterToken /* #swagger.tags = ['Login']*/);
+    #swagger.security = [{
+        "bearerAuth": []
+
+    #swagger.responses[200] = {
+            description: 'Login successfully.',
+            schema: [{ $ref: '#/definitions/LoginResponse' }]
+    } */
+);
+
+routes.post('/login/google/:token', LoginController.alterToken 
+    /* #swagger.tags = ['Login']
+
+    #swagger.security = [{
+        "OAuth2": []
+
+    #swagger.responses[200] = {
+            description: 'Login successfully.',
+            schema: [{ $ref: '#/definitions/LoginResponse' }]
+    } */
+);
 
 routes.use('/usuarios', require('./Usuario/UsuarioRoutes') /* #swagger.tags = ['Usuarios']*/);
 

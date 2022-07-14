@@ -21,23 +21,27 @@ routes.post("/", UserController.createUser
                 description: 'Dados do Usuario.',
                 required: true,
                 schema: {  $ref: "#/definitions/Usuario" }
-            }
+            },
+
+            #swagger.responses[201] = {
+            description: 'User successfully obtained.',
+            schema: { $ref: '#/definitions/UsuarioResponse' }
         */
 
 );
 // Atualizar Usuário
-routes.put("/:usuario_id", auth, UserController.updateUserByID
+routes.put("/:id_usuario", auth, UserController.updateUserByID
 /*  
 
             
             #swagger.description = 'Endpoint para atualizar usuario. Requer autenticação.'
 
-            #swagger.parameters['usuario_id'] = {
+            #swagger.parameters['id_usuario'] = {
                 in: 'path',
                 description: 'ID do Usuario.',
                 required: true,
                 type: 'String'
-            }
+            },
 
             #swagger.parameters['usuario'] = {
                 in: 'body',
@@ -56,12 +60,12 @@ routes.post('/id_usuario/enderecos',auth, UserController.addEndereco
             
             #swagger.description = 'Endpoint para adicionar endereco. Requer autenticação.'
 
-            #swagger.parameters['usuario_id'] = {
+            #swagger.parameters['id_usuario'] = {
                 in: 'path',
                 description: 'ID do Usuario.',
                 required: true,
                 type: 'String'
-            }
+            },
 
             #swagger.parameters['endereco'] = {
                 in: 'body',
@@ -79,26 +83,62 @@ routes.post('/:id_usuario/avaliar',auth, UserController.pushAvaliacao
             
             #swagger.description = 'Endpoint para adicionar uma avalizacao ao usuario. Requer autenticação.'
 
-            #swagger.parameters['usuario_id'] = {
+            #swagger.parameters['id_usuario'] = {
                 in: 'path',
                 description: 'ID do Usuario.',
                 required: true,
                 type: 'String'
-            }
+            },
 
             #swagger.parameters['avaliacao'] = {
                 in: 'body',
                 description: 'Dados de avalizacao.',
                 required: true,
-                schema: {  $ref: "#/definitions/Avaliacao" }
-            }
+                schema: {
+                    $avaliador: '62c0c85056cb82127d8e8105',
+                    $nota: 5
+                }
+            },
+            #swagger.responses[201] = {
+            description: 'User successfully obtained.',
+            schema: {
+                    $avaliador: '62c0c85056cb82127d8e8105',
+                    $nota: 5
+                }
         */
 );
 
+routes.get('/:id_usuario/avaliar',auth, UserController.avaliacaoByIdUsuario
+         /*
+         #swagger.description = 'Endpoint para pegar a media das avaliações. Requer autenticação.'
+
+            #swagger.parameters['id_usuario'] = {
+                in: 'path',
+                description: 'ID do Usuario.',
+                required: true,
+                type: 'String'
+            },
+
+            #swagger.responses[200] = {
+            description: 'Media obtida com sucesso.',
+            schema: { media: 5.0 }
+         */   
+);
+
 // Listar todos os usuários OK
-routes.get("/", auth, UserController.getUser);
+routes.get("/", auth, UserController.getUser 
+    /* #swagger.responses[200] = {
+            description: 'User successfully obtained.',
+            schema: [{ $ref: '#/definitions/UsuarioResponse' }]
+    } */
+);
 // Listar apenas um usuário pelo ID
-routes.get("/:usuario_id", auth, UserController.getUserByID);
+routes.get("/:id_usuario", auth, UserController.getUserByID
+    /* #swagger.responses[200] = {
+            description: 'User successfully obtained.',
+            schema: { $ref: '#/definitions/UsuarioResponse' }
+    } */
+);
 // Listar os anuncios de determinado usuário
 routes.get("/:id_usuario/anuncio", auth, AnuncioController.getAnuncioByUsuario);
 

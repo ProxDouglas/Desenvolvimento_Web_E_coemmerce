@@ -16,15 +16,25 @@ const doc = {
         name: "api_key",
         in: "header"
       },
-      petstore_auth: {
-        type: "oauth2",
-        authorizationUrl: "https://petstore.swagger.io/oauth/authorize",
-        flow: "implicit",
-        scopes: {
-            read_pets: "read your pets",
-            write_pets: "modify pets in your account"
-          }
-      }
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT'
+      },
+      OAuth2: {
+        type: 'oauth2',
+        flows: {
+            authorizationCode: {
+                authorizationUrl: 'https://example.com/oauth/authorize',
+                tokenUrl: 'https://example.com/oauth/token',
+                scopes: {
+                    read: 'Grants read access',
+                    write: 'Grants write access',
+                    admin: 'Grants access to admin operations'
+                }
+            }
+        }
+      },
     },  // by default: empty object
     definitions: {
       Login: {
@@ -32,13 +42,16 @@ const doc = {
         $senha: "12345"
       },
 
+      LoginResponse: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoaWxpcGlAc2ltYmEuY29tIiwibm9tZSI6IlBoaWxpcGkgU2ltYmEiLCJpYXQiOjE2NTc4MjQwMTgsImV4cCI6MTY1NzgzMTIxOH0.8_5tHeFg9H3XRVhhLISz74LxPF9w8dLMd7wM454N_SM"
+      ,
+
       Usuario:{
           $nome: "Philipi Simba",
           $email: "philipi@simba.com",
-          $data_nascimento: "1988-05-15",
-          $cpf: "444.444.444.44",
-          $telefone: "11 22222-2222",
-          $endereco: {
+          data_nascimento: "1988-05-15",
+          cpf: "444.444.444.44",
+          telefone: "11 22222-2222",
+          endereco: {
               $rua: "Rua bela visualViewport",
               $numero: 555,
               apt: "terceiro bloco",
@@ -46,6 +59,29 @@ const doc = {
               $cidade: "São Paulo",
               $estado: "SP"
           }
+      },
+
+      UsuarioResponse:{
+        $nome: "Philipi Simba",
+        $email: "philipi@simba.com",
+        data_nascimento: "1988-05-15",
+        cpf: "444.444.444.44",
+        $senha: "12345",
+        telefone: "11 22222-2222",
+        endereco: {
+            $rua: "Rua bela visualViewport",
+            $numero: 555,
+            apt: "terceiro bloco",
+            $cep:"77777-777",
+            $cidade: "São Paulo",
+            $estado: "SP"
+        }
+      },
+
+      UsuarioGoogle:{
+        $id_google: "1234567890",
+        $nome: "Philipi Simba",
+        $email: "philipi@simba.com",
       },
 
       Endereco: {

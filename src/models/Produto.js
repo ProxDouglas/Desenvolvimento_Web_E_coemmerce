@@ -30,10 +30,23 @@ const ProdutoSchema = new mongoose.Schema({
         ref: 'Usuario'
     },
 
-    avaliacao_geral: {
-        type: Number,
-        default: -1
-    }
+    avaliacao: [{
+        type: {
+            avaliador: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Usuario',
+                required: true
+            },
+        
+            nota: {
+                type: Number,
+                required: true,
+                max: 10,
+                min: 0 
+            }
+        },
+        required: false
+    }]
 },
 {
     versionKey: false

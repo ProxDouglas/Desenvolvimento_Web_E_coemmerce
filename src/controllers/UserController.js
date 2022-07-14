@@ -96,7 +96,7 @@ class UserController  {
                     avaliacao 
                 );
                 await usuario.save();
-                return res.status(201).json(usuario);
+                return res.status(201).json(usuario.avaliacao[parseInt(usuario.avaliacao) - parseInt(1)]);
             }
             return res.status(404).json({Error: 'Usuario inexistente no banco'});
         }catch(err){
@@ -109,7 +109,7 @@ class UserController  {
         let media, soma = parseFloat(0); 
 
         try{
-            let usuario = Usuario.findById(id_usuario);
+            let usuario = await Usuario.findById(id_usuario);
 
             if(usuario != undefined && usuario.avaliacao.length > 0){
                 
@@ -120,12 +120,12 @@ class UserController  {
 
                 media = soma/parseFloat(usuario.avaliacao.length);
 
-                res.status(200).json({media: media});
+                return res.status(200).json({media: media});
             }
-            res.status(404).json({Error: 'Usuario não encontrado'});
+            return res.status(404).json({Error: 'Usuario não encontrado'});
 
         }catch(err){
-            res.status(400).json(err);
+            return res.status(400).json(err);
         }
     }
 
@@ -154,13 +154,13 @@ class UserController  {
 
     async updateUserByID(req, res) {
         const usuario = req.body
-        const { usuario_id } = req.params
+        const { id_usuario } = req.params
 
         
         try {
             const updateUsuario = await Usuario
                 .findByIdAndUpdate(
-                    usuario_id,
+                    id_usuario,
 
                     {
                         nome: usuario.nome,

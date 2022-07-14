@@ -14,13 +14,23 @@
       "name": "api_key",
       "in": "header"
     },
-    "petstore_auth": {
+    "bearerAuth": {
+      "type": "http",
+      "scheme": "bearer",
+      "bearerFormat": "JWT"
+    },
+    "OAuth2": {
       "type": "oauth2",
-      "authorizationUrl": "https://petstore.swagger.io/oauth/authorize",
-      "flow": "implicit",
-      "scopes": {
-        "read_pets": "read your pets",
-        "write_pets": "modify pets in your account"
+      "flows": {
+        "authorizationCode": {
+          "authorizationUrl": "https://example.com/oauth/authorize",
+          "tokenUrl": "https://example.com/oauth/token",
+          "scopes": {
+            "read": "Grants read access",
+            "write": "Grants write access",
+            "admin": "Grants access to admin operations"
+          }
+        }
       }
     }
   },
@@ -56,7 +66,16 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Login successfully.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/LoginResponse"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "400": {
             "description": "Bad Request"
@@ -83,7 +102,16 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Login successfully.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/LoginResponse"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -299,7 +327,16 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "User successfully obtained.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UsuarioResponse"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "400": {
             "description": "Bad Request"
@@ -310,7 +347,7 @@
         }
       }
     },
-    "/usuarios/{usuario_id}": {
+    "/usuarios/{id_usuario}": {
       "put": {
         "tags": [
           "Usuarios"
@@ -318,7 +355,7 @@
         "description": "Endpoint para atualizar usuario. Requer autenticação.",
         "parameters": [
           {
-            "name": "usuario_id",
+            "name": "id_usuario",
             "in": "path",
             "required": true,
             "type": "String",
@@ -358,7 +395,7 @@
         "description": "",
         "parameters": [
           {
-            "name": "usuario_id",
+            "name": "id_usuario",
             "in": "path",
             "required": true,
             "type": "string"
@@ -371,7 +408,10 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "User successfully obtained.",
+            "schema": {
+              "$ref": "#/definitions/UsuarioResponse"
+            }
           },
           "400": {
             "description": "Bad Request"
@@ -395,7 +435,7 @@
             "type": "string"
           },
           {
-            "name": "usuario_id",
+            "name": "id_usuario",
             "in": "path",
             "description": "ID do Usuario.",
             "required": true,
@@ -421,7 +461,7 @@
         }
       }
     },
-    "/usuarios/id_usuario/avaliar": {
+    "/usuarios/{id_usuario}/avaliar": {
       "post": {
         "tags": [
           "Usuarios"
@@ -429,16 +469,16 @@
         "description": "Endpoint para adicionar uma avalizacao ao usuario. Requer autenticação.",
         "parameters": [
           {
+            "name": "id_usuario",
+            "in": "path",
+            "required": true,
+            "type": "String",
+            "description": "ID do Usuario."
+          },
+          {
             "name": "authorization",
             "in": "header",
             "type": "string"
-          },
-          {
-            "name": "usuario_id",
-            "in": "path",
-            "description": "ID do Usuario.",
-            "required": true,
-            "type": "String"
           },
           {
             "name": "avaliacao",
@@ -446,8 +486,59 @@
             "description": "Dados de avalizacao.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Avaliacao"
+              "type": "object",
+              "properties": {
+                "avaliador": {
+                  "type": "string",
+                  "example": "62c0c85056cb82127d8e8105"
+                },
+                "nota": {
+                  "type": "number",
+                  "example": 5
+                }
+              },
+              "required": [
+                "avaliador",
+                "nota"
+              ]
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Usuarios"
+        ],
+        "description": "Endpoint para pegar a media das avaliações. Requer autenticação.",
+        "parameters": [
+          {
+            "name": "id_usuario",
+            "in": "path",
+            "required": true,
+            "type": "String",
+            "description": "ID do Usuario."
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
@@ -1634,6 +1725,10 @@
         "senha"
       ]
     },
+    "LoginResponse": {
+      "type": "string",
+      "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoaWxpcGlAc2ltYmEuY29tIiwibm9tZSI6IlBoaWxpcGkgU2ltYmEiLCJpYXQiOjE2NTc4MjQwMTgsImV4cCI6MTY1NzgzMTIxOH0.8_5tHeFg9H3XRVhhLISz74LxPF9w8dLMd7wM454N_SM"
+    },
     "Usuario": {
       "type": "object",
       "properties": {
@@ -1696,11 +1791,99 @@
       },
       "required": [
         "nome",
+        "email"
+      ]
+    },
+    "UsuarioResponse": {
+      "type": "object",
+      "properties": {
+        "nome": {
+          "type": "string",
+          "example": "Philipi Simba"
+        },
+        "email": {
+          "type": "string",
+          "example": "philipi@simba.com"
+        },
+        "data_nascimento": {
+          "type": "string",
+          "example": "1988-05-15"
+        },
+        "cpf": {
+          "type": "string",
+          "example": "444.444.444.44"
+        },
+        "senha": {
+          "type": "string",
+          "example": "12345"
+        },
+        "telefone": {
+          "type": "string",
+          "example": "11 22222-2222"
+        },
+        "endereco": {
+          "type": "object",
+          "properties": {
+            "rua": {
+              "type": "string",
+              "example": "Rua bela visualViewport"
+            },
+            "numero": {
+              "type": "number",
+              "example": 555
+            },
+            "apt": {
+              "type": "string",
+              "example": "terceiro bloco"
+            },
+            "cep": {
+              "type": "string",
+              "example": "77777-777"
+            },
+            "cidade": {
+              "type": "string",
+              "example": "São Paulo"
+            },
+            "estado": {
+              "type": "string",
+              "example": "SP"
+            }
+          },
+          "required": [
+            "rua",
+            "numero",
+            "cep",
+            "cidade",
+            "estado"
+          ]
+        }
+      },
+      "required": [
+        "nome",
         "email",
-        "data_nascimento",
-        "cpf",
-        "telefone",
-        "endereco"
+        "senha"
+      ]
+    },
+    "UsuarioGoogle": {
+      "type": "object",
+      "properties": {
+        "id_google": {
+          "type": "string",
+          "example": "1234567890"
+        },
+        "nome": {
+          "type": "string",
+          "example": "Philipi Simba"
+        },
+        "email": {
+          "type": "string",
+          "example": "philipi@simba.com"
+        }
+      },
+      "required": [
+        "id_google",
+        "nome",
+        "email"
       ]
     },
     "Endereco": {

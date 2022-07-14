@@ -85,6 +85,76 @@ class AnuncioController{
         }
     }
 
+    async pushAvaliacao(req, res){
+        let avaliacao = req.body;
+        let {id_anuncio} = req.params;
+
+        if(avaliacao.avaliador == id_anuncio){
+            return res.status(400).json({Error: 'Anuncio não pode se avaliar'});
+        }
+
+        try{
+
+            let anuncio = await Anuncio.findById(id_anuncio);
+
+            this.pushAvaliacaoProduto(avaliacao, anuncio.produto.toString());
+
+            if(anuncio != undefined){
+
+                anuncio.avaliacao.push(
+                    avaliacao 
+                );
+                await anuncio.save();
+                return res.status(201).json(anuncio);
+            }
+            return res.status(404).json({Error: 'Anuncio inexistente no banco'});
+        }catch(err){
+            return res.status(400).json(err);
+        }
+    }
+
+    async pushAvaliacaoProduto(avaliacao, id_produto){
+
+        try{
+            let produto = await Produto.findById(id_anuncio);
+
+            if(produto != undefined){
+
+                produto.avaliacao.push(
+                    avaliacao 
+                );
+                await produto.save();
+            }
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+    async avaliacaoByIdAnuncio(req, res){
+        let {id_anuncio} = req.params;
+        let media, soma = parseFloat(0); 
+
+        try{
+            let anuncio = await anuncio.findById(id_anuncio);
+
+            if(anuncio != undefined && anuncio.avaliacao.length > 0){
+                
+                let i = 0;
+                for(i; i < anuncio.avaliacao.length; i++){
+                    soma = soma + parseFloat(anuncio.avaliacao[i].nota);
+                }
+
+                media = soma/parseFloat(usuario.avaliacao.length);
+
+                return res.status(200).json({media: media});
+            }
+            return res.status(404).json({Error: 'Anuncio não encontrado'});
+
+        }catch(err){
+            return res.status(400).json(err);
+        }
+    }
+
 
     async pushTopico(req, res){
         let dataTopico = req.body;
