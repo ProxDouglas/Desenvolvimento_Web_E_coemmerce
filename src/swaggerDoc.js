@@ -47,7 +47,20 @@ const doc = {
               $estado: "SP"
           }
       },
-      
+
+      Endereco: {
+        $rua: "Rua bela visualViewport",
+        $numero: 555,
+        apt: "terceiro bloco",
+        $cep:"77777-777",
+        $cidade: "São Paulo",
+        $estado: "SP"
+      },
+
+      Avaliacao: {
+        $avaliador: "62c46e186ef566e681297d59",
+        nota: 10
+      }
         
     },          // by default: empty object (Swagger 2.0)
     components: {}            // by default: empty object (OpenAPI 3.x)

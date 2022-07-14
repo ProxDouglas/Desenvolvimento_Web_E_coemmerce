@@ -39,7 +39,7 @@ const UsuarioSchema = new mongoose.Schema({
 
     avaliacao: [{
         type: {
-            id: {
+            avaliador: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Usuario',
                 required: true
@@ -47,7 +47,9 @@ const UsuarioSchema = new mongoose.Schema({
         
             nota: {
                 type: Number,
-                required: true
+                required: true,
+                max: 10,
+                min: 0 
             }
         },
         required: false

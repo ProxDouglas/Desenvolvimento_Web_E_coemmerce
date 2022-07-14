@@ -34,9 +34,9 @@ routes.put("/:usuario_id", auth, UserController.updateUserByID
 
             #swagger.parameters['usuario_id'] = {
                 in: 'path',
-                description: 'User ID.',
+                description: 'ID do Usuario.',
                 required: true,
-                type: 'integer'
+                type: 'String'
             }
 
             #swagger.parameters['usuario'] = {
@@ -47,6 +47,54 @@ routes.put("/:usuario_id", auth, UserController.updateUserByID
             }
         */
 );
+
+
+
+routes.post('/id_usuario/enderecos',auth, UserController.addEndereco
+/*  
+
+            
+            #swagger.description = 'Endpoint para adicionar endereco. Requer autenticação.'
+
+            #swagger.parameters['usuario_id'] = {
+                in: 'path',
+                description: 'ID do Usuario.',
+                required: true,
+                type: 'String'
+            }
+
+            #swagger.parameters['endereco'] = {
+                in: 'body',
+                description: 'Dados de endereco.',
+                required: true,
+                schema: {  $ref: "#/definitions/Endereco" }
+            }
+        */
+);
+
+
+routes.post('/id_usuario/avaliar',auth, UserController.pushAvaliacao
+/*  
+
+            
+            #swagger.description = 'Endpoint para adicionar uma avalizacao ao usuario. Requer autenticação.'
+
+            #swagger.parameters['usuario_id'] = {
+                in: 'path',
+                description: 'ID do Usuario.',
+                required: true,
+                type: 'String'
+            }
+
+            #swagger.parameters['avaliacao'] = {
+                in: 'body',
+                description: 'Dados de avalizacao.',
+                required: true,
+                schema: {  $ref: "#/definitions/Avaliacao" }
+            }
+        */
+);
+
 // Listar todos os usuários OK
 routes.get("/", auth, UserController.getUser);
 // Listar apenas um usuário pelo ID

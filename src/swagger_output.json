@@ -321,8 +321,8 @@
             "name": "usuario_id",
             "in": "path",
             "required": true,
-            "type": "integer",
-            "description": "User ID."
+            "type": "String",
+            "description": "ID do Usuario."
           },
           {
             "name": "authorization",
@@ -378,6 +378,93 @@
           },
           "403": {
             "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/usuarios/id_usuario/enderecos": {
+      "post": {
+        "tags": [
+          "Usuarios"
+        ],
+        "description": "Endpoint para adicionar endereco. Requer autenticação.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "usuario_id",
+            "in": "path",
+            "description": "ID do Usuario.",
+            "required": true,
+            "type": "String"
+          },
+          {
+            "name": "endereco",
+            "in": "body",
+            "description": "Dados de endereco.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Endereco"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/usuarios/id_usuario/avaliar": {
+      "post": {
+        "tags": [
+          "Usuarios"
+        ],
+        "description": "Endpoint para adicionar uma avalizacao ao usuario. Requer autenticação.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "usuario_id",
+            "in": "path",
+            "description": "ID do Usuario.",
+            "required": true,
+            "type": "String"
+          },
+          {
+            "name": "avaliacao",
+            "in": "body",
+            "description": "Dados de avalizacao.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Avaliacao"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -1322,7 +1409,10 @@
             "schema": {
               "type": "object",
               "properties": {
-                "anuncios": {
+                "anuncio": {
+                  "example": "any"
+                },
+                "quantidade": {
                   "example": "any"
                 }
               }
@@ -1611,6 +1701,58 @@
         "cpf",
         "telefone",
         "endereco"
+      ]
+    },
+    "Endereco": {
+      "type": "object",
+      "properties": {
+        "rua": {
+          "type": "string",
+          "example": "Rua bela visualViewport"
+        },
+        "numero": {
+          "type": "number",
+          "example": 555
+        },
+        "apt": {
+          "type": "string",
+          "example": "terceiro bloco"
+        },
+        "cep": {
+          "type": "string",
+          "example": "77777-777"
+        },
+        "cidade": {
+          "type": "string",
+          "example": "São Paulo"
+        },
+        "estado": {
+          "type": "string",
+          "example": "SP"
+        }
+      },
+      "required": [
+        "rua",
+        "numero",
+        "cep",
+        "cidade",
+        "estado"
+      ]
+    },
+    "Avaliacao": {
+      "type": "object",
+      "properties": {
+        "avaliador": {
+          "type": "string",
+          "example": "62c46e186ef566e681297d59"
+        },
+        "nota": {
+          "type": "number",
+          "example": 10
+        }
+      },
+      "required": [
+        "avaliador"
       ]
     }
   }

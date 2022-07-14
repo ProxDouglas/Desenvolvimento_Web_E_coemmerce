@@ -9,8 +9,6 @@ class UserController  {
     async createUser(req, res) {
         let usuario = req.body;
         
-        
-
         try{
 
             let existUser = await Usuario.findOne({email: usuario.email});
@@ -26,16 +24,11 @@ class UserController  {
                     data_nascimento:usuario.data_nascimento,
                     cpf: usuario.cpf,
                     telefone: usuario.telefone,
-                    senha: senha,
-                    endereco: {
-                        rua: usuario.endereco.rua,
-                        numero: usuario.endereco.numero,
-                        apt: usuario.endereco.apt,
-                        cep: usuario.endereco.cep,
-                        cidade: usuario.endereco.cidade,
-                        estado: usuario.endereco.estado
-                    }
+                    senha: senha
                 });
+
+                await this.pushEndereco(usuario.endereco, newUser._id.toString());
+
                 // #swagger.responses[201] = { description: 'Usuario registrado com Sucesso.' }
                 return res.status(201).json(newUser);
             }
@@ -46,6 +39,70 @@ class UserController  {
             // #swagger.responses[400] = { description: 'Requisição Invalida.' }
             return res.status(400).json(err);
         }
+    }
+
+    async addEndereco(req, res){
+        let { endereco } = req.body;
+        let {id_usuario} = req.params;
+
+        let adress = await this.pushEndereco(endereco, id_usuario);
+
+        let code = 400;
+        if(adress.rua  != undefined){
+            code = 201;
+        }
+
+        return res.status(code).json(adress);
+    }
+
+
+    async pushEndereco(endereco, id_usuario) {
+        try{
+            let usuario = await Usuario.findOne({_id: id_usuario});
+
+            usuario.endereco.push({
+                rua: endereco.rua,
+                numero: endereco.numero,
+                apt: endereco.apt,
+                cep: endereco.cep,
+                cidade: endereco.cidade,
+                estado: endereco.estado
+            });
+
+            usuario.save();
+
+            return usuario.endereco;
+
+        }catch(err){
+            return err;
+        }
+    }
+
+    async pushAvaliacao(req, res){
+        let avaliacao = req.body;
+        let {id_usuario} = req.params;
+
+        if(avaliacao.avaliador == id_usuario){
+            return res.status(400).json({Error: 'Usuario não pode se avaliar'});
+        }
+
+        try{
+            let usuario = Usuario.findById(id_usuario);
+
+            if(usuario != undefined){
+
+                usuario.avaliacao.push({
+                    avaliador: avaliacao.avaliador,
+                    nota: avaliacao.nota
+                });
+                usuario.save();
+                return res.status(201).json(usuario);
+            }
+            return res.status(404).json({Error: 'Usuario inexistente no banco'});
+        }catch(err){
+            return res.status(400).json(err);
+        }
+
     }
 
     async getUser(req, res) {
@@ -102,6 +159,8 @@ class UserController  {
             return res.status(400).json(err)
         }
     }
+
+
 
 }
 

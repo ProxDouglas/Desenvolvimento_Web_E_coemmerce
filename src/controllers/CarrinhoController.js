@@ -2,7 +2,7 @@ const Carrinho = require("../models/Carrinho")
 const Anuncio = require("../models/Anuncio");
 const Usuario = require("../models/Usuario");
 const { isObjectIdOrHexString, default: mongoose } = require("mongoose");
-const { OrderedBulkOperation } = require("mongodb");
+
 
 class CarrinhoController  {
 
