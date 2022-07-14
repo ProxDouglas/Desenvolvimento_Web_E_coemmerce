@@ -73,7 +73,7 @@ routes.post('/id_usuario/enderecos',auth, UserController.addEndereco
 );
 
 
-routes.post('/id_usuario/avaliar',auth, UserController.pushAvaliacao
+routes.post('/:id_usuario/avaliar',auth, UserController.pushAvaliacao
 /*  
 
             

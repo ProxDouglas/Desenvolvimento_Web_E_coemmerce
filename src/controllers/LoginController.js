@@ -36,7 +36,7 @@ class LoginController {
                         
                     }
 
-                    let newtoken = jwt.sign({ email: usuario.email, nome: usuario.nome}, JWTSecret, {expiresIn: 2})
+                    let newtoken = jwt.sign({ email: usuario.email, nome: usuario.nome}, JWTSecret, {expiresIn: '2h'})
                     return res.status(200).json('Bearer ' + String(newtoken));
                 }
             }
@@ -57,7 +57,7 @@ class LoginController {
                 let resultado = await bcrypt.compare(senha,user.senha);
 
                 if(resultado == true){
-                    let token = jwt.sign({ email: user.email, nome: user.nome}, JWTSecret, {expiresIn: 2})
+                    let token = jwt.sign({ email: user.email, nome: user.nome}, JWTSecret, {expiresIn: '2h'})
                     return res.status(200).json({token: token});
                 }else{
                     let msg = "Senha incorreta";

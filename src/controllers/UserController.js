@@ -87,23 +87,49 @@ class UserController  {
         }
 
         try{
-            let usuario = Usuario.findById(id_usuario);
+
+            let usuario = await Usuario.findById(id_usuario);
 
             if(usuario != undefined){
 
-                usuario.avaliacao.push({
-                    avaliador: avaliacao.avaliador,
-                    nota: avaliacao.nota
-                });
-                usuario.save();
+                usuario.avaliacao.push(
+                    avaliacao 
+                );
+                await usuario.save();
                 return res.status(201).json(usuario);
             }
             return res.status(404).json({Error: 'Usuario inexistente no banco'});
         }catch(err){
             return res.status(400).json(err);
         }
-
     }
+
+    async avaliacaoByIdUsuario(req, res){
+        let {id_usuario} = req.params;
+        let media, soma = parseFloat(0); 
+
+        try{
+            let usuario = Usuario.findById(id_usuario);
+
+            if(usuario != undefined && usuario.avaliacao.length > 0){
+                
+                let i = 0;
+                for(i; i < usuario.avaliacao.length; i++){
+                    soma = soma + parseFloat(usuario.avaliacao[i].nota);
+                }
+
+                media = soma/parseFloat(usuario.avaliacao.length);
+
+                res.status(200).json({media: media});
+            }
+            res.status(404).json({Error: 'Usuario não encontrado'});
+
+        }catch(err){
+            res.status(400).json(err);
+        }
+    }
+
+
 
     async getUser(req, res) {
         try {

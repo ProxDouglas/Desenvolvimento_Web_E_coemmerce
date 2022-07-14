@@ -14,13 +14,13 @@ function auth(req, res, next){
     try{
         var decoded = jwt.verify(token, JWTSecret);
         
-        if(decoded.status == true){  //para acionar esse if é necessário verificar se usuario está ativo
+        // if(decoded.status == true){  //para acionar esse if é necessário verificar se usuario está ativo
             next();
-        }else{
-            res.status(403);
-            res.send("Usuario inativo!");
-            return;
-        }
+        // }else{
+        //     res.status(403);
+        //     res.send("Usuario inativo!");
+        //     return;
+        // }
     }catch(err){
         res.status(403);
         res.send("Você não está autenticado");

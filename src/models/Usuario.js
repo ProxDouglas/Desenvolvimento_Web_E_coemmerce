@@ -80,10 +80,10 @@ const UsuarioSchema = new mongoose.Schema({
         }
     }],
 
-    favoritos:{
+    favoritos:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Anuncio'
-    },
+    }],
 
     anuncio:[{
         
