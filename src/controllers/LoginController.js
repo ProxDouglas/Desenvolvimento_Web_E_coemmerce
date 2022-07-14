@@ -1,5 +1,6 @@
 const AuthGoogle = require('../middlewares/AuthGoogle');
 var jwt = require("jsonwebtoken");
+var bcrypt = require("bcrypt");
 const JWTSecret = require("../middlewares/segredo");
 const Usuario = require('../models/Usuario'); 
 

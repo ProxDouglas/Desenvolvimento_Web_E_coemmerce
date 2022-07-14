@@ -14,7 +14,7 @@ const UsuarioSchema = new mongoose.Schema({
 
     img: {
         data: Buffer,
-        contextType: String
+        
     },
 
     email: {

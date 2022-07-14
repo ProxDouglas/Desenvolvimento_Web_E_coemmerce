@@ -12,29 +12,35 @@ class UserController  {
         
 
         try{
-            var hash = await bcrypt.hash(usuario.senha, 10);
 
-            let senha = hash;
-            // const newUser = await Usuario.create(bodyData);
-            const newUser = await Usuario.create(
-                {
-                nome: usuario.nome,
-                email: usuario.email,
-                data_nascimento:usuario.data_nascimento,
-                cpf: usuario.cpf,
-                telefone: usuario.telefone,
-                senha: senha,
-                endereco: {
-                    rua: usuario.endereco.rua,
-                    numero: usuario.endereco.numero,
-                    apt: usuario.endereco.apt,
-                    cep: usuario.endereco.cep,
-                    cidade: usuario.endereco.cidade,
-                    estado: usuario.endereco.estado
-                }
-            });
-            // #swagger.responses[201] = { description: 'Usuario registrado com Sucesso.' }
-            return res.status(201).json(newUser);
+            let existUser = await Usuario.findOne({email: usuario.email});
+            if(existUser != undefined){
+                var hash = await bcrypt.hash(usuario.senha, 10);
+
+                let senha = hash;
+                // const newUser = await Usuario.create(bodyData);
+                const newUser = await Usuario.create(
+                    {
+                    nome: usuario.nome,
+                    email: usuario.email,
+                    data_nascimento:usuario.data_nascimento,
+                    cpf: usuario.cpf,
+                    telefone: usuario.telefone,
+                    senha: senha,
+                    endereco: {
+                        rua: usuario.endereco.rua,
+                        numero: usuario.endereco.numero,
+                        apt: usuario.endereco.apt,
+                        cep: usuario.endereco.cep,
+                        cidade: usuario.endereco.cidade,
+                        estado: usuario.endereco.estado
+                    }
+                });
+                // #swagger.responses[201] = { description: 'Usuario registrado com Sucesso.' }
+                return res.status(201).json(newUser);
+            }
+            // #swagger.responses[400] = { description: 'Email já cadastrado.' }
+            return res.status(400).json('Error: Email já cadastrado');
             
         }catch(err){
             // #swagger.responses[400] = { description: 'Requisição Invalida.' }

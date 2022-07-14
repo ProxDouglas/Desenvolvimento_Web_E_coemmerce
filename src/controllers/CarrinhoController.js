@@ -29,7 +29,7 @@ class CarrinhoController  {
     //coloca anuncio no carrinho
     async pushAnuncioCarrinho(req, res){
         let {id_usuario} = req.params;
-        let {anuncios} = req.body;
+        let anuncios = req.body;
 
         try{
             if(isObjectIdOrHexString(id_usuario) && isObjectIdOrHexString(anuncios.anuncio)){
@@ -38,45 +38,92 @@ class CarrinhoController  {
 
                 if(anuncio  == undefined){
                     return res.status(404).json({msg: 'Anuncio inexistente ou não encontrado'});
+
+
+                }else if(anuncio != undefined){
+
+                    try{
+
+                        let carrinhoPossui = await Carrinho.findOne({comprador: id_usuario});
+
+                        let existanuncios = carrinhoPossui.anuncios;
+                            // console.log(existanuncios)
+
+                        let existanuncio = existanuncios.filter(obj =>  {
+                                return obj.anuncio.toString() == anuncios.anuncio
+                        });
+
+                        if(existanuncio != undefined){
+
+                            let carQTD = parseInt(carrinhoPossui.anuncios.id(existanuncio[0]._id).quantidade);
+                            let carPreco = parseFloat(carrinhoPossui.preco_total);
+
+                            if(carQTD > parseInt(anuncios.quantidade)){
+                                let qtd = carQTD - parseInt(anuncios.quantidade);
+                                let preco = parseFloat(anuncio.preco) * qtd;
+
+                                carrinhoPossui
+                                    .preco_total = carPreco - parseFloat(preco);
+
+                            }else if(carQTD < anuncios.quantidade){
+
+                                let qtd = parseInt(anuncios.quantidade) - carQTD;
+                                let preco = parseFloat(anuncio.preco) * qtd;
+
+                                carrinhoPossui
+                                    .preco_total = carPreco + parseFloat(preco);
+                            }
+
+                            carrinhoPossui.anuncios.id(existanuncio[0]._id).quantidade = anuncios.quantidade;
+
+                            let update = await carrinhoPossui.save();
+
+                            return res.status(200).json(update);
+
+
+
+                        }else {
+                        
+                            
+                            let preco = parseFloat(anuncio.preco) * parseInt(anuncios.quantidade);
+                            
+                            let carrinhoUpdate = await Carrinho.findOneAndUpdate
+                                        (
+                                            {comprador: id_usuario}, 
+                                            (
+                                            {$push: {anuncios:  anuncios},
+                                            $inc: {preco_total: + preco}}
+                                            ), {new: true}
+                                        );
+                            
+                            
+                            if( carrinhoUpdate == undefined){
+                                
+                                const carrinhoObj = new Carrinho({
+                                    comprador: id_usuario, 
+                                    preco_total: preco,
+                                    anuncios: [
+                                        {
+                                        anuncio: anuncios.anuncio,
+                                        quantidade: anuncios.quantidade 
+                                        }
+                                    ]
+                                });
+                                
+                                const carrinho = await carrinhoObj.save();
+                                
+
+                                return res.status(200).json(carrinho);
+                            }
+
+                            return res.status(200).json(carrinhoUpdate);
+                        }
+
+                    }catch(err){
+                        return res.status(400).json(err);
+                    }
                 }
                 
-
-                try{
-                    let preco = parseFloat(anuncio.preco) * parseInt(anuncios.quantidade);
-                    
-                    let carrinhoUpdate = await Carrinho.findOneAndUpdate
-                                (
-                                    {comprador: id_usuario}, 
-                                    (
-                                    {$push: {anuncios:  anuncios},
-                                    $inc: {preco_total: + preco}}
-                                    ), {new: true}
-                                );
-                    
-                    
-                    if( carrinhoUpdate == undefined){
-                        
-                        const carrinhoObj = new Carrinho({
-                            comprador: id_usuario, 
-                            preco_total: preco,
-                            anuncios: [
-                                {
-                                   anuncio: anuncios.anuncio,
-                                   quantidade: anuncios.quantidade 
-                                }
-                            ]
-                        });
-                        
-                        const carrinho = await carrinhoObj.save();
-                        
-
-                        return res.status(200).json(carrinho);
-                    }
-
-                    return res.status(200).json(carrinhoUpdate);
-                }catch(err){
-                    return res.status(400).json(err);
-                }
             }
             return res.status(400).json({msg: "Identificador de Usuário invalido"})
         }catch(err){

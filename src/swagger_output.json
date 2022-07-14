@@ -33,6 +33,9 @@
   "paths": {
     "/login": {
       "post": {
+        "tags": [
+          "Login"
+        ],
         "description": "",
         "parameters": [
           {
@@ -60,6 +63,27 @@
           },
           "406": {
             "description": "Not Acceptable"
+          }
+        }
+      }
+    },
+    "/login/google/{token}": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -1060,10 +1084,13 @@
             "description": "OK"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "id de anuncio ou topico Invalido"
           },
           "403": {
             "description": "Forbidden"
+          },
+          "404": {
+            "description": "Anuncio não encontrado"
           }
         }
       }
@@ -1111,7 +1138,10 @@
             "description": "OK"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "id de anuncio ou topico Invalido"
+          },
+          "404": {
+            "description": "Anuncio não encontrado"
           }
         }
       },
@@ -1136,13 +1166,13 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Objeto Comentario"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "id de anuncio ou topico Invalido"
           },
           "404": {
-            "description": "Not Found"
+            "description": "Sem comentarios"
           }
         }
       }
@@ -1175,13 +1205,13 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Objeto Comentario"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "id de anuncio, topico ou comentario Invalido"
           },
           "404": {
-            "description": "Not Found"
+            "description": "comentario não encontrado"
           }
         }
       },
@@ -1260,7 +1290,10 @@
             "description": "OK"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "id de anuncio, topico ou comentario Invalido"
+          },
+          "404": {
+            "description": "Anuncio não encontrado"
           }
         }
       }

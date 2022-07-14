@@ -13,32 +13,6 @@ const verifyToken = require('../middlewares/AuthGoogle');
 
 const routes = Router()
 
-// var jwt = require("jsonwebtoken");
-// const JWTSecret = require("../middlewares/segredo");
-
-// routes.post('/verify', (req, res) => {
-
-//     const  authToken  = req.headers['authorization'];
-    
-    
-//     if(authToken != undefined){
-//         const bearer = authToken.split(' ');
-//         var token = bearer[1];
-        
-
-//         let obj = verifyToken.verify(token);
-
-//         verifyToken.verify(token).catch(console.error);
-
-//         let valido = verifyToken.verifyIdToken(token);
-
-//         return res.status(200).json(obj);
-
-//     }
-//     return res.status(400).json("Erro");
-
-// });
-
 //---------------LOGIN----------------------------------
 // Criar Sessão/Login
 routes.post("/login", LoginController.login /* #swagger.tags = ['Login']*/);
