@@ -41,6 +41,13 @@
     "application/json"
   ],
   "paths": {
+    "/produtoIMG": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
     "/login": {
       "post": {
         "tags": [
@@ -545,9 +552,6 @@
           "200": {
             "description": "OK"
           },
-          "201": {
-            "description": "Created"
-          },
           "400": {
             "description": "Bad Request"
           },
@@ -588,6 +592,55 @@
           },
           "403": {
             "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/usuarios/{id_usuario}/avatar": {
+      "post": {
+        "tags": [
+          "Usuarios"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id_usuario",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Usuarios"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id_usuario",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -957,6 +1010,55 @@
           },
           "400": {
             "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/produtos/{id_produto}/imagem": {
+      "post": {
+        "tags": [
+          "Produtos"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id_produto",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Produtos"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id_produto",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }

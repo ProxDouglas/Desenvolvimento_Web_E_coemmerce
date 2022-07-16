@@ -75,6 +75,7 @@ class ProdutoController {
 
     async addFoto(req, res){
         let {id_produto} = req.params;
+        console.log(req.file);
 
         let arqNome = req.file.originalname.toString().split;
         let extensao = arqNome[1];
@@ -83,9 +84,9 @@ class ProdutoController {
 
             let produto = await Produto.findById(id_produto);
 
-            console.log(produto.nome);
+            console.log(produto);
 
-            produto.avatar = {
+            produto.imagem = {
                                 nome: req.file.originalname,
                                 img: {
                                     data: req.file.buffer,
@@ -93,9 +94,11 @@ class ProdutoController {
                                 }
                             }
 
+            
+
             produto.save();
 
-            console.log(produto.avatar.nome);
+            console.log(produto.imagem.nome);
 
             return res.status(201).json('Foto adicionada');
         }catch(err){
@@ -110,8 +113,8 @@ class ProdutoController {
             let produto = await Produto.findById(id_produto);
 
             console.log(produto.nome);
-            if(produto.avatar != undefined){
-                return res.status(200).json(produto.avatar);
+            if(produto.imagem != undefined){
+                return res.status(200).json(produto.imagem);
             }
             return res.status(404).json({Error: 'foto não encontrada'});
 

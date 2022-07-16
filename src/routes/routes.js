@@ -13,11 +13,6 @@ const imgModel = require('../models/Imagem');
 
 const routes = Router()
 
-
-routes.post('/produtoIMG', upload.single('image'), );
-
-
-
 //---------------LOGIN----------------------------------
 // Criar Sessão/Login
 routes.post("/login", LoginController.login 
