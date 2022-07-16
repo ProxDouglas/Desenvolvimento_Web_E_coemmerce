@@ -6,6 +6,17 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger_output.json');
 
 
+
+
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
+
+
+
+
+
+
 const routes = require("./routes/routes");
 
 
@@ -20,6 +31,7 @@ async function connection() {
 
 
 // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.use(cors())
 app.use(express.json())
 app.use(routes);

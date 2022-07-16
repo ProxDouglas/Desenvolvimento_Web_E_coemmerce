@@ -73,6 +73,54 @@ class ProdutoController {
         }
     }
 
+    async addFoto(req, res){
+        let {id_produto} = req.params;
+
+        let arqNome = req.file.originalname.toString().split;
+        let extensao = arqNome[1];
+
+        try{
+
+            let produto = await Produto.findById(id_produto);
+
+            console.log(produto.nome);
+
+            produto.avatar = {
+                                nome: req.file.originalname,
+                                img: {
+                                    data: req.file.buffer,
+                                    contentType: 'image/' + extensao
+                                }
+                            }
+
+            produto.save();
+
+            console.log(produto.avatar.nome);
+
+            return res.status(201).json('Foto adicionada');
+        }catch(err){
+            return res.status(400).json(err);
+        }
+    }
+
+    async getFoto(req, res){
+        let {id_produto} = req.params;
+
+        try{
+            let produto = await Produto.findById(id_produto);
+
+            console.log(produto.nome);
+            if(produto.avatar != undefined){
+                return res.status(200).json(produto.avatar);
+            }
+            return res.status(404).json({Error: 'foto não encontrada'});
+
+        }catch(err){
+            return res.status(400);
+        }
+
+    }
+
 }
 
 module.exports = new ProdutoController();

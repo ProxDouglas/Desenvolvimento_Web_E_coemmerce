@@ -1,7 +1,6 @@
-const AuthGoogle = require('./AuthGoogle');
-var jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const JWTSecret = require("../middlewares/segredo");
-const Usuario = require('../models/Usuario'); 
+
 
 function auth(req, res, next){
     const  authToken  = req.headers['authorization'];

@@ -122,3 +122,11 @@ Validaçao  do token do google
 https://developers.google.com/identity/gsi/web/guides/verify-google-id-token
 
 https://stackoverflow.com/questions/42405439/how-to-verify-google-auth-token-at-server-side-in-node-js
+
+imagem
+https://stackoverflow.com/questions/43013858/how-to-post-a-file-from-a-form-with-axios
+https://github.com/expressjs/multer/blob/master/doc/README-pt-br.md
+
+## react file Upload
+
+https://www.positronx.io/react-file-upload-tutorial-with-node-express-and-multer/

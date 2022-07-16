@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const CategoriaSchema = require("./Categoria");
+const Imagem = require('./Imagem');
 
 
 const ProdutoSchema = new mongoose.Schema({
@@ -13,6 +14,8 @@ const ProdutoSchema = new mongoose.Schema({
         type:String,
         required: true
     },
+
+    avatar: Imagem,
 
     categoria: {
         type: String,
