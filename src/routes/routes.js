@@ -8,6 +8,8 @@ const EntregaController = require("../controllers/EntregaController");
 const CompraContorller = require("../controllers/CompraController");
 const LoginController = require('../controllers/LoginController');
 const { createEntrega } = require("../controllers/EntregaController");
+const upload = require('../middlewares/ImageMulter');
+const imgModel = require('../models/Imagem');
 
 const routes = Router()
 

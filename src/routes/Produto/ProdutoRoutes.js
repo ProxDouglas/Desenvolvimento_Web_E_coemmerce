@@ -5,6 +5,7 @@ const auth = require("../../middlewares/Autenticacao");
 
 const ProdutoController = require('../../controllers/ProdutoController');
 const AnuncioController = require("../../controllers/AnuncioController.js");
+const upload = require('../../middlewares/ImageMulter');
 
 const routes = Router();
 
@@ -20,6 +21,10 @@ routes.get("/", auth, ProdutoController.getProdutos);
 routes.get("/:id_produto", auth, ProdutoController.getProdutoByID);
 // Listar anuncios de determinado produto
 routes.get("/:id_produto/anuncio", AnuncioController.getAnuncioByProduto);
+
+routes.post("/:id_produto/imagem", upload.single('image'), ProdutoController.addFoto);
+
+routes.get("/:id_produto/imagem", ProdutoController.getFoto);
 
 
 

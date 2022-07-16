@@ -1,7 +1,7 @@
-const Usuario = require("../models/Usuario")
-const JWTSecret = require("../middlewares/segredo");
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcrypt");
+const Usuario = require("../models/Usuario");
+const bcrypt = require("bcrypt");
+
+
 
 
 class UserController  {
@@ -186,7 +186,53 @@ class UserController  {
         }
     }
 
+    async addAvatar(req, res){
+        let {id_usuario} = req.params;
 
+        let arqNome = req.file.originalname.toString().split;
+        let extensao = arqNome[1];
+
+        try{
+
+            let usuario = await Usuario.findById(id_usuario);
+
+            console.log(usuario.nome);
+
+            usuario.avatar = {
+                                nome: req.file.originalname,
+                                img: {
+                                    data: req.file.buffer,
+                                    contentType: 'image/' + extensao
+                                }
+                            }
+
+            usuario.save();
+
+            console.log(usuario.avatar.nome);
+
+            return res.status(201).json('Foto adicionada');
+        }catch(err){
+            return res.status(400).json(err);
+        }
+    }
+
+    async getAvatar(req, res){
+        let {id_usuario} = req.params;
+
+        try{
+            let usuario = await Usuario.findById(id_usuario);
+
+            console.log(usuario.nome);
+            if(usuario.avatar != undefined){
+                return res.status(200).json(usuario.avatar);
+            }
+            return res.status(404).json({Error: 'foto não encontrada'});
+
+        }catch(err){
+            return res.status(400);
+        }
+
+    }
 
 }
 

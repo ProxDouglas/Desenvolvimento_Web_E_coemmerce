@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Anuncio = require("./Anuncio");
+const Imagem = require('./Imagem');
 
 const UsuarioSchema = new mongoose.Schema({
 
@@ -12,10 +13,7 @@ const UsuarioSchema = new mongoose.Schema({
         required: true
     },
 
-    img: {
-        data: Buffer,
-        
-    },
+    avatar: Imagem,
 
     email: {
         type:String,

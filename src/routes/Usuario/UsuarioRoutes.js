@@ -5,6 +5,7 @@ const auth = require("../../middlewares/Autenticacao");
 
 const UserController = require("../../controllers/UserController");
 const AnuncioController = require("../../controllers/AnuncioController.js");
+const upload = require('../../middlewares/ImageMulter');
 
 const routes = Router();
 
@@ -141,6 +142,10 @@ routes.get("/:id_usuario", auth, UserController.getUserByID
 );
 // Listar os anuncios de determinado usuário
 routes.get("/:id_usuario/anuncio", auth, AnuncioController.getAnuncioByUsuario);
+
+routes.post("/:id_usuario/avatar", upload.single('image'), UserController.addAvatar);
+
+routes.get("/:id_usuario/avatar", UserController.getAvatar);
 
 
 module.exports = routes;
