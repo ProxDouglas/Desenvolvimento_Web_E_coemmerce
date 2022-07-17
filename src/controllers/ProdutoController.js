@@ -15,6 +15,7 @@ class ProdutoController {
     async getProdutos(req, res) {
         try {
             const produto = await Produto.find()
+                .select('nome caracteristica categoria sub_categoria cadastrador avaliacao')
             return res.status(200).json(produto)
         } catch(err){
             return res.status(400).json(err)
@@ -25,6 +26,7 @@ class ProdutoController {
         const  { id_produto }  = req.params
         try {
             const produto = await Produto.findById(id_produto)
+                .select('nome caracteristica categoria sub_categoria cadastrador avaliacao')
             return res.status(200).json(produto)
         } catch(err){
             return res.status(400).json(err)
