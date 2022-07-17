@@ -112,9 +112,9 @@ class ProdutoController {
         try{
             let produto = await Produto.findById(id_produto);
 
-            console.log(produto.nome);
             if(produto.imagem != undefined){
-                return res.status(200).json(produto.imagem);
+                // console.log(produto.imagem.img.data);
+                return res.status(200).json(produto.imagem.img.data);
             }
             return res.status(404).json({Error: 'foto não encontrada'});
 

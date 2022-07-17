@@ -96,6 +96,39 @@ const doc = {
       Avaliacao: {
         $avaliador: "62c46e186ef566e681297d59",
         nota: 10
+      },
+      Anuncio: {
+        _id: "62c09781053569572c72a782",
+        nome: "Carro muito loco2",
+        preco: 25000.56,
+        autor: "62bf25d5e7baa5ce186786b4",
+        produto: "62c09554053569572c72a770",
+        avalizacoes: [],
+        topico: [
+          {
+            texto: "Carro ruim",
+            autor: "62c09909f1446a3fe063fdf8",
+            _id: "62c09db1ff0f094e732432d9",
+            comentario: [
+              {
+              texto: "triste não ter agradado",
+              autor: "62c46e186ef566e681297d59"
+              }
+          ]
+          },
+          {
+            texto: "Esse carro é doido",
+            autor: "62bf25d5e7baa5ce186786b4",
+            _id: "62c09dfeff0f094e732432db",
+            
+          },
+          {
+            texto: "Esse carro é doido",
+            autor: "62bf25d5e7baa5ce186786b4",
+            _id: "62c0c2719767c45656b1c36a",
+          }
+        ],
+        data: "2022-07-02T21:36:07.394Z"
       }
         
     },          // by default: empty object (Swagger 2.0)
