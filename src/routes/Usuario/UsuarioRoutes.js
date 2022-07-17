@@ -127,21 +127,21 @@ routes.get('/:id_usuario/avaliar',auth, UserController.avaliacaoByIdUsuario
 );
 
 // Listar todos os usuários OK
-routes.get("/", auth, UserController.getUser 
+routes.get("/", UserController.getUser 
     /* #swagger.responses[200] = {
             description: 'User successfully obtained.',
             schema: [{ $ref: '#/definitions/UsuarioResponse' }]
     } */
 );
 // Listar apenas um usuário pelo ID
-routes.get("/:id_usuario", auth, UserController.getUserByID
+routes.get("/:id_usuario", UserController.getUserByID
     /* #swagger.responses[200] = {
             description: 'User successfully obtained.',
             schema: { $ref: '#/definitions/UsuarioResponse' }
     } */
 );
 // Listar os anuncios de determinado usuário
-routes.get("/:id_usuario/anuncio", auth, AnuncioController.getAnuncioByUsuario
+routes.get("/:id_usuario/anuncio", AnuncioController.getAnuncioByUsuario
         /*
             #swagger.description = 'Endpoint para pegar todos anuncios feito pelo usuario. Requer autenticação.'
 

@@ -14,7 +14,8 @@ class UserController  {
         try{
 
             let existUser = await Usuario.findOne({email: usuario.email});
-            if(existUser != undefined){
+            
+            if(existUser == undefined){
                 var hash = await bcrypt.hash(usuario.senha, 10);
 
                 let senha = hash;

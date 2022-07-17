@@ -12,13 +12,13 @@ const routes = Router();
 
 //---------------PRODUTO--------------------------------------------------------
 // Criar novo produto na base de dados
-routes.post("/", auth, ProdutoController.createProduto);
+routes.post("/",  ProdutoController.createProduto);
 // Atualizar produto na base de dados
-routes.put("/:id_produto", auth, ProdutoController.updateProdutoByID);
+routes.put("/:id_produto",  ProdutoController.updateProdutoByID);
 // Listar todos os produtos da base de dados
-routes.get("/", auth, ProdutoController.getProdutos);
+routes.get("/",  ProdutoController.getProdutos);
 // Listar apenas um produto pelo ID
-routes.get("/:id_produto", auth, ProdutoController.getProdutoByID);
+routes.get("/:id_produto",  ProdutoController.getProdutoByID);
 // Listar anuncios de determinado produto
 routes.get("/:id_produto/anuncio", AnuncioController.getAnuncioByProduto);
 
