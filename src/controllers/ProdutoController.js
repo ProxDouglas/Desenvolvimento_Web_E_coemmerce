@@ -15,6 +15,7 @@ class ProdutoController {
     async getProdutos(req, res) {
         try {
             const produto = await Produto.find()
+                .select('nome caracteristica categoria sub_categoria cadastrador avaliacao')
             return res.status(200).json(produto)
         } catch(err){
             return res.status(400).json(err)
@@ -25,6 +26,7 @@ class ProdutoController {
         const  { id_produto }  = req.params
         try {
             const produto = await Produto.findById(id_produto)
+                .select('nome caracteristica categoria sub_categoria cadastrador avaliacao')
             return res.status(200).json(produto)
         } catch(err){
             return res.status(400).json(err)
@@ -75,25 +77,32 @@ class ProdutoController {
 
     async addFoto(req, res){
         let {id_produto} = req.params;
-        console.log(req.file);
-
-        let arqNome = req.file.originalname.toString().split;
-        let extensao = arqNome[1];
 
         try{
 
             let produto = await Produto.findById(id_produto);
 
-            console.log(produto);
+            let arqNome, extensao;
+            if(req.body.image == undefined){
+                arqNome = req.file.originalname.toString().split;
+                extensao = arqNome[1];
 
-            produto.imagem = {
-                                nome: req.file.originalname,
-                                img: {
-                                    data: req.file.buffer,
-                                    contentType: 'image/' + extensao
+                produto.imagem = {
+                                    nome: req.file.originalname,
+                                    img: {
+                                        data: req.file.buffer,
+                                        contentType: 'image/' + extensao
+                                    }
                                 }
-                            }
-
+            }else {
+                produto.imagem = {
+                    nome: produto.nome,
+                    img: {
+                        data: req.body.image,
+                        contentType: String
+                    }
+                }
+            }
             
 
             produto.save();
@@ -112,9 +121,9 @@ class ProdutoController {
         try{
             let produto = await Produto.findById(id_produto);
 
-            console.log(produto.nome);
             if(produto.imagem != undefined){
-                return res.status(200).json(produto.imagem);
+                // console.log(produto.imagem.img.data);
+                return res.status(200).json(produto.imagem.img.data);
             }
             return res.status(404).json({Error: 'foto não encontrada'});
 

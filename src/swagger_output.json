@@ -41,13 +41,6 @@
     "application/json"
   ],
   "paths": {
-    "/produtoIMG": {
-      "post": {
-        "description": "",
-        "parameters": [],
-        "responses": {}
-      }
-    },
     "/login": {
       "post": {
         "tags": [
@@ -569,13 +562,14 @@
         "tags": [
           "Usuarios"
         ],
-        "description": "",
+        "description": "Endpoint para pegar todos anuncios feito pelo usuario. Requer autenticação.",
         "parameters": [
           {
             "name": "id_usuario",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "String",
+            "description": "ID do Usuario."
           },
           {
             "name": "authorization",
@@ -601,13 +595,14 @@
         "tags": [
           "Usuarios"
         ],
-        "description": "",
+        "description": "Endpoint para adicionar uma Imagem ao usuario um Multipart form de um imagem. Requer autenticação.",
         "parameters": [
           {
             "name": "id_usuario",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "String",
+            "description": "ID do Usuario."
           }
         ],
         "responses": {
@@ -616,6 +611,78 @@
           },
           "400": {
             "description": "Bad Request"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Usuarios"
+        ],
+        "description": "Endpoint para adquirir a imagem de perfil. Requer autenticação.",
+        "parameters": [
+          {
+            "name": "id_usuario",
+            "in": "path",
+            "required": true,
+            "type": "String",
+            "description": "ID do Usuario."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/usuarios/{id_usuario}/favoritos": {
+      "post": {
+        "tags": [
+          "Usuarios"
+        ],
+        "description": "Endpoint para adicionar aos favoritos ao usuario. Requer autenticação.",
+        "parameters": [
+          {
+            "name": "id_usuario",
+            "in": "path",
+            "required": true,
+            "type": "String",
+            "description": "ID do Usuario."
+          },
+          {
+            "name": "avaliacao",
+            "in": "body",
+            "description": "Dados de avalizacao.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id_anuncio": {
+                  "type": "string",
+                  "example": "62c0c85056cb82127d8e8105"
+                }
+              },
+              "required": [
+                "id_anuncio"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       },
@@ -634,10 +701,10 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
+            "description": "Anuncios favoritos obtidos com sucesso.",
+            "schema": {
+              "$ref": "#/definitions/Anuncio"
+            }
           },
           "404": {
             "description": "Not Found"
@@ -2039,6 +2106,60 @@
       "required": [
         "avaliador"
       ]
+    },
+    "Anuncio": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "62c09781053569572c72a782"
+        },
+        "nome": {
+          "type": "string",
+          "example": "Carro muito loco2"
+        },
+        "preco": {
+          "type": "number",
+          "example": 25000.56
+        },
+        "autor": {
+          "type": "string",
+          "example": "62bf25d5e7baa5ce186786b4"
+        },
+        "produto": {
+          "type": "string",
+          "example": "62c09554053569572c72a770"
+        },
+        "avalizacoes": {
+          "type": "array",
+          "example": [],
+          "items": {}
+        },
+        "topico": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "texto": {
+                "type": "string",
+                "example": "Esse carro é doido"
+              },
+              "autor": {
+                "type": "string",
+                "example": "62bf25d5e7baa5ce186786b4"
+              },
+              "_id": {
+                "type": "string",
+                "example": "62c0c2719767c45656b1c36a"
+              }
+            }
+          }
+        },
+        "data": {
+          "type": "string",
+          "example": "2022-07-02T21:36:07.394Z"
+        }
+      }
     }
   }
 }

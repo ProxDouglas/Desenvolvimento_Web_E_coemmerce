@@ -141,11 +141,76 @@ routes.get("/:id_usuario", auth, UserController.getUserByID
     } */
 );
 // Listar os anuncios de determinado usuário
-routes.get("/:id_usuario/anuncio", auth, AnuncioController.getAnuncioByUsuario);
+routes.get("/:id_usuario/anuncio", auth, AnuncioController.getAnuncioByUsuario
+        /*
+            #swagger.description = 'Endpoint para pegar todos anuncios feito pelo usuario. Requer autenticação.'
 
-routes.post("/:id_usuario/avatar", upload.single('image'), UserController.addAvatar);
+            #swagger.parameters['id_usuario'] = {
+                in: 'path',
+                description: 'ID do Usuario.',
+                required: true,
+                type: 'String'
+            }, 
+ */
+);
 
-routes.get("/:id_usuario/avatar", UserController.getAvatar);
+routes.post("/:id_usuario/avatar", upload.single('image'), UserController.addAvatar
+        /*
+            #swagger.description = 'Endpoint para adicionar uma Imagem ao usuario um Multipart form de um imagem. Requer autenticação.'
+
+            #swagger.parameters['id_usuario'] = {
+                in: 'path',
+                description: 'ID do Usuario.',
+                required: true,
+                type: 'String'
+            }, 
+ */
+);
+
+routes.get("/:id_usuario/avatar", UserController.getAvatar
+            /*
+            #swagger.description = 'Endpoint para adquirir a imagem de perfil. Requer autenticação.'
+
+            #swagger.parameters['id_usuario'] = {
+                in: 'path',
+                description: 'ID do Usuario.',
+                required: true,
+                type: 'String'
+            }, 
+ */
+);
+
+routes.post('/:id_usuario/favoritos', UserController.pushFavorito
+            /*  
+
+            
+            #swagger.description = 'Endpoint para adicionar aos favoritos ao usuario. Requer autenticação.'
+
+            #swagger.parameters['id_usuario'] = {
+                in: 'path',
+                description: 'ID do Usuario.',
+                required: true,
+                type: 'String'
+            },
+
+            #swagger.parameters['avaliacao'] = {
+                in: 'body',
+                description: 'Dados de avalizacao.',
+                required: true,
+                schema: {
+                    $id_anuncio: '62c0c85056cb82127d8e8105'
+                }
+            },
+        */
+);
+
+routes.get('/:id_usuario/favoritos', UserController.getFavoritos
+
+            /* #swagger.responses[200] = {
+            description: 'Anuncios favoritos obtidos com sucesso.',
+            schema: { $ref: '#/definitions/Anuncio' }
+    } */
+);
 
 
 module.exports = routes;

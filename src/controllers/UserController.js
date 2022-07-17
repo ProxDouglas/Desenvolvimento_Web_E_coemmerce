@@ -1,4 +1,6 @@
 const Usuario = require("../models/Usuario");
+const Anuncio = require("../models/Anuncio");
+
 const bcrypt = require("bcrypt");
 
 
@@ -189,22 +191,35 @@ class UserController  {
     async addAvatar(req, res){
         let {id_usuario} = req.params;
 
-        let arqNome = req.file.originalname.toString().split;
-        let extensao = arqNome[1];
+        console.log(req.body.image);
+
 
         try{
 
             let usuario = await Usuario.findById(id_usuario);
 
-            console.log(usuario.nome);
 
-            usuario.avatar = {
-                                nome: req.file.originalname,
-                                img: {
-                                    data: req.file.buffer,
-                                    contentType: 'image/' + extensao
+            let arqNome, extensao;
+            if(req.body.image == undefined){
+                arqNome = req.file.originalname.toString().split;
+                extensao = arqNome[1];
+
+                usuario.avatar = {
+                                    nome: req.file.originalname,
+                                    img: {
+                                        data: req.file.buffer,
+                                        contentType: 'image/' + extensao
+                                    }
                                 }
-                            }
+            }else{
+                usuario.avatar = {
+                    nome: 'urlImage',
+                    img: {
+                        data: req.body.image,
+                        contentType: String
+                    }
+                }
+            }
 
             usuario.save();
 
@@ -214,6 +229,7 @@ class UserController  {
         }catch(err){
             return res.status(400).json(err);
         }
+        
     }
 
     async getAvatar(req, res){
@@ -230,6 +246,68 @@ class UserController  {
 
         }catch(err){
             return res.status(400);
+        }
+
+    }
+
+    async pushFavorito(req, res){
+        let {id_anuncio} = req.body;
+        let {id_usuario} = req.params;
+
+        try{
+
+            let usuario = await Usuario.findById(id_usuario);
+
+            if(usuario != undefined){
+
+                let favoritos = usuario.favoritos;
+
+                let existe = false;
+                let i = 0;
+                while(i<favoritos.length && existe == false){
+                    if(id_anuncio == favoritos[i].toString()){
+                        existe = true;
+                    }
+                    i++;
+                }
+
+                if(existe == false){
+                    usuario.favoritos.push(
+                        id_anuncio 
+                    );
+                    await usuario.save();
+                    return res.status(201).json(usuario.favoritos);
+                }
+                res.status(400).json({Error: 'Anuncio já está em favoritos'});
+            }
+            return res.status(404).json({Error: 'Usuario inexistente no banco'});
+        }catch(err){
+            return res.status(400).json(err);
+        }
+    }
+
+    async getFavoritos(req, res){
+        let {id_usuario} = req.params;
+
+        try{
+            let favoritos = await Usuario.findById(id_usuario).select('favoritos');
+
+            if(favoritos.lenght > 0 && favoritos != undefined){
+                let anuncios = [];
+                let i = 0;
+                for(i; i< favoritos.length; i++){
+
+                    let anuncio = await Anuncio.findById(favoritos[i]);
+                    anuncios.push(anuncio);
+                }
+                return res.status(200).json(anuncios);
+            }
+
+            return res.status(404).json({Error: 'Usuario não encontrado'});
+
+
+        }catch(err){
+
         }
 
     }
