@@ -58,7 +58,8 @@ class LoginController {
 
                 if(resultado == true){
                     let token = jwt.sign({ email: user.email, nome: user.nome}, JWTSecret, {expiresIn: '2h'})
-                    return res.status(200).json({token: token});
+                    let responseUser = {id: use._id, nome: user.nome, email: user.email, imagem: user.avatar}
+                    return res.status(200).json({token: 'Bearer '+ token, responseUser, responseUser});
                 }else{
                     let msg = "Senha incorreta";
                     res.status(406).json(msg);
