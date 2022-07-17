@@ -75,25 +75,32 @@ class ProdutoController {
 
     async addFoto(req, res){
         let {id_produto} = req.params;
-        console.log(req.file);
-
-        let arqNome = req.file.originalname.toString().split;
-        let extensao = arqNome[1];
 
         try{
 
             let produto = await Produto.findById(id_produto);
 
-            console.log(produto);
+            let arqNome, extensao;
+            if(req.body.image == undefined){
+                arqNome = req.file.originalname.toString().split;
+                extensao = arqNome[1];
 
-            produto.imagem = {
-                                nome: req.file.originalname,
-                                img: {
-                                    data: req.file.buffer,
-                                    contentType: 'image/' + extensao
+                produto.imagem = {
+                                    nome: req.file.originalname,
+                                    img: {
+                                        data: req.file.buffer,
+                                        contentType: 'image/' + extensao
+                                    }
                                 }
-                            }
-
+            }else {
+                produto.imagem = {
+                    nome: produto.nome,
+                    img: {
+                        data: req.body.image,
+                        contentType: String
+                    }
+                }
+            }
             
 
             produto.save();

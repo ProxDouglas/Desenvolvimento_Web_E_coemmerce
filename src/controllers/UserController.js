@@ -191,22 +191,35 @@ class UserController  {
     async addAvatar(req, res){
         let {id_usuario} = req.params;
 
-        let arqNome = req.file.originalname.toString().split;
-        let extensao = arqNome[1];
+        console.log(req.body.image);
+
 
         try{
 
             let usuario = await Usuario.findById(id_usuario);
 
-            console.log(usuario.nome);
 
-            usuario.avatar = {
-                                nome: req.file.originalname,
-                                img: {
-                                    data: req.file.buffer,
-                                    contentType: 'image/' + extensao
+            let arqNome, extensao;
+            if(req.body.image == undefined){
+                arqNome = req.file.originalname.toString().split;
+                extensao = arqNome[1];
+
+                usuario.avatar = {
+                                    nome: req.file.originalname,
+                                    img: {
+                                        data: req.file.buffer,
+                                        contentType: 'image/' + extensao
+                                    }
                                 }
-                            }
+            }else{
+                usuario.avatar = {
+                    nome: 'urlImage',
+                    img: {
+                        data: req.body.image,
+                        contentType: String
+                    }
+                }
+            }
 
             usuario.save();
 
@@ -216,6 +229,7 @@ class UserController  {
         }catch(err){
             return res.status(400).json(err);
         }
+        
     }
 
     async getAvatar(req, res){
