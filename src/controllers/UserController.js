@@ -1,6 +1,6 @@
 const Usuario = require("../models/Usuario");
 const Anuncio = require("../models/Anuncio");
-
+const JWTSecret = require("../middlewares/segredo");
 const bcrypt = require("bcrypt");
 
 
@@ -30,10 +30,13 @@ class UserController  {
                     senha: senha
                 });
 
-                await this.pushEndereco(usuario.endereco, newUser._id.toString());
+                if(usuario.endereco != undefined){
+                    await this.pushEndereco(usuario.endereco, newUser._id.toString());
+                }
 
+                let newtoken = jwt.sign({ email: usuario.email, nome: usuario.nome}, JWTSecret, {expiresIn: '2h'});
                 // #swagger.responses[201] = { description: 'Usuario registrado com Sucesso.' }
-                return res.status(201).json(newUser);
+                return res.status(201).json({newUser, newtoken});
             }
             // #swagger.responses[400] = { description: 'Email já cadastrado.' }
             return res.status(400).json('Error: Email já cadastrado');

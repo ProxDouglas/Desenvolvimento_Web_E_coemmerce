@@ -123,7 +123,7 @@ class ProdutoController {
 
             if(produto.imagem != undefined){
                 // console.log(produto.imagem.img.data);
-                return res.status(200).json(produto.imagem.img.data);
+                return res.status(200).json(produto.imagem);
             }
             return res.status(404).json({Error: 'foto não encontrada'});
 

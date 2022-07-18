@@ -31,7 +31,10 @@ class LoginController {
                             id_google: googleUser['sub'],
                             email: googleUser['email'],
                             nome: googleUser['nome'],
-                            img: googleUser['picture']
+                            avatar: {
+                                data: googleUser['picture'],
+                                contentType: String
+                            }
                         });
                         
                     }
@@ -58,8 +61,8 @@ class LoginController {
 
                 if(resultado == true){
                     let token = jwt.sign({ email: user.email, nome: user.nome}, JWTSecret, {expiresIn: '2h'})
-                    let responseUser = {id: use._id, nome: user.nome, email: user.email, imagem: user.avatar}
-                    return res.status(200).json({token: 'Bearer '+ token, responseUser, responseUser});
+                    
+                    return res.status(200).json({token: 'Bearer '+ token, id: user._id, nome: user.nome, email: user.email});
                 }else{
                     let msg = "Senha incorreta";
                     res.status(406).json(msg);
