@@ -50,7 +50,7 @@ class LoginController {
     async login(req, res) {
         const { email, senha } = req.body;
         
-        console.log("foi: " + email + " senha: " + senha);
+        // console.log("email: " + email + " senha: " + senha);
         try{
             
             const user = await Usuario.findOne({email: email});

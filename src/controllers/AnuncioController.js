@@ -1,5 +1,6 @@
 const Anuncio  = require('../models/Anuncio');
 const Usuario  = require('../models/Usuario');
+const Produto = require('../models/Produto');
 
 const mongoose = require('mongoose');
 
@@ -19,8 +20,29 @@ class AnuncioController{
 
     async getAnuncios(req, res) {
         try {
-            const anuncios = await Anuncio.find()
-            return res.status(200).json(anuncios)
+            const anunciosDB = await Anuncio.find();
+
+            let anunciosFront = [];
+
+            let i = 0;
+            for(i; i< anunciosDB.length ; i++){
+                let produto = await Produto.findById(anunciosDB[i].produto);
+
+                anunciosFront.push({
+                    _id: anunciosDB[i]._id,
+                    nome: anunciosDB[i].nome,
+                    preco: anunciosDB[i].preco,
+                    autor: anunciosDB[i].autor,
+                    produto: anunciosDB[i].produto,
+                    topico: anunciosDB[i].topico,
+                    data: anunciosDB[i].data,
+                    caracteristica: produto.caracteristica,
+                    categoria: produto.categoria,
+                    sub_categoria: produto.sub_categoria
+                });
+            }
+
+            return res.status(200).json(anunciosFront)
         } catch(err){
             return res.status(400).json(err)
         }
@@ -40,7 +62,25 @@ class AnuncioController{
         const  { id_usuario }  = req.params
         try {
             const anuncios = await Anuncio.find({autor: id_usuario})
-            return res.status(200).json(anuncios)
+            let anunciosFront = [];
+            let i = 0;
+            for(i; i< anunciosDB.length ; i++){
+                let produto = await Produto.findById(anunciosDB[i].produto);
+
+                anunciosFront.push({
+                    _id: anunciosDB[i]._id,
+                    nome: anunciosDB[i].nome,
+                    preco: anunciosDB[i].preco,
+                    autor: anunciosDB[i].autor,
+                    produto: anunciosDB[i].produto,
+                    topico: anunciosDB[i].topico,
+                    data: anunciosDB[i].data,
+                    caracteristica: produto.caracteristica,
+                    categoria: produto.categoria,
+                    sub_categoria: produto.sub_categoria
+                });
+            }
+            return res.status(200).json(anunciosFront)
         } catch(err){
             return res.status(400).json(err)
         }
