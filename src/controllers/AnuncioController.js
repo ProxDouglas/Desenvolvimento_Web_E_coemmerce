@@ -9,10 +9,14 @@ class AnuncioController{
     async createAnuncio(req, res) {
         const dataAnu = req.body
         try{
+            let usuario = findById(dataAnu.autor).select('nome') 
 
-            let newAnuncio = await Anuncio.create(dataAnu)
-            let pushAnuncio = await Usuario.findByIdAndUpdate(newAnuncio.autor, {$push: {anuncio: newAnuncio._id}});
-            return res.status(200).json(newAnuncio)
+            if(usuario != undefined){
+                let newAnuncio = await Anuncio.create(dataAnu)
+                Usuario.findByIdAndUpdate(newAnuncio.autor, {$push: {anuncio: newAnuncio._id}});
+                return res.status(200).json(newAnuncio);
+            }
+            return res.status(400);
         }catch(err){
             return res.status(400).json(err)
         }
@@ -26,7 +30,8 @@ class AnuncioController{
 
             let i = 0;
             for(i; i< anunciosDB.length ; i++){
-                let produto = await Produto.findById(anunciosDB[i].produto);
+                let produto = await Produto.findById(anunciosDB[i].produto)
+                    .select('caracteristica categoria sub_categoria');
 
                 anunciosFront.push({
                     _id: anunciosDB[i]._id,
@@ -65,7 +70,8 @@ class AnuncioController{
             let anunciosFront = [];
             let i = 0;
             for(i; i< anunciosDB.length ; i++){
-                let produto = await Produto.findById(anunciosDB[i].produto);
+                let produto = await Produto.findById(anunciosDB[i].produto)
+                    .select('caracteristica categoria sub_categoria');
 
                 anunciosFront.push({
                     _id: anunciosDB[i]._id,
