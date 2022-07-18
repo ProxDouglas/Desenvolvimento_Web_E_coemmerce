@@ -40,7 +40,7 @@ class LoginController {
                     }
 
                     let newtoken = jwt.sign({ email: usuario.email, nome: usuario.nome}, JWTSecret, {expiresIn: '2h'})
-                    return res.status(200).json('Bearer ' + String(newtoken));
+                    return res.status(200).json({token: 'Bearer '+ newtoken, id: usuario._id, nome: usuario.nome, email: usuario.email});
                 }
             }
         }
