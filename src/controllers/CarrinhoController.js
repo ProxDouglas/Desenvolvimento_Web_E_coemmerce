@@ -19,7 +19,24 @@ class CarrinhoController  {
         const  { id_usuario }  = req.params
         try {
             const carrinho = await Carrinho.findOne({comprador: id_usuario});
-            return res.status(200).json(carrinho)
+
+            let i = 0;
+            let listAnuncios = [];
+            for(i; i < carrinho.anuncios.length; i++){
+                let id = carrinho.anuncios[i].anuncio.toString();
+                let anuncio = await Anuncio.findById(id);
+                console.lo
+                listAnuncios.push(anuncio);
+            }
+
+            
+
+                return res.status(200).json({
+                    _id: carrinho._id, 
+                    comprador: carrinho.comprador,
+                    anuncios: listAnuncios,
+                    preco_total: carrinho.preco_total
+                });
         } catch(err){
             return res.status(400).json({erro: err, msg: "Carrinho vazio ou inexistente"})
         }
@@ -33,6 +50,7 @@ class CarrinhoController  {
 
         try{
             if(isObjectIdOrHexString(id_usuario) && isObjectIdOrHexString(anuncios.anuncio)){
+            
 
                 let anuncio = await Anuncio.findOne({_id: anuncios.anuncio});
 
@@ -43,17 +61,26 @@ class CarrinhoController  {
                 }else if(anuncio != undefined){
 
                     try{
+                        
 
+                        let existanuncio = []; 
                         let carrinhoPossui = await Carrinho.findOne({comprador: id_usuario});
 
-                        let existanuncios = carrinhoPossui.anuncios;
-                            // console.log(existanuncios)
+                        if(carrinhoPossui != null){
+                            let existanuncios = carrinhoPossui.anuncios;
+                                // console.log(existanuncios)
 
-                        let existanuncio = existanuncios.filter(obj =>  {
-                                return obj.anuncio.toString() == anuncios.anuncio
-                        });
+                                
+                               
+                            existanuncio = await existanuncios.filter(obj =>  {
+                                    return obj.anuncio.toString() == anuncios.anuncio
+                            });
+                        }
 
-                        if(existanuncio != undefined){
+                        
+                        if(existanuncio.length > 0){
+                            
+                            
 
                             let carQTD = parseInt(carrinhoPossui.anuncios.id(existanuncio[0]._id).quantidade);
                             let carPreco = parseFloat(carrinhoPossui.preco_total);
@@ -86,7 +113,7 @@ class CarrinhoController  {
                         
                             
                             let preco = parseFloat(anuncio.preco) * parseInt(anuncios.quantidade);
-                            
+                            console.log('teste2')
                             let carrinhoUpdate = await Carrinho.findOneAndUpdate
                                         (
                                             {comprador: id_usuario}, 
@@ -96,9 +123,8 @@ class CarrinhoController  {
                                             ), {new: true}
                                         );
                             
-                            
+                            console.log('Aqui');
                             if( carrinhoUpdate == undefined){
-                                
                                 const carrinhoObj = new Carrinho({
                                     comprador: id_usuario, 
                                     preco_total: preco,
@@ -111,12 +137,41 @@ class CarrinhoController  {
                                 });
                                 
                                 const carrinho = await carrinhoObj.save();
+
+                                let i = 0;
+                                let listAnuncios = [];
+                                for(i; i < carrinho.anuncios.length; i++){
+                                    let id = carrinho.anuncios[i].anuncio.toString();
+                                    let anuncio = await Anuncio.findById(id);
+                                    listAnuncios.push(anuncio);
+                                }
                                 
 
-                                return res.status(200).json(carrinho);
+                                return res.status(200).json({
+                                    _id: carrinho._id, 
+                                    comprador: carrinho.comprador,
+                                    anuncios: listAnuncios,
+                                    preco_total: carrinho.preco_total
+                                });
                             }
 
-                            return res.status(200).json(carrinhoUpdate);
+                            let i = 0;
+                            let listAnuncios = [];
+                            for(i; i < carrinhoUpdate.anuncios.length; i++){
+                                let id = carrinhoUpdate.anuncios[i].anuncio.toString();
+                                let anuncio = await Anuncio.findById(id);
+                                console.lo
+                                listAnuncios.push(anuncio);
+                            }
+
+
+
+                            return res.status(200).json({
+                                _id: carrinhoUpdate._id, 
+                                comprador: carrinhoUpdate.comprador,
+                                anuncios: listAnuncios,
+                                preco_total: carrinhoUpdate.preco_total
+                            });
                         }
 
                     }catch(err){
