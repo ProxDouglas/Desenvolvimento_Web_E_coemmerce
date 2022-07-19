@@ -105,7 +105,20 @@ class CarrinhoController  {
 
                             let update = await carrinhoPossui.save();
 
-                            return res.status(200).json(update);
+                            let i = 0;
+                            let listAnuncios = [];
+                            for(i; i < update.anuncios.length; i++){
+                                let id = update.anuncios[i].anuncio.toString();
+                                let anuncio = await Anuncio.findById(id);
+                                listAnuncios.push(anuncio);
+                            }
+
+                            return res.status(200).json({
+                                _id: update._id, 
+                                comprador: update.comprador,
+                                anuncios: listAnuncios,
+                                preco_total: update.preco_total
+                            });
 
 
 
@@ -113,7 +126,7 @@ class CarrinhoController  {
                         
                             
                             let preco = parseFloat(anuncio.preco) * parseInt(anuncios.quantidade);
-                            console.log('teste2')
+                            
                             let carrinhoUpdate = await Carrinho.findOneAndUpdate
                                         (
                                             {comprador: id_usuario}, 
@@ -123,7 +136,7 @@ class CarrinhoController  {
                                             ), {new: true}
                                         );
                             
-                            console.log('Aqui');
+                            
                             if( carrinhoUpdate == undefined){
                                 const carrinhoObj = new Carrinho({
                                     comprador: id_usuario, 
