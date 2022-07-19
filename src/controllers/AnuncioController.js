@@ -7,14 +7,31 @@ const mongoose = require('mongoose');
 class AnuncioController{
 
     async createAnuncio(req, res) {
-        const dataAnu = req.body
+        const dataBody = req.body
         try{
-            let usuario = findById(dataAnu.autor).select('nome') 
+            let usuario = findById(dataBody.autor).select('nome') 
 
             if(usuario != undefined){
-                let newAnuncio = await Anuncio.create(dataAnu)
+
+                let newProduto = await Produto.create({
+                    nome: dataBody.nome,
+                    caracteristica: dataBody.caracteristica,
+                    categoria: dataBody.categoria,
+                    sub_categoria: dataBody.sub_categoria,
+                    cadastrador: dataBody.autor
+                });
+
+                let newAnuncio = await Anuncio.create({
+                    nome: dataBody.nome,
+                    preco: dataBody.preco,
+                    autor: dataBody.autor,
+                    produto: newProduto._id,
+                    estoque: dataBody.estoque
+                });
+
+
                 Usuario.findByIdAndUpdate(newAnuncio.autor, {$push: {anuncio: newAnuncio._id}});
-                return res.status(200).json(newAnuncio);
+                return res.status(200).json({anuncio: newAnuncio, produto: newProduto});
             }
             return res.status(400);
         }catch(err){
